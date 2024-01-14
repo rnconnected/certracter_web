@@ -1,0 +1,21 @@
+.floating-label-input {
+    height: max-content;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    flex: 1;
+}
+
+.customInput {
+    /* width: 100%; */
+    padding: .8rem;
+    background-color: #F2E9FA;
+    box-shadow: 2px 2px 3px grey;
+    outline: none;
+    border-radius: .2rem;
+}
+
+label {
+    font-size: clamp(.9rem, 3vw, 1.1rem);
+}

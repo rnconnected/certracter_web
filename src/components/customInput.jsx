@@ -2,16 +2,6 @@ import React, { useState } from "react";
 import "@/styles/customInput.css";
 
 const CustomInput = ({ label, type, value, setValue, ...restProps }) => {
-  // const [isActive, setIsActive] = useState(false);
-
-  // const handleFocus = () => {
-  //   setIsActive(true);
-  // };
-
-  // const handleBlur = () => {
-  //   setIsActive(value !== "" ? true : false);
-  // };
-
   const handleChange = (e) => {
     setValue(e.target.value);
   };

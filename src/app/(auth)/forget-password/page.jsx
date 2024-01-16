@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import "@/styles/forgetPassword.css";
+import Link from "next/link";
 
 // this is the reset password card. before the submit button is clicked
 const ResetCard = ({ handleChange, handleSubmit, email }) => {
@@ -39,7 +40,9 @@ const ResendCard = () => {
         Thank you. Please check your email for further Instructions.
       </div>
       <div className="question">{"Didn't get an email"}</div>
-      <div className="fgtSubmit">Resend</div>
+      <Link href={"/reset-password"} className="fgtSubmit">
+        Resend
+      </Link>
     </div>
   );
 };

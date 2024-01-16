@@ -11,14 +11,6 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   return (
     <>
-      {/* <div className="signin-header">
-        <div className="signin-header-img">
-          <Image src={"/logo.png"} alt="logo" height={500} width={500} />
-        </div>
-        <Link href={"./"} className="header-home-icon">
-          <Icon icon="ic:round-home" />
-        </Link>
-      </div> */}
       <div className="signin-body">
         <div className="signin-bodyImg">
           <div
@@ -47,7 +39,9 @@ const Signin = () => {
           <Link href={"/forget-password"} className="fgtPassword">
             Forgot Password?
           </Link>
-          <div className="signinBtn allbtn">Sign in</div>
+          <Link href={"/home"} className="signinBtn allbtn">
+            Sign in
+          </Link>
           <div className="or">Or</div>
           <div className="googleBtn allbtn">
             <span className="googleIcon">

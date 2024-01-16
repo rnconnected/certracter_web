@@ -19,8 +19,8 @@ const Home = () => {
               className="vector"
             />
           </div>
-          <div className="header">
-            <div className="logoCont">
+          <div className="header-landing">
+            <div className="logoCont-landing">
               <Image
                 src={"/logo.png"}
                 alt="logo"

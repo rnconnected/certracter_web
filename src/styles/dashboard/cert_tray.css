@@ -1,0 +1,30 @@
+.certTray {
+    display: flex;
+    justify-content: space-evenly;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, .3);
+    align-items: flex-end;
+    padding-top: clamp(.6rem, 1.5vw, .9rem);
+}
+
+#all {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+}
+
+.certTray span {
+    width: clamp(2rem, 3vw, 3rem);
+    height: auto;
+    padding-bottom: clamp(.6rem, 1.5vw, .9rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.certTray span.active {
+    border-bottom: 2px solid black;
+}
+
+.tray_img {
+    width: 100%;
+    height: auto;
+}

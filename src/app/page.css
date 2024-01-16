@@ -1,6 +1,3 @@
-/* *{
-    border: 2px solid red;
-} */
 .container-home {
     background-color: rgba(195, 77, 242, 0.1);
 }
@@ -24,13 +21,13 @@
     width: auto;
 }
 
-.header {
+.header-landing {
     display: flex;
     justify-content: space-between;
     align-items: top;
 }
 
-.logoCont {
+.logoCont-landing {
     height: clamp(5rem, 13vw, 9rem);
 }
 

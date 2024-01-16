@@ -1,0 +1,35 @@
+.header-home {
+    background-color: #591A8F;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(.5rem, 2vw, 1rem) clamp(.5rem, 2vw, 1.5rem);
+    position: sticky;
+    top: 0;
+    height: max-content;
+}
+
+.logoCont-home {
+    width: clamp(10rem, 15vw, 15rem);
+}
+
+.homeLogo {
+    width: 100%;
+    height: auto;
+}
+
+.headerIcons {
+    color: white;
+    display: flex;
+    gap: clamp(.8rem, 2vw, 1.5rem);
+}
+
+.headerIcons span {
+    font-size: clamp(1.3rem, 2vw, 1.7rem);
+    cursor: pointer;
+}
+
+.registerIcons {
+    display: flex;
+    align-items: center;
+}

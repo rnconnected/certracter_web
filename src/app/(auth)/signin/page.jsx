@@ -1,6 +1,5 @@
 "use client";
-import React, { useState } from "react";
-import Image from "next/image";
+import React, { useState, useEffect } from "react";
 import "@/styles/signin.css";
 import CustomInput from "@/components/customInput";
 import { Icon } from "@iconify/react";
@@ -9,6 +8,7 @@ import Link from "next/link";
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   return (
     <>
       <div className="signin-body">
@@ -36,12 +36,15 @@ const Signin = () => {
               placeholder={"Enter your password"}
             />
           </div>
-          <Link href={"/forget-password"} className="fgtPassword">
-            Forgot Password?
-          </Link>
-          <Link href={"/home"} className="signinBtn allbtn">
+          <div className="errorCont">
+            <div className="errorMsg">{}</div>
+            <Link href={"/forget-password"} className="fgtPassword">
+              Forgot Password?
+            </Link>
+          </div>
+          <button className="signinBtn allbtn" disabled={!email || !password}>
             Sign in
-          </Link>
+          </button>
           <div className="or">Or</div>
           <div className="googleBtn allbtn">
             <span className="googleIcon">

@@ -1,12 +1,9 @@
 "use client";
-import react, { useState } from "react";
-import Image from "next/image";
+import { useState, useEffect } from "react";
 import "@/styles/signin.css";
 import CustomInput from "@/components/customInput";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import { auth } from "@/app/firebase/config";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 
 const Signup = () => {
   const [firstname, setFirstname] = useState("");
@@ -14,19 +11,6 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const [createUserWithEmailAndPassword] =
-    useCreateUserWithEmailAndPassword(auth);
-
-  const handleSignup = async () => {
-    try {
-      const res = await createUserWithEmailAndPassword(email, password);
-      console.log({ res });
-      alert("sign up successfil");
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
 
   return (
     <>
@@ -79,9 +63,7 @@ const Signup = () => {
             <input type="checkbox" />
             <span>I agree to terms & conditions</span>
           </div>
-          <div className="signinBtn allbtn" onClick={handleSignup}>
-            Sign in
-          </div>
+          <div className="signinBtn allbtn">Sign up</div>
           <div className="or">Or</div>
           <div className="googleBtn allbtn">
             <span className="googleIcon">

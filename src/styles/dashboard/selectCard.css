@@ -1,0 +1,54 @@
+#selectedCard_cont {
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+}
+
+.selectedCard_cont {
+    background-color: white;
+    width: clamp(21rem, 30vw, 35rem);
+    border-radius: .5rem;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.cardTitle {
+    font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+}
+
+.credentialOptions_cont {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.cardOptions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    cursor: pointer;
+    padding: .5rem 1rem;
+}
+
+.cardOptions:hover {
+    background-color: whitesmoke;
+    box-shadow: 2px 2px 3px lightgray, -2px -2px 3px lightgray;
+}
+
+.imgOpt_cont {
+    width: clamp(2rem, 3vw, 3.5rem);
+    height: auto;
+}
+
+.optionLabel {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+}

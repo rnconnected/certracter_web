@@ -1,10 +1,43 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import "@/styles/dashboard/header.css";
+import Link from "next/link";
 
-const Header = () => {
+const LogoutandProfile = ({ handleSignOut }) => {
+  return (
+    <>
+      <div className="logoutAndProfileCont ">
+        <Link href={"/profile"} className="profileLink">
+          <span>
+            <Icon icon="bxs:user" />
+          </span>
+          <span>Profile</span>
+        </Link>
+        <div
+          className="signoutBtn"
+          onClick={() => {
+            handleSignOut();
+            sessionStorage.clear();
+          }}
+        >
+          <span>
+            <Icon icon="tabler:logout" />
+          </span>
+          <span>Sign out</span>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const Header = ({ handleSignOut }) => {
+  const [active, setActive] = useState(false);
+
+  const handleActive = () => {
+    !active ? setActive(true) : setActive(false);
+  };
   return (
     <>
       <div className="header-home ">
@@ -15,6 +48,7 @@ const Header = () => {
             height={500}
             width={500}
             className="homeLogo"
+            priority
           />
         </div>
         <div className="headerIcons">
@@ -25,11 +59,15 @@ const Header = () => {
             <Icon icon="material-symbols-light:settings" />
           </span>
           <span>
-            <Icon icon="ri:delete-bin-6-fill" />
+            <Icon icon="material-symbols-light:delete" />
           </span>
-          <span className="registerIcons">
+          <span
+            onClick={handleActive}
+            className={`registerIcons ${active ? "active" : null}`}
+          >
             <Icon icon="mingcute:user-4-fill" />
             <Icon icon="mingcute:down-line" fontSize={18} />
+            <LogoutandProfile handleSignOut={handleSignOut} />
           </span>
         </div>
       </div>

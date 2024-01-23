@@ -5,13 +5,18 @@ import Image from "next/image";
 
 const CertTray = () => {
   const certData = [
-    { label: "All", imagePath: null },
-    { label: null, imagePath: "/images/driver.png" },
-    { label: null, imagePath: "/images/certificate.png" },
-    { label: null, imagePath: "/images/graduation.png" },
-    { label: null, imagePath: "/images/injection.png" },
-    { label: null, imagePath: "/images/plane.png" },
-    { label: null, imagePath: "/images/education.png" },
+    { label: "All", imagePath: null, title: "" },
+    { label: null, imagePath: "/images/driver.png", title: "Licences" },
+    { label: null, imagePath: "/images/certificate.png", title: "Certificate" },
+    { label: null, imagePath: "/images/graduation.png", title: "Eduation" },
+    { label: null, imagePath: "/images/injection.png", title: "Vaccination" },
+    { label: null, imagePath: "/images/plane.png", title: "Travel documents" },
+    {
+      label: null,
+      imagePath: "/images/education.png",
+      title: "Continue Education",
+    },
+    { label: null, imagePath: "/images/others.png", title: "Others" },
   ];
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -28,6 +33,7 @@ const CertTray = () => {
             key={index}
             onClick={() => handleActive(index)}
             className={`certSpan ${activeIndex === index ? "active" : ""}`}
+            title={data.title}
           >
             {data.imagePath ? (
               <Image

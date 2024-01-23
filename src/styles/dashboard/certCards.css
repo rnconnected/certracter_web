@@ -1,0 +1,249 @@
+:root {
+    --certificate-color: #8A6C0A;
+    --licences-color: #AE76DE;
+    --education-color: #0A8A17;
+    --travel-color: #61B7F6;
+    --vaccination-color: #F5415F;
+    --others-color: #691B27;
+    --ceu-color: #789D1C;
+}
+
+.viewCard {
+    display: flex;
+    width: 80%;
+    margin: .5rem;
+    justify-content: space-evenly;
+    gap: .5rem;
+    padding: .5rem;
+}
+
+#card_checkbox {
+    width: clamp(1rem, 2vw, 1.3rem);
+
+}
+
+.viewCard_card {
+    width: 95%;
+    border-radius: .5rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), -2px 2px 2px rgba(0, 0, 0, 0.1);
+    display: flex;
+    padding: 1rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.viewCard_card:hover {
+    color: white;
+}
+
+.viewCard_info h1 {
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+    font-weight: 600;
+}
+
+.viewCard_card.certificate .viewCard_left .viewCard_info div {
+    color: var(--certificate-color);
+}
+
+.viewCard_card.certificate:hover .viewCard_left .viewCard_info div {
+    color: white;
+}
+
+.viewCard_card.licences .viewCard_left .viewCard_info div {
+    color: var(--licences-color);
+}
+
+.viewCard_card.licences:hover .viewCard_left .viewCard_info div {
+    color: white;
+}
+
+.viewCard_card.education .viewCard_left .viewCard_info div {
+    color: var(--education-color);
+}
+
+.viewCard_card.education:hover .viewCard_left .viewCard_info div {
+    color: white;
+}
+
+.viewCard_card.travel .viewCard_left .viewCard_info div {
+    color: var(--travel-color);
+}
+
+.viewCard_card.travel:hover .viewCard_left .viewCard_info div {
+    color: white;
+}
+
+.viewCard_card.ceu .viewCard_left .viewCard_info div {
+    color: var(--ceu-color);
+}
+
+.viewCard_card.ceu:hover .viewCard_left .viewCard_info div {
+    color: white;
+}
+
+.viewCard_card.vaccination .viewCard_left .viewCard_info div {
+    color: var(--vaccination-color);
+}
+
+.viewCard_card.vaccination:hover .viewCard_left .viewCard_info div {
+    color: white;
+}
+
+.viewCard_card.others .viewCard_left .viewCard_info div {
+    color: var(--others-color);
+}
+
+.viewCard_card.others:hover .viewCard_left .viewCard_info div {
+    color: white;
+}
+
+/* special unit styling */
+.viewCard_card.certificate:hover {
+    background-color: var(--certificate-color);
+}
+
+.viewCard_card.travel:hover {
+    background-color: var(--travel-color);
+}
+
+.viewCard_card.licences:hover {
+    background-color: var(--licences-color);
+}
+
+.viewCard_card.education:hover {
+    background-color: var(--education-color);
+}
+
+.viewCard_card.ceu:hover {
+    background-color: var(--ceu-color);
+}
+
+.viewCard_card.others:hover {
+    background-color: var(--others-color);
+}
+
+.viewCard_card.vaccination:hover {
+    background-color: var(--vaccination-color);
+}
+
+/* end of the special styling */
+
+
+
+/* another speical styling */
+
+.viewCard_imgCont.certificate {
+    background-color: var(--certificate-color);
+}
+
+.viewCard_imgCont.licences {
+    background-color: var(--licences-color);
+}
+
+.viewCard_imgCont.education {
+    background-color: var(--education-color);
+}
+
+.viewCard_imgCont.vaccination {
+    background-color: var(--vaccination-color);
+}
+
+.viewCard_imgCont.travel {
+    background-color: var(--travel-color);
+}
+
+.viewCard_imgCont.ceu {
+    background-color: var(--ceu-color);
+}
+
+.viewCard_imgCont.others {
+    background-color: var(--others-color);
+}
+
+/* end of the another special styling */
+.viewCard_card:hover .VR_Icons span {
+    display: block;
+}
+
+.viewCard_card:hover .viewCard_imgCont {
+    background-color: white;
+}
+
+.viewCard_card:hover .expiryTime {
+    background-color: #A62B3D;
+    color: white;
+}
+
+.viewCard_left {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    width: 75%;
+}
+
+.viewCard_imgCont {
+    width: clamp(2rem, 3.5vw, 3.5rem);
+    height: clamp(2rem, 3.5vw, 3.5rem);
+    border-radius: 100px;
+    padding: clamp(0.4rem, 1vw, .7rem);
+    display: flex;
+    align-items: center;
+}
+
+.viewCard_img {
+    width: 100%;
+    height: auto;
+}
+
+.viewCard_right {
+    display: flex;
+    align-items: center;
+    width: 35%;
+    justify-content: flex-end;
+    gap: 2rem;
+}
+
+.VR_Icons {
+    display: flex;
+    gap: .5rem;
+    width: 5.5rem;
+}
+
+.VR_Icons span {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: white;
+    border-radius: 100px;
+    padding: clamp(0.2rem, 1vw, .5rem);
+    display: none;
+}
+
+.VR_Icons span:hover {
+    background-color: grey;
+}
+
+.expiryTime {
+    border: 2px solid #A62B3D;
+    padding: .3rem;
+    text-align: center;
+    color: #A62B3D;
+    font-size: clamp(.9rem, 2.5vw, 1.2rem);
+    line-height: normal;
+    font-weight: 600;
+    border-radius: .5rem;
+    width: 7rem;
+}
+
+@media only screen and (max-width:53rem) {
+    .viewCard {
+        width: 95%;
+    }
+
+    .VR_Icons {
+        display: none;
+    }
+
+    .viewCard_right {
+        width: 25%;
+    }
+
+}

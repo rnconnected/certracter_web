@@ -72,10 +72,10 @@
 }
 
 .fgtPassword {
-    width: 85%;
     text-align: end;
     color: #C73349;
     margin-top: .5rem;
+    align-self: flex-end;
 }
 
 .signinBtn {
@@ -141,6 +141,27 @@
     width: 1rem;
 }
 
+.errorCont {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 85%;
+    padding: 0 .2rem;
+}
+
+.errorMsg {
+    color: #C73349;
+    width: max-content;
+    font-size: .9rem;
+    margin-top: .3rem;
+}
+
+@media only screen and (max-width: 1200px) {
+    .fgtPassword {
+        font-size: .9rem;
+    }
+}
+
 /* tablet size responsiveness */
 @media only screen and (max-width: 1100px) {
     .formCont {
@@ -160,9 +181,17 @@
     .newComer {
         font-size: .95rem;
     }
+
+    .fgtPassword {
+        font-size: .8rem;
+    }
+
+    .errorMsg {
+        font-size: .8rem;
+    }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 650px) {
     .signin-bodyImg {
         display: none;
     }
@@ -174,5 +203,13 @@
 
     .newComer {
         margin-top: 5rem;
+    }
+
+    .fgtPassword {
+        font-size: .95rem;
+    }
+
+    .errorMsg {
+        font-size: .95rem;
     }
 }

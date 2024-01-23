@@ -2,9 +2,12 @@
 import React, { useState } from "react";
 import "@/styles/forgetPassword.css";
 import Link from "next/link";
+import auth from "@/app/firebase/config";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { signIn } from "next-auth/react";
 
 // this is the reset password card. before the submit button is clicked
-const ResetCard = ({ handleChange, handleSubmit, email }) => {
+const ResetCard = ({ handleChange, email, resetEmail }) => {
   return (
     <div className="fgtCard">
       <h1>Reset Password</h1>
@@ -15,16 +18,22 @@ const ResetCard = ({ handleChange, handleSubmit, email }) => {
       <div className="fgtEmailCont">
         <label>Email</label>
         <input
-          type="text"
+          type="email"
+          name="email"
           placeholder="Enter your email"
           className="fgt_input"
+          autoComplete="email"
           value={email}
           onChange={handleChange}
         />
       </div>
-      <div className="fgtSubmit" onClick={handleSubmit}>
+      <button
+        className="fgtSubmit"
+        onClick={() => resetEmail()}
+        disabled={!email}
+      >
         Submit
-      </div>
+      </button>
       <div className="fgtCancel">Cancel</div>
     </div>
   );
@@ -50,13 +59,8 @@ const ResendCard = () => {
 const ForgotPassowrd = () => {
   const [email, setEmail] = useState("");
   const [cardActive, setCardActive] = useState(true);
-
-  const handleSubmit = () => {
-    if (email === "") {
-      alert("email is empty");
-    } else {
-      setCardActive(false);
-    }
+  const resetEmail = () => {
+    sendPasswordResetEmail(auth, email);
   };
 
   const handleChange = (e) => {
@@ -74,7 +78,7 @@ const ForgotPassowrd = () => {
           {cardActive ? (
             <ResetCard
               handleChange={handleChange}
-              handleSubmit={handleSubmit}
+              resetEmail={resetEmail}
               email={email}
             />
           ) : (

@@ -32,4 +32,49 @@
 .registerIcons {
     display: flex;
     align-items: center;
+    overflow: hidden;
+    position: relative;
+    width: max-content;
+}
+
+.logoutAndProfileCont {
+    background-color: #F2E9FA;
+    color: black;
+    display: none;
+    width: max-content;
+    flex-direction: column;
+    gap: .3rem;
+    position: absolute;
+    transition: .5s ease-in;
+    border-radius: .2rem;
+
+}
+
+.registerIcons.active {
+    overflow: visible;
+}
+
+.registerIcons.active .logoutAndProfileCont {
+    right: 0;
+    top: 1.7rem;
+    z-index: -2;
+    display: flex;
+}
+
+.signoutBtn,
+.profileLink {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem 1rem;
+}
+
+.signoutBtn:hover,
+.profileLink:hover {
+    background-color: #ecddfa;
+}
+
+.signoutBtn span,
+.profileLink span {
+    font-size: clamp(1rem, 2vw, 1.3rem);
 }

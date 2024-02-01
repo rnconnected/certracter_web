@@ -1,15 +1,24 @@
 import React from "react";
 import "@/styles/dashboard/selectCard.css";
 import Image from "next/image";
+import Link from "next/link";
 
 const credentialArray = [
-  { imgPath: "/images/licences.png", label: "License" },
-  { imgPath: "/images/certificate.png", label: "Certification" },
-  { imgPath: "/images/education.png", label: "Education" },
-  { imgPath: "/images/vaccination.png", label: "Vaccination" },
-  { imgPath: "/images/travel.png", label: "Travel" },
-  { imgPath: "/images/ceu.png", label: "CEU/CME" },
-  { imgPath: "/images/Others.png", label: "Others" },
+  { imgPath: "/images/licences.png", label: "License", url: "/addLicense" },
+  {
+    imgPath: "/images/certificate.png",
+    label: "Certification",
+    url: "/addCert",
+  },
+  { imgPath: "/images/education.png", label: "Education", url: "/addEdu" },
+  {
+    imgPath: "/images/vaccination.png",
+    label: "Vaccination",
+    url: "/addVaccination",
+  },
+  { imgPath: "/images/travel.png", label: "Travel", url: "/addTravel" },
+  { imgPath: "/images/ceu.png", label: "CEU/CME ", url: "/addCeu" },
+  { imgPath: "/images/Others.png", label: "Others", url: "/addOther" },
 ];
 
 const SelectCard = ({ handleSelectCard }) => {
@@ -20,7 +29,7 @@ const SelectCard = ({ handleSelectCard }) => {
         <div className="credentialOptions_cont">
           {credentialArray.map((data, index) => {
             return (
-              <div className="cardOptions" key={index}>
+              <Link href={data.url} className="cardOptions" key={index}>
                 <span className="imgOpt_cont">
                   <Image
                     src={data.imgPath}
@@ -31,7 +40,7 @@ const SelectCard = ({ handleSelectCard }) => {
                   />
                 </span>
                 <span className="optionLabel">{data.label}</span>
-              </div>
+              </Link>
             );
           })}
         </div>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@/components/dashboard/header";
 import CertTray from "@/components/dashboard/cert_tray";
 import "@/styles/dashboard/home.css";
@@ -7,22 +7,17 @@ import { Icon } from "@iconify/react";
 import data from "@/app/db";
 import CardComponent from "@/components/dashboard/certCards";
 import SelectCard from "@/components/dashboard/selectCard";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase/config";
+import { parseCookies } from "nookies";
+import { useAuth } from "@/app/hooks/useAuth";
 import { useRouter } from "next/navigation";
-// import { signOut } from "firebase/auth";
-import { signOut, useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import Loading from "@/components/loading";
+import { auth } from "@/app/firebase/config";
 
 const Home = () => {
   const [selectCardActive, setSelectCardAdctive] = useState(false);
-  const session = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect("/signin");
-    },
-  });
-
+  const router = useRouter();
+  const { user, loading } = useAuth();
+  const [loadings, setLoadings] = useState(false);
 
   const allNamesAndCategories = data.flatMap((category) =>
     category.map((credential) => ({
@@ -38,15 +33,33 @@ const Home = () => {
       : setSelectCardAdctive(false);
   };
 
-  const handleSignOut = () => {
-    signOut(auth);
-  };
+  useEffect(() => {
+    const { token } = parseCookies();
+
+    if (!user && !loading) {
+      router.push("/signin");
+    }
+  }, [user, loading, router]);
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <Loading />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <>
-      <Header handleSignOut={handleSignOut} />
+      <Header />
       <CertTray />
-      <div className="welcomeMsg">Welcome {session?.data?.user?.email}👋</div>
+      <div className="welcomeMsg">
+        Welcome {user?.displayName.split(" ")[1]}👋
+      </div>
       <div className="searchCont">
         <div className="searchBar">
           <Icon icon="ic:baseline-search" width="22" />

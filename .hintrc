@@ -3,6 +3,13 @@
     "development"
   ],
   "hints": {
-    "typescript-config/is-valid": "off"
-  }
+    "typescript-config/is-valid": "off",
+    "css-prefix-order": "off"
+  },
+  "browserslist": [
+    "defaults",
+    "not ie 11",
+    "not and_ff <= 116",
+    "not firefox <= 117"
+  ]
 }

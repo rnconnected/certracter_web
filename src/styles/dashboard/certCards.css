@@ -226,7 +226,7 @@
     padding: .3rem;
     text-align: center;
     color: #A62B3D;
-    font-size: clamp(.9rem, 2.5vw, 1.2rem);
+    font-size: clamp(.9rem, 2.5vw, 1.1rem);
     line-height: normal;
     font-weight: 600;
     border-radius: .5rem;

@@ -2,18 +2,30 @@
 import React, { useState } from "react";
 import "@/styles/forgetPassword.css";
 import Link from "next/link";
-import auth from "@/app/firebase/config";
+import { auth } from "@/app/firebase/config";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { signIn } from "next-auth/react";
 
-// this is the reset password card. before the submit button is clicked
-const ResetCard = ({ handleChange, email, resetEmail }) => {
+// Reset password card component
+const ResetCard = ({ handleChange, email, setResetSent, setError }) => {
+  const handleResetPassword = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setResetSent(true);
+      setError(null);
+    } catch (error) {
+      setResetSent(false);
+      setError(error.message);
+      console.error(error);
+    }
+  };
+
   return (
-    <div className="fgtCard">
+    <form onSubmit={handleResetPassword} className="fgtCard">
       <h1>Reset Password</h1>
       <div className="fgtMsg">
         Please enter the email address used for registration. You will receive
-        an email with further instruction on how to reset your password.
+        an email with further instructions on how to reset your password.
       </div>
       <div className="fgtEmailCont">
         <label>Email</label>
@@ -27,26 +39,21 @@ const ResetCard = ({ handleChange, email, resetEmail }) => {
           onChange={handleChange}
         />
       </div>
-      <button
-        className="fgtSubmit"
-        onClick={() => resetEmail()}
-        disabled={!email}
-      >
+      <button type="submit" className="fgtSubmit">
         Submit
       </button>
       <div className="fgtCancel">Cancel</div>
-    </div>
+    </form>
   );
 };
-// this is the end of the reset password card
 
-// this the resend button section
+// Resend card component
 const ResendCard = () => {
   return (
     <div className="fgtCard" style={{ padding: "5rem 0" }}>
       <h1>Reset Password</h1>
       <div className="fgtMsg">
-        Thank you. Please check your email for further Instructions.
+        Thank you. Please check your email for further instructions.
       </div>
       <div className="question">{"Didn't get an email"}</div>
       <Link href={"/reset-password"} className="fgtSubmit">
@@ -56,12 +63,11 @@ const ResendCard = () => {
   );
 };
 
-const ForgotPassowrd = () => {
+// Forgot password component
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [cardActive, setCardActive] = useState(true);
-  const resetEmail = () => {
-    sendPasswordResetEmail(auth, email);
-  };
+  const [resetSent, setResetSent] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setEmail(e.target.value);
@@ -75,11 +81,12 @@ const ForgotPassowrd = () => {
           <div className="bottomfgt"></div>
         </div>
         <div className="cardContainer">
-          {cardActive ? (
+          {!resetSent ? (
             <ResetCard
               handleChange={handleChange}
-              resetEmail={resetEmail}
               email={email}
+              setResetSent={setResetSent}
+              setError={setError}
             />
           ) : (
             <ResendCard />
@@ -90,4 +97,4 @@ const ForgotPassowrd = () => {
   );
 };
 
-export default ForgotPassowrd;
+export default ForgotPassword;

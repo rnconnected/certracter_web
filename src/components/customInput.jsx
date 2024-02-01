@@ -15,6 +15,7 @@ const CustomInput = ({ label, type, value, setValue, ...restProps }) => {
         className="customInput"
         type={type}
         value={value}
+        required
       />
     </div>
   );

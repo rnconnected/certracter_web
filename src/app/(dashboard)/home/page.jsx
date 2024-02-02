@@ -11,13 +11,11 @@ import { parseCookies } from "nookies";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/loading";
-import { auth } from "@/app/firebase/config";
 
 const Home = () => {
   const [selectCardActive, setSelectCardAdctive] = useState(false);
   const router = useRouter();
   const { user, loading } = useAuth();
-  const [loadings, setLoadings] = useState(false);
 
   const allNamesAndCategories = data.flatMap((category) =>
     category.map((credential) => ({

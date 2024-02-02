@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --btn-primary-color: #39115B;
+}
+
 * {
     margin: 0;
     box-sizing: border-box;

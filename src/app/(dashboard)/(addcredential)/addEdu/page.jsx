@@ -19,7 +19,7 @@ const AddEdu = () => {
       </div>
       <div className="addCert_cardContainer">
         <div className="addCert_card">
-          <div className="addCert_cardTitle">Add License</div>
+          <div className="addCert_cardTitle">Add Education</div>
           {/* this is the card input section */}
           <div className="cardInput_cont">
             {/* this is the name section */}

@@ -8,7 +8,8 @@ import { sendPasswordResetEmail } from "firebase/auth";
 // Reset password card component
 const ResetCard = ({ handleChange, email, setResetSent, setError }) => {
   const handleResetPassword = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
+
     try {
       await sendPasswordResetEmail(auth, email);
       setResetSent(true);
@@ -56,8 +57,12 @@ const ResendCard = () => {
         Thank you. Please check your email for further instructions.
       </div>
       <div className="question">{"Didn't get an email"}</div>
-      <Link href={"/reset-password"} className="fgtSubmit">
+      <div href={"/reset-password"} className="fgtSubmit">
         Resend
+      </div>
+
+      <Link href={"/signin"} className="gotoSignin">
+        Signin {">"}
       </Link>
     </div>
   );
@@ -81,7 +86,7 @@ const ForgotPassword = () => {
           <div className="bottomfgt"></div>
         </div>
         <div className="cardContainer">
-          {!resetSent ? (
+          {resetSent ? (
             <ResetCard
               handleChange={handleChange}
               email={email}

@@ -31,7 +31,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 2px solid red;
     padding-top: 1rem;
 }
 
@@ -74,7 +73,7 @@
     z-index: 1;
     padding: 1rem;
     border-radius: .5rem;
-    width: clamp(20rem, 45vw, 40rem);
+    width: clamp(25rem, 45vw, 40rem);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, .3);
     margin-top: 6rem;
 }
@@ -128,7 +127,7 @@
     object-fit: cover;
     object-position: top;
     cursor: pointer;
-    background-color: lightgray;
+    background-color: whitesmoke;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
@@ -146,7 +145,7 @@
 
 
 .dp {
-    width: 95%;
+    width: 99%;
     height: auto;
 }
 
@@ -169,21 +168,75 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
 }
 
 .inputFile {
     position: absolute;
     bottom: 0rem;
-    right: 0;
-    background-color: white;
+    right: 0rem;
+    background-color: rgb(247, 215, 249);
     height: max-content;
     width: max-content;
     cursor: pointer;
     border-radius: 12px;
+    padding: .3rem;
 
 }
 
 .inputFile input[type="file"] {
     display: none;
+}
+
+.upDate_btn {
+    background-color: var(--btn-primary-color);
+    color: white;
+    padding: .3rem;
+    border-radius: .2rem;
+    cursor: pointer;
+}
+
+.upDate_btn:active {
+    transform: scale(.95);
+}
+
+.ppOverlay {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+
+.view_profile_card {
+    width: clamp(25rem, 45vw, 40rem);
+    height: auto;
+    background-color: white;
+    border-radius: .5rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, .3);
+}
+
+.btn_cont {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid gray;
+    padding: 1rem;
+}
+
+.showAlert {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    padding: 10rem;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
 }

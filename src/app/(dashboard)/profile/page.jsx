@@ -7,108 +7,34 @@ import Image from "next/image";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/loading";
-import { parseCookies } from "nookies";
+import getUserData from "@/app/(dashboard)/profile/profileData";
 import { storage } from "@/app/firebase/config";
-
-const userData = [
-  {
-    title: "First Name",
-    value: "John",
-    verify: null,
-  },
-  {
-    title: "Last Name",
-    value: "Doe",
-    verify: null,
-  },
-  {
-    title: "Email",
-    value: "w8LjT@example.com",
-    verify: null,
-  },
-  {
-    title: "Phone No.",
-    value: "+123-456-7890",
-    verify: "Verify",
-  },
-  {
-    title: "Date of Birth",
-    value: "01/01/2000",
-    verify: null,
-  },
-  {
-    title: "State",
-    value: "Oklahoma",
-    verify: null,
-  },
-  {
-    title: "City",
-    value: "Tulsa",
-    verify: null,
-  },
-  {
-    title: "Zip Code",
-    value: "11011",
-    verify: null,
-  },
-];
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import CustomAlert from "@/components/customAlert";
 
 const Profile = () => {
   const router = useRouter();
   const { user, loading } = useAuth();
-  const [image, setImage] = useState(null);
+  const [viewImg, setViewImg] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageURL, setSelectedImageURL] = useState(null);
+  const userData = getUserData(user);
+  const [uploadedImageURL, setUploadedImageURL] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
 
-  const userData = [
-    {
-      title: "First Name",
-      value: `${user?.displayName.split(" ")[0]}`,
-      verify: null,
-    },
-    {
-      title: "Last Name",
-      value: `${user?.displayName.split(" ")[1]}`,
-      verify: null,
-    },
-    {
-      title: "Email",
-      value: `${user?.email}`,
-      verify: null,
-    },
-    {
-      title: "Phone No.",
-      value: "+123-456-7890",
-      verify: "Verify",
-    },
-    {
-      title: "Date of Birth",
-      value: "01/01/2000",
-      verify: null,
-    },
-    {
-      title: "State",
-      value: "Oklahoma",
-      verify: null,
-    },
-    {
-      title: "City",
-      value: "Tulsa",
-      verify: null,
-    },
-    {
-      title: "Zip Code",
-      value: "11011",
-      verify: null,
-    },
-  ];
+  const fetchUploadedImageURL = async () => {
+    try {
+      const imageRef = ref(storage, "image");
+      const downloadURL = await getDownloadURL(imageRef);
+      setUploadedImageURL(downloadURL);
+    } catch (error) {
+      console.error("Error fetching uploaded image:", error);
+    }
+  };
 
   useEffect(() => {
-    const { token } = parseCookies();
-
-    if (!user && !loading) {
-      router.push("/signin");
-    }
-  }, [user, loading, router]);
+    fetchUploadedImageURL();
+  }, []);
 
   if (loading) {
     return (
@@ -118,75 +44,65 @@ const Profile = () => {
     );
   }
 
-  if (!user) {
-    return null;
-  }
-
-  // this is the update or add profile image function
+  // Function to handle image change
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
+      const selectedFile = e.target.files[0];
       const reader = new FileReader();
-
       reader.onload = (event) => {
-        setSelectedImageURL(event.target.result);
+        const selectedImageDataURL = event.target.result;
+        setSelectedImageURL(selectedImageDataURL);
       };
-
-      reader.readAsDataURL(e.target.files[0]);
-
-      setImage(e.target.files[0]);
+      reader.readAsDataURL(selectedFile);
+      setSelectedImage(selectedFile);
     }
+    setViewImg(true);
   };
 
-  const handleUpload = () => {
-    // Check if an image is selected
-    if (!image) {
-      console.error("Please select an image before uploading.");
-      return;
-    }
+  if (handleImageChange) {
+    console.log("image selected");
+  } else {
+    console.log("image not selected");
+  }
 
-    const uploadTask = storage
-      .ref(`profile-pictures/${user.uid}/${image.name}`)
-      .put(image);
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(`Upload is ${progress}% done`);
-      },
-      (error) => {
-        console.error(error.message);
-      },
-      () => {
-        storage
-          .ref(`profile-pictures/${user.uid}/${image.name}`)
-          .getDownloadURL()
-          .then((url) => {
-            user
-              .updateProfile({
-                photoURL: url,
-              })
-              .then(() => {
-                console.log("Profile image updated successfully");
-              })
-              .catch((updateError) => {
-                console.error(
-                  "Error updating profile image:",
-                  updateError.message
-                );
-              });
-          })
-          .catch((urlError) => {
-            console.error("Error getting image URL:", urlError.message);
-          });
+  // Function to handle image update
+  const handleImageUpdate = async () => {
+    try {
+      if (!selectedImage) {
+        alert("Please select an image");
+        return;
       }
-    );
+
+      const imageRef = ref(storage, "image");
+      await uploadBytes(imageRef, selectedImage);
+
+      const downloadURL = await getDownloadURL(imageRef);
+      setSelectedImageURL(downloadURL);
+      fetchUploadedImageURL();
+      setViewImg(false);
+      setShowAlert(true);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
   };
-  // end of the update or add profile image function
+
+  // Function to handle cancel button click
+  const handleCancel = () => {
+    setSelectedImage(null);
+    setViewImg(false);
+  };
+
   return (
     <>
       <div className="profile-container">
+        {showAlert && (
+          <div className="showAlert">
+            <CustomAlert
+              setShowAlert={setShowAlert}
+              message="Profile picture Updated"
+            />
+          </div>
+        )}
         <div className="profile-bg">
           <div className="top_bg"></div>
           <div className="bottom_bg"></div>
@@ -204,13 +120,34 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* this is the profile card section */}
+          {viewImg && (
+            <div className="ppOverlay">
+              <div className="view_profile_card">
+                <Image
+                  src={selectedImageURL || "/images/nullpics.png"}
+                  alt="logo"
+                  height={1000}
+                  width={1000}
+                  className="view_dp"
+                />
+                <div className="btn_cont">
+                  <button className="upDate_btn" onClick={handleImageUpdate}>
+                    Update
+                  </button>
+                  <button className="upDate_btn" onClick={handleCancel}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="profile_card">
             <div className="profile_card_header">
               <div className="profile_img">
                 <div className="dpCont">
                   <Image
-                    src={selectedImageURL || "/images/nullpics.png"}
+                    src={uploadedImageURL || "/images/nullpics.png"}
                     alt="logo"
                     height={1000}
                     width={1000}
@@ -220,9 +157,9 @@ const Profile = () => {
                 <div className="inputFile">
                   <input
                     type="file"
-                    onChange={handleImageChange}
                     accept="image/*"
                     id="upload"
+                    onChange={handleImageChange}
                   />
                   <label className="update_img" htmlFor="upload">
                     <Icon icon="ph:camera-light" className="camera-icon" />
@@ -230,19 +167,16 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-            {/* this is the user name section */}
             <div className="section">
-              {userData.map((data, index) => {
-                return (
-                  <div className="profileInfo_container" key={data.index}>
-                    <div className="label">{data.title}</div>
-                    <span>
-                      <small>{data.value}</small>
-                      <small className="verify">{data.verify}</small>
-                    </span>
-                  </div>
-                );
-              })}
+              {userData.map((data, index) => (
+                <div className="profileInfo_container" key={index}>
+                  <div className="label">{data.title}</div>
+                  <span>
+                    <small>{data.value}</small>
+                    <small className="verify">{data.verify}</small>
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

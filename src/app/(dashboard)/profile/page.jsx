@@ -9,7 +9,14 @@ import { useRouter } from "next/navigation";
 import Loading from "@/components/loading";
 import getUserData from "@/app/(dashboard)/profile/profileData";
 import { storage } from "@/app/firebase/config";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+// import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  listAll,
+  getDownloadURL,
+  getMetadata,
+  uploadBytes,
+} from "firebase/storage";
 import CustomAlert from "@/components/customAlert";
 
 const Profile = () => {
@@ -24,9 +31,27 @@ const Profile = () => {
 
   const fetchUploadedImageURL = async () => {
     try {
-      const imageRef = ref(storage, "image");
-      const downloadURL = await getDownloadURL(imageRef);
+      if (!user) {
+        console.error("User not logged in");
+        return;
+      }
+
+      const imageRef = ref(storage, `images/${user.uid}`);
+      const imageList = await listAll(imageRef);
+
+      const sortedImages = imageList.items.sort(
+        (a, b) => b.timeCreated - a.timeCreated
+      );
+
+      if (sortedImages.length === 0) {
+        console.error("No images found for the user");
+        return;
+      }
+
+      const latestImage = sortedImages[0];
+      const downloadURL = await getDownloadURL(latestImage);
       setUploadedImageURL(downloadURL);
+      console.log("Image fetched:", downloadURL);
     } catch (error) {
       console.error("Error fetching uploaded image:", error);
     }
@@ -34,7 +59,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchUploadedImageURL();
-  }, []);
+  }, [user]);
 
   if (loading) {
     return (
@@ -59,13 +84,6 @@ const Profile = () => {
     setViewImg(true);
   };
 
-  if (handleImageChange) {
-    console.log("image selected");
-  } else {
-    console.log("image not selected");
-  }
-
-  // Function to handle image update
   const handleImageUpdate = async () => {
     try {
       if (!selectedImage) {
@@ -73,7 +91,12 @@ const Profile = () => {
         return;
       }
 
-      const imageRef = ref(storage, "image");
+      if (!user) {
+        console.error("User not logged in");
+        return;
+      }
+
+      const imageRef = ref(storage, `images/${user.uid}/${selectedImage.name}`);
       await uploadBytes(imageRef, selectedImage);
 
       const downloadURL = await getDownloadURL(imageRef);
@@ -124,7 +147,7 @@ const Profile = () => {
             <div className="ppOverlay">
               <div className="view_profile_card">
                 <Image
-                  src={selectedImageURL || "/images/nullpics.png"}
+                  src={selectedImageURL || "images/nullimg.svg"}
                   alt="logo"
                   height={1000}
                   width={1000}
@@ -147,7 +170,7 @@ const Profile = () => {
               <div className="profile_img">
                 <div className="dpCont">
                   <Image
-                    src={uploadedImageURL || "/images/nullpics.png"}
+                    src={uploadedImageURL || "images/nullimg.svg"}
                     alt="logo"
                     height={1000}
                     width={1000}

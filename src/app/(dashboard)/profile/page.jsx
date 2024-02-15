@@ -14,6 +14,7 @@ import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import CustomAlert from "@/components/customAlert";
 import { updateDoc, doc } from "firebase/firestore";
 import { firestore } from "@/app/firebase/config";
+import EditProfile from "@/components/dashboard/editProfile";
 
 const Profile = () => {
   const router = useRouter();
@@ -25,9 +26,7 @@ const Profile = () => {
   const [userData, setUserData] = useState();
   const [uploadedImageURL, setUploadedImageURL] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
-
-  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  const [userDataObject, setUserDataObject] = useState(null);
 
   const fetchDataAndFormat = async () => {
     try {
@@ -79,6 +78,7 @@ const Profile = () => {
 
         setUploadedImageURL(userDataObject.profilePicture);
         setUserData(formattedUserData);
+        setUserDataObject(userDataObject.firstName);
       } else {
         console.error("User data not found.");
       }
@@ -170,6 +170,7 @@ const Profile = () => {
               />
             </div>
           )}
+          <EditProfile userDataObject={userDataObject} />
           <div className="profile-bg">
             <div className="top_bg"></div>
             <div className="bottom_bg"></div>
@@ -235,15 +236,6 @@ const Profile = () => {
                 </div>
               </div>
               <div className="section">
-                {/* {userData.map((data, index) => (
-                  <div className="profileInfo_container" key={index}>
-                    <div className="label">{data.title}</div>
-                    <span>
-                      <small>{data.value}</small>
-                      <small className="verify">{data.verify}</small>
-                    </span>
-                  </div>
-                ))} */}
                 {userData &&
                   userData.map((data, index) => (
                     <div className="profileInfo_container" key={index}>

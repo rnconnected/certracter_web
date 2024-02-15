@@ -11,6 +11,7 @@ import { parseCookies } from "nookies";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/loading";
+import Link from "next/link";
 
 const Home = () => {
   const [selectCardActive, setSelectCardAdctive] = useState(false);
@@ -57,6 +58,7 @@ const Home = () => {
       <CertTray />
       <div className="welcomeMsg">
         Welcome {user?.displayName.split(" ")[1]}👋
+        <Link href="/viewCert">viewCert</Link>
       </div>
       <div className="searchCont">
         <div className="searchBar">

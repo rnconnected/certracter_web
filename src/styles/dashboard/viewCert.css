@@ -1,0 +1,141 @@
+.viewHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.goBack_btn {
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+}
+
+.actionIcons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.actionIcon {
+    display: flex;
+    align-items: center;
+    gap: .2rem;
+    cursor: pointer;
+    padding: .5rem;
+    border-radius: .2rem;
+}
+
+.actionIcon.edit {
+    background-color: #39115B;
+    color: white;
+}
+
+.actionIcon.share {
+    background-color: #0A8A17;
+    color: white;
+}
+
+.actionIcon.delete {
+    background-color: #A62B3D;
+    color: white;
+}
+
+.viewCard-cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.viewCertCard {
+    width: clamp(21rem, 55vw, 50rem);
+    background-color: white;
+    border-radius: .5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    margin-top: 2rem;
+}
+
+.viewCertCard_header {
+    background-image: url('/images/certificate.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100%;
+    height: 15rem;
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+}
+
+.glass_viewCert {
+    background-color: #A1893BCC;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+}
+
+.viewCert_name {
+    color: white;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.viewCert_subtitle {
+    color: silver;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+.viewCert_info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    margin: .5rem 0;
+}
+
+.title {
+    color: #919393;
+}
+
+.certImage_section {
+    display: flex;
+    gap: 1rem;
+    padding: 0 1rem;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.Certimg {
+    width: calc(100% / 2 - 1rem);
+}
+
+.certImg_cont {
+    width: 100%;
+    height: clamp(8rem, 15vw, 13rem);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    border-radius: .2rem;
+}
+
+.certImg_img {
+    height: 100%;
+    width: auto;
+}
+
+.Privatenote {
+    padding: 0 1rem;
+    margin-bottom: 1rem;
+}

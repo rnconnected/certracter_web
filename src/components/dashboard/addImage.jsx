@@ -1,9 +1,11 @@
+
+
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
 import "@/styles/dashboard/addImage.css";
 import Image from "next/image";
 
-const AddImage = ({ id }) => {
+const AddImage = ({ id, onImageSelect }) => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageChange = (e) => {
@@ -13,7 +15,9 @@ const AddImage = ({ id }) => {
       const reader = new FileReader();
 
       reader.onload = (e) => {
-        setSelectedImage(e.target.result);
+        const imageDataURL = e.target.result;
+        setSelectedImage(imageDataURL);
+        onImageSelect(imageDataURL);
       };
 
       reader.readAsDataURL(file);

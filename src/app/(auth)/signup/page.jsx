@@ -4,7 +4,7 @@ import "@/styles/signin.css";
 import CustomInput from "@/components/customInput";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import { auth } from "@/app/firebase/config";
+import { auth, firestore } from "@/app/firebase/config";
 import {
   createUserWithEmailAndPassword,
   updateProfile,
@@ -13,6 +13,7 @@ import {
 } from "firebase/auth";
 import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
+import { doc, setDoc } from "firebase/firestore";
 
 const Signup = () => {
   const [firstname, setFirstname] = useState("");
@@ -34,9 +35,23 @@ const Signup = () => {
         password
       );
       const user = userCredential.user;
+
       await updateProfile(user, {
         displayName: `${firstname} ${lastname}`,
       });
+
+      await setDoc(doc(firestore, "users", user.uid), {
+        firstName: firstname,
+        lastName: lastname,
+        email: email,
+        profilePicture: "",
+        phone: "",
+        dob: "",
+        city: "",
+        state: "",
+        zipCode: "",
+      });
+
       router.push("/home");
     } catch (error) {
       setErrorMsg(error.code);
@@ -59,13 +74,9 @@ const Signup = () => {
 
   const signUpWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-
     try {
       const result = await signInWithPopup(auth, provider);
-
       const user = result.user;
-      console.log("Google sign-in success:", user);
-
       router.push("/home");
     } catch (error) {
       setErrorMsg(error.code);

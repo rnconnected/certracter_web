@@ -75,13 +75,13 @@ const Header = () => {
           />
         </div>
         <div className="headerIcons">
-          <span>
+          <span className="h-icon">
             <Icon icon="mingcute:notification-fill" />
           </span>
-          <span>
+          <span className="h-icon">
             <Icon icon="material-symbols-light:settings" />
           </span>
-          <span>
+          <span className="h-icon">
             <Icon icon="material-symbols-light:delete" />
           </span>
 

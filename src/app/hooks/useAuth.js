@@ -17,7 +17,6 @@ export function useAuth() {
           path: "/",
           maxAge: 3600,
         });
-        // setDownloadURL(fetchUploadedImageURL(user));
       } else {
         setUser(null);
         destroyCookie(null, "token");

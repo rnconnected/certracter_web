@@ -10,56 +10,82 @@ import { useRouter } from "next/navigation";
 import Loading from "@/components/loading";
 import getUserData from "@/app/(dashboard)/profile/profileData";
 import { storage } from "@/app/firebase/config";
-import {
-  ref,
-  listAll,
-  getDownloadURL,
-  getMetadata,
-  uploadBytes,
-} from "firebase/storage";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import CustomAlert from "@/components/customAlert";
+import { updateDoc, doc } from "firebase/firestore";
+import { firestore } from "@/app/firebase/config";
 
 const Profile = () => {
   const router = useRouter();
-  const { user, loading, downloadURL } = useAuth();
+  const { user, loading } = useAuth();
   const [viewImg, setViewImg] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageURL, setSelectedImageURL] = useState(null);
-  const userData = getUserData(user);
+  // const userData = getUserData(user?.uid);
+  const [userData, setUserData] = useState();
   const [uploadedImageURL, setUploadedImageURL] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
 
-  const fetchUploadedImageURL = async () => {
+  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+  const fetchDataAndFormat = async () => {
     try {
-      if (!user) {
-        console.error("User not logged in");
-        return;
+      const userDataObject = await getUserData(user?.uid);
+
+      if (userDataObject) {
+        const formattedUserData = [
+          {
+            title: "First Name",
+            value: userDataObject.firstName,
+            verify: null,
+          },
+          {
+            title: "Last Name",
+            value: userDataObject.lastName,
+            verify: null,
+          },
+          {
+            title: "Email",
+            value: userDataObject.email || "",
+            verify: null,
+          },
+          {
+            title: "Phone No.",
+            value: userDataObject.phone || "",
+            verify: "Verify",
+          },
+          {
+            title: "Date of Birth",
+            value: userDataObject.dob || "",
+            verify: null,
+          },
+          {
+            title: "State",
+            value: userDataObject.state || "",
+            verify: null,
+          },
+          {
+            title: "City",
+            value: userDataObject.city || "",
+            verify: null,
+          },
+          {
+            title: "Zip Code",
+            value: userDataObject.zipCode || "",
+            verify: null,
+          },
+        ];
+
+        setUploadedImageURL(userDataObject.profilePicture);
+        setUserData(formattedUserData);
+      } else {
+        console.error("User data not found.");
       }
-
-      const imageRef = ref(storage, `images/${user.uid}`);
-      const imageList = await listAll(imageRef);
-
-      const sortedImages = imageList.items.sort(
-        (a, b) => b.timeCreated - a.timeCreated
-      );
-
-      if (sortedImages.length === 0) {
-        console.error("No images found for the user");
-        return;
-      }
-
-      const latestImage = sortedImages[0];
-      const downloadURL = await getDownloadURL(latestImage);
-      setUploadedImageURL(downloadURL);
-      console.log("Image fetched:", downloadURL);
     } catch (error) {
-      console.error("Error fetching uploaded image:", error);
+      console.error("Error fetching user data:", error);
     }
   };
-
-  useEffect(() => {
-    fetchUploadedImageURL();
-  });
 
   useEffect(() => {
     if (!loading && !user) {
@@ -67,16 +93,16 @@ const Profile = () => {
     }
   }, [loading, user]);
 
-  // useEffect(() => {
-  //   fetchUploadedImageURL();
-  // }, [user]);
-
   if (loading) {
     return (
       <div className="loading">
         <Loading />
       </div>
     );
+  }
+
+  if (user) {
+    fetchDataAndFormat();
   }
 
   // Function to handle image change
@@ -106,12 +132,19 @@ const Profile = () => {
         return;
       }
 
-      const imageRef = ref(storage, `images/${user.uid}/${selectedImage.name}`);
+      const imageRef = ref(
+        storage,
+        `profile_images/${user.uid}/${selectedImage.name}`
+      );
+
       await uploadBytes(imageRef, selectedImage);
 
       const downloadURL = await getDownloadURL(imageRef);
-      setSelectedImageURL(downloadURL);
-      fetchUploadedImageURL();
+
+      await updateDoc(doc(firestore, "users", user.uid), {
+        profilePicture: downloadURL,
+      });
+
       setViewImg(false);
       setShowAlert(true);
     } catch (error) {
@@ -202,7 +235,7 @@ const Profile = () => {
                 </div>
               </div>
               <div className="section">
-                {userData.map((data, index) => (
+                {/* {userData.map((data, index) => (
                   <div className="profileInfo_container" key={index}>
                     <div className="label">{data.title}</div>
                     <span>
@@ -210,7 +243,17 @@ const Profile = () => {
                       <small className="verify">{data.verify}</small>
                     </span>
                   </div>
-                ))}
+                ))} */}
+                {userData &&
+                  userData.map((data, index) => (
+                    <div className="profileInfo_container" key={index}>
+                      <div className="label">{data.title}</div>
+                      <span>
+                        <small>{data.value}</small>
+                        <small className="verify">{data.verify}</small>
+                      </span>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>

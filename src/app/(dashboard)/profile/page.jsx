@@ -22,63 +22,87 @@ const Profile = () => {
   const [viewImg, setViewImg] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageURL, setSelectedImageURL] = useState(null);
-  // const userData = getUserData(user?.uid);
   const [userData, setUserData] = useState();
   const [uploadedImageURL, setUploadedImageURL] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [userDataObject, setUserDataObject] = useState(null);
+  const [editProfile, setEditProfile] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [dob, setDob] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
+  const [zipCode, setZipCode] = useState("");
 
   const fetchDataAndFormat = async () => {
     try {
       const userDataObject = await getUserData(user?.uid);
 
       if (userDataObject) {
+        const firstName = userDataObject.firstName;
+        const lastName = userDataObject.lastName;
+        const email = userDataObject.email || "";
+        const phone = userDataObject.phone || "";
+        const dob = userDataObject.dob || "";
+        const state = userDataObject.state || "";
+        const city = userDataObject.city || "";
+        const zipCode = userDataObject.zipCode || "";
+
         const formattedUserData = [
           {
             title: "First Name",
-            value: userDataObject.firstName,
+            value: firstName,
             verify: null,
           },
           {
             title: "Last Name",
-            value: userDataObject.lastName,
+            value: lastName,
             verify: null,
           },
           {
             title: "Email",
-            value: userDataObject.email || "",
+            value: email || "",
             verify: null,
           },
           {
             title: "Phone No.",
-            value: userDataObject.phone || "",
+            value: phone || "",
             verify: "Verify",
           },
           {
             title: "Date of Birth",
-            value: userDataObject.dob || "",
+            value: dob || "",
             verify: null,
           },
           {
             title: "State",
-            value: userDataObject.state || "",
+            value: state || "",
             verify: null,
           },
           {
             title: "City",
-            value: userDataObject.city || "",
+            value: city || "",
             verify: null,
           },
           {
             title: "Zip Code",
-            value: userDataObject.zipCode || "",
+            value: zipCode || "",
             verify: null,
           },
         ];
 
         setUploadedImageURL(userDataObject.profilePicture);
         setUserData(formattedUserData);
-        setUserDataObject(userDataObject.firstName);
+        setFirstName(firstName);
+        setLastName(lastName);  
+        setEmail(email);
+        setPhone(phone);
+        setDob(dob);
+        setState(state);
+        setCity(city);
+        setZipCode(zipCode);
       } else {
         console.error("User data not found.");
       }
@@ -152,6 +176,9 @@ const Profile = () => {
     }
   };
 
+
+  
+
   // Function to handle cancel button click
   const handleCancel = () => {
     setSelectedImage(null);
@@ -170,7 +197,21 @@ const Profile = () => {
               />
             </div>
           )}
-          <EditProfile userDataObject={userDataObject} />
+          {editProfile && (
+            <EditProfile
+              userDataObject={userDataObject}
+              setEditProfile={setEditProfile}
+              firstName={firstName}
+              lastName={lastName}
+              email={email}
+              phone={phone}
+              dob={dob}
+              state={state}
+              city={city}
+              zipCode={zipCode}
+              userId={user?.uid}
+            />
+          )}
           <div className="profile-bg">
             <div className="top_bg"></div>
             <div className="bottom_bg"></div>
@@ -182,7 +223,10 @@ const Profile = () => {
                 <div className="goBack_txt">Back</div>
               </Link>
               <div className="profile_title">Profile</div>
-              <div className="profile_edit">
+              <div
+                className="profile_edit"
+                onClick={() => setEditProfile(true)}
+              >
                 <Icon icon="fluent:edit-28-filled" />
                 <span>Edit</span>
               </div>

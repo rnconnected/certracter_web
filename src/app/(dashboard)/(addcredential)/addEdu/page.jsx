@@ -1,13 +1,93 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@/components/dashboard/header";
 import "@/styles/dashboard/addCert.css";
 import "@/styles/dashboard/addEdu.css";
 import AddImage from "@/components/dashboard/addImage";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
+import { firestore } from "@/app/firebase/config";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { useAuth } from "@/app/hooks/useAuth";
+import Loading from "@/components/loading";
+import { useRouter } from "next/navigation";
+import Loading2 from "@/components/loading2";
 
 const AddEdu = () => {
+  const router = useRouter();
+  const [institutionName, setInstitutionName] = useState("");
+  const [degree, setDegree] = useState("");
+  const [field, setField] = useState("");
+  const [graduationDate, setGraduationDate] = useState("");
+  const [timeStamp, setTimeStamp] = useState(serverTimestamp());
+  const [backImage, setBackImage] = useState(null);
+  const [frontImage, setFrontImage] = useState(null);
+  const [privateNote, setPrivateNote] = useState("");
+  const { user, loading } = useAuth();
+  const [loading2, setLoading2] = useState(false);
+
+  const handleFrontImage = (selectedImage) => {
+    setFrontImage(selectedImage);
+  };
+
+  const handleBackImage = (selectedImage) => {
+    setBackImage(selectedImage);
+  };
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/signin");
+    }
+  }, [loading, router, user]);
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <Loading />
+      </div>
+    );
+  }
+
+  const handleSaveEdu = async () => {
+    setLoading2(true);
+    if (!user) {
+      alert("User is not authenticated.");
+      return;
+    }
+    if (!institutionName || !field || !degree || !graduationDate) {
+      alert("Please fill in all the required fields.");
+      setLoading2(false);
+      return;
+    }
+    await addDoc(collection(firestore, "Education"), {
+      title: institutionName,
+      educationField: field,
+      educationDegree: degree,
+      graduationDate: graduationDate,
+      startDate: "",
+      educationPrivateNote: privateNote,
+      backImageUrl: backImage,
+      frontImageUrl: frontImage,
+      timestamp: timeStamp,
+      userId: user.uid,
+    })
+      .then((docRef) => {
+        console.log("Credential added successfully with ID: ", docRef.id);
+        setInstitutionName("");
+        setField("");
+        setDegree("");
+        setGraduationDate("");
+        setPrivateNote("");
+        setBackImage("");
+        setFrontImage("");
+        alert("Credential added successfully!");
+        router.push("/home");
+      })
+      .finally(() => setLoading2(false))
+      .catch((error) => {
+        console.error("Error adding credential:", error);
+      });
+  };
   return (
     <>
       <Header />
@@ -26,11 +106,21 @@ const AddEdu = () => {
             <section className="name_section">
               <div className="addEdu_Inputs1">
                 <label htmlFor="name">Name of Institution</label>
-                <input type="text" className="edu_inputs" />
+                <input
+                  type="text"
+                  className="edu_inputs"
+                  onChange={(e) => setInstitutionName(e.target.value)}
+                  value={institutionName}
+                />
               </div>
               <div className="addEdu_Inputs1">
                 <label htmlFor="name">Degree</label>
-                <input type="text" className="edu_inputs" />
+                <input
+                  type="text"
+                  className="edu_inputs"
+                  onChange={(e) => setDegree(e.target.value)}
+                  value={degree}
+                />
               </div>
             </section>
             {/* end of the name section */}
@@ -39,11 +129,21 @@ const AddEdu = () => {
             <section className="date_section">
               <div className="addEdu_Inputs1">
                 <label htmlFor="name">Field of sudy</label>
-                <input type="text" className="edu_inputs" />
+                <input
+                  type="text"
+                  className="edu_inputs"
+                  onChange={(e) => setField(e.target.value)}
+                  value={field}
+                />
               </div>
               <div className="addEdu_Inputs1">
                 <label htmlFor="name">Expiry date (optional)</label>
-                <input type="date" className="edu_inputs" />
+                <input
+                  type="date"
+                  className="edu_inputs"
+                  onChange={(e) => setGraduationDate(e.target.value)}
+                  value={graduationDate}
+                />
               </div>
             </section>
             {/* end of the date section */}
@@ -54,11 +154,11 @@ const AddEdu = () => {
           <section className="uploadPhoto_cont">
             <div className="uploadPhoto_el">
               <div className="upload_front">Front</div>
-              <AddImage id={"front_imgEdu"} />
+              <AddImage id={"front_imgEdu"} onImageSelect={handleFrontImage} />
             </div>
             <div className="uploadPhoto_el">
               <div className="upload_back">Back</div>
-              <AddImage id={"back_imgEdu"} />
+              <AddImage id={"back_imgEdu"} onImageSelect={handleBackImage} />
             </div>
           </section>
           <h2>Private Note</h2>
@@ -70,9 +170,13 @@ const AddEdu = () => {
               name="privateNote"
               id="privateNote"
               className="privateNote"
+              onChange={(e) => setPrivateNote(e.target.value)}
+              value={privateNote}
             ></textarea>
           </section>
-          <div className="saveBtn">Save Credential</div>
+          <div className="saveBtn" onClick={handleSaveEdu}>
+            {loading2 ? <Loading2 /> : "Save Credential"}
+          </div>
         </div>
       </div>
     </>

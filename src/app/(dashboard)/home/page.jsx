@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import Header from "@/components/dashboard/header";
 import CertTray from "@/components/dashboard/cert_tray";
 import "@/styles/dashboard/home.css";
@@ -12,11 +12,13 @@ import { useAuth } from "@/app/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/loading";
 import Link from "next/link";
+import getUserData from "@/app/(dashboard)/profile/profileData";
 
 const Home = () => {
   const [selectCardActive, setSelectCardAdctive] = useState(false);
   const router = useRouter();
   const { user, loading } = useAuth();
+  const [userName, setUserName] = useState("");
 
   const allNamesAndCategories = data.flatMap((category) =>
     category.map((credential) => ({
@@ -48,6 +50,24 @@ const Home = () => {
     );
   }
 
+  const fetchUserData = async () => {
+    try {
+      const userData = await getUserData(user?.uid);
+      if (userData) {
+        const userName = userData.firstName;
+        setUserName(userName);
+      } else {
+        console.error("User data not found.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (user) {
+    fetchUserData();
+  }
+
   if (!user) {
     return null;
   }
@@ -57,8 +77,7 @@ const Home = () => {
       <Header />
       <CertTray />
       <div className="welcomeMsg">
-        Welcome {user?.displayName.split(" ")[1]}👋
-        <Link href="/viewCert">viewCert</Link>
+        Welcome {userName}👋
       </div>
       <div className="searchCont">
         <div className="searchBar">

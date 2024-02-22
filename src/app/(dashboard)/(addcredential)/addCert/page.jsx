@@ -6,10 +6,17 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import AddImage from "@/components/dashboard/addImage";
 import { firestore } from "@/app/firebase/config";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 import { useAuth } from "@/app/hooks/useAuth";
 import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
+import Loading2 from "@/components/loading2";
 
 const AddCert = () => {
   const router = useRouter();
@@ -21,10 +28,11 @@ const AddCert = () => {
   const [secondReminder, setSecondReminder] = useState("");
   const [finalReminder, setFinalReminder] = useState("");
   const [privateNote, setPrivateNote] = useState("");
-  const [backImage, setBackImage] = useState(null);
-  const [frontImage, setFrontImage] = useState(null);
+  const [backImage, setBackImage] = useState("");
+  const [frontImage, setFrontImage] = useState("");
   const [timeStamp, setTimeStamp] = useState(serverTimestamp());
   const { user, loading } = useAuth();
+  const [loading2, setLoading2] = useState(false);
 
   const handleFrontImage = (selectedImage) => {
     setFrontImage(selectedImage);
@@ -48,27 +56,40 @@ const AddCert = () => {
     );
   }
 
+  const generateUniqueCredentialsId = () => {
+    const timestamp = Date.now().toString();
+    return timestamp;
+  };
+
   const saveCredential = async () => {
+    setLoading2(true);
     if (!user) {
       alert("User is not authenticated.");
       return;
     }
-    await addDoc(collection(firestore, "Certification"), {
-      title: credentialName,
-      certificationNumber: recordNumber,
-      certificationIssueDate: issueDate,
-      certificationExpiryDate: expiryDate,
-      certificationFirstReminder: firstReminder,
-      certificationSecondReminder: secondReminder,
-      certificationFinalReminder: finalReminder,
-      certificationPrivateNote: privateNote,
+    if (!credentialName || !recordNumber || !issueDate) {
+      alert("Please fill in all the required fields.");
+      setLoading2(false);
+      return;
+    }
+    const credentialsId = generateUniqueCredentialsId();
+    const docRef = doc(collection(firestore, "Certification"), credentialsId);
+    await setDoc(docRef, {
+      Title: credentialName,
       backImageUrl: backImage,
+      certificationExpiryDate: expiryDate,
+      certificationIssueDate: issueDate,
+      certificationNumber: recordNumber,
+      certificationPrivateNote: privateNote,
       frontImageUrl: frontImage,
+      // certificationFirstReminder: firstReminder,
+      // certificationSecondReminder: secondReminder,
+      // certificationFinalReminder: finalReminder,
       timestamp: timeStamp,
       userId: user.uid,
     })
-      .then((docRef) => {
-        console.log("Credential added successfully with ID: ", docRef.id);
+      .then(() => {
+        console.log("Credential added successfully with ID: ", credentialsId);
         setCredentialName("");
         setRecordNumber("");
         setIssueDate("");
@@ -82,6 +103,7 @@ const AddCert = () => {
         alert("Credential added successfully!");
         router.push("/home");
       })
+      .finally(() => setLoading2(false))
       .catch((error) => {
         console.error("Error adding credential:", error);
       });
@@ -220,7 +242,7 @@ const AddCert = () => {
                 ></textarea>
               </section>
               <div className="saveBtn" onClick={saveCredential}>
-                Save Credential
+                {loading2 ? <Loading2 /> : "Save Credential"}
               </div>
             </div>
           </div>

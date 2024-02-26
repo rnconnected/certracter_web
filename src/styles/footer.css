@@ -1,0 +1,79 @@
+.footer {
+    background-color: #9239B280;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 3rem 0;
+}
+
+.footerLogo_cont {
+    width: clamp(6rem, 8vw, 7rem);
+}
+
+.footer_contact_h,
+.socials_h,
+.subscribe_h {
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    font-weight: 500;
+    margin-bottom: .5rem;
+}
+
+.contact_img_cont {
+    width: clamp(1.5rem, 3vw, 1.7rem);
+}
+
+.footerContact_items,
+.footerSocial_items {
+    display: flex;
+    gap: .5rem;
+    flex-direction: column;
+}
+
+.contact_item,
+.social_item {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: clamp(1rem, 3vw, 1.1rem);
+}
+
+.footerEmailCont {
+    border: 2px solid #30034080;
+    border-radius: .3rem;
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.footerEmailCont input {
+    background-color: transparent;
+    padding: .3rem;
+    outline: none;
+}
+
+.footerEmailCont input::placeholder {
+    color: black;
+}
+
+.footerEmailCont button {
+    background: #591A8F;
+    color: white;
+    border-radius: .3rem;
+    padding: .3rem .5rem;
+
+}
+
+hr {
+    border: 1px solid white;
+    width: 100%;
+}
+
+.copyright {
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    color: white;
+    background:#591A8F;
+    padding: .7rem 0;
+    
+}

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Icon } from "@iconify/react";
 import "./page.css";
 import Link from "next/link";
+import Footer from "@/components/footer";
 
 const trustees = [
   {
@@ -552,6 +553,7 @@ const Home = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 };

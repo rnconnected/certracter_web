@@ -564,12 +564,12 @@
     margin-bottom: 1em;
 }
 
-#contactLabel {
+/* #contactLabel {
     position: absolute;
     top: 0;
     left: 0;
     transition: top 0.2s ease;
-}
+} */
 
 #formInput {
     background-color: transparent;
@@ -599,7 +599,7 @@
     margin: .4rem 0;
 }
 
-label {
+#contactLabel {
     position: absolute;
     left: 0;
     bottom: 5px;
@@ -607,8 +607,8 @@ label {
     color: #9239B2;
 }
 
-.active+label,
-#contactInput:focus+label {
+.active+#contactLabel,
+#contactInput:focus+#contactLabel {
     transform: translateY(-50%);
     font-size: 0.8em;
     bottom: 20px;

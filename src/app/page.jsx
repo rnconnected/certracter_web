@@ -513,6 +513,7 @@ const Home = () => {
               <label
                 htmlFor="fullNameInput"
                 className={fullName || fullName === "" ? "" : "rest"}
+                id="contactLabel"
               >
                 Full Name
               </label>
@@ -529,6 +530,7 @@ const Home = () => {
               <label
                 htmlFor="fullNameInput"
                 className={email || email === "" ? "" : "rest"}
+                id="contactLabel"
               >
                 E-mail
               </label>
@@ -545,6 +547,7 @@ const Home = () => {
               <label
                 htmlFor="fullNameInput"
                 className={message || message === "" ? "" : "rest"}
+                id="contactLabel"
               >
                 Message
               </label>

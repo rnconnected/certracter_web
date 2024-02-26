@@ -144,6 +144,15 @@ const Home = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [showPopup, setShowpopup] = useState(false);
+
+  const handlePopup = () => {
+    setShowpopup(true);
+  };
+
+  const closePopup = () => {
+    setShowpopup(false);
+  };
 
   const toggleAnswer = (index) => {
     const newData = [...faqData];
@@ -168,17 +177,22 @@ const Home = () => {
           <Link href={"/signup"} id="signup_btn">
             Create an account
           </Link>
-          <Link href={"/signin"} id="signin_btn">
+          {/* <Link href={"/signin"} id="signin_btn">
             Login
-          </Link>
+          </Link> */}
+          <div id="signin_btn" onClick={handlePopup}>
+            Login
+          </div>
           <Link href={"/download"} id="download_btn">
             Download App
           </Link>
         </div>
       </div>
-      <div className="popup_glass">
-        <Popup />
-      </div>
+      {showPopup ? (
+        <div className="popup_glass">
+          <Popup closePopup={closePopup} />
+        </div>
+      ) : null}
 
       <section className="header">
         <div className="infoTxt_section">

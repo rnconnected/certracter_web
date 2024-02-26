@@ -5,10 +5,54 @@ const Popup = () => {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      setIsLoading(true);
+
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycbzn6TUHZg6gccL76DdFv5K4xJmw8Xd_im4f39kEVy2F9tw2ckRJZwVYTrcwkz2WdK2V/exec",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            "first-name": fname,
+            "last-name": lname,
+            email: email,
+          }).toString(),
+        }
+      );
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        // Handle error or display error message
+        console.error("Form submission failed");
+      }
+    } catch (error) {
+      console.error("An error occurred during form submission", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="popup_cont">
-        <div className="popup_message">
+        {isSubmitted ? (
+          // Display success message
+          <div className="success_message">
+            Thank you for submitting the form! We will be in touch soon.
+          </div>
+        ) : (
+          // Display form
+          <div className="popup_message">
           <div className="msg_h">
             Thank you for expressing interest in CerTracker!
           </div>
@@ -29,65 +73,81 @@ const Popup = () => {
             <span>The CerTracker Team.</span>
           </div>
         </div>
+        )}
 
-        {/* this sis the form section */}
-        <div className="popupForm">
+        {/* Form section */}
+        <form onSubmit={handleSubmit} className="popupForm" method="post">
           <div className="closeCont">
             <div className="closePopUp">Close</div>
           </div>
-          <div className="popupForm_h">Register to be a Beta Tester</div>
-          <div className="formInput">
-            <input
-              id="contactInput"
-              type="text"
-              value={fname}
-              onChange={(e) => setFname(e.target.value)}
-              className={fname ? "active" : ""}
-            />
-            <label
-              htmlFor="fullNameInput"
-              className={fname || fname === "" ? "" : "rest"}
-              id="contactLabel"
-            >
-              First Name
-            </label>
-          </div>
-          <div className="formInput">
-            <input
-              id="contactInput"
-              type="text"
-              value={lname}
-              onChange={(e) => setLname(e.target.value)}
-              className={lname ? "active" : ""}
-            />
-            <label
-              htmlFor="fullNameInput"
-              className={lname || lname === "" ? "" : "rest"}
-              id="contactLabel"
-            >
-              Last Name
-            </label>
-          </div>
-          <div className="formInput">
-            <input
-              id="contactInput"
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className={email ? "active" : ""}
-            />
-            <label
-              htmlFor="fullNameInput"
-              className={email || email === "" ? "" : "rest"}
-              id="contactLabel"
-            >
-              Email
-            </label>
-          </div>
-          <div className="popupSubmit_cont">
-            <button className="popupSubmit">Submit</button>
-          </div>
-        </div>
+          {isSubmitted ? null : (
+            <div className="popupForm_h">Register to be a Beta Tester</div>
+          )}
+          {isSubmitted ? null : (
+            <div className="formInput">
+              <input
+                id="contactInput"
+                type="text"
+                name="first-name"
+                value={fname}
+                onChange={(e) => setFname(e.target.value)}
+                className={fname ? "active" : ""}
+              />
+              <label
+                htmlFor="fullNameInput"
+                className={fname || fname === "" ? "" : "rest"}
+                id="contactLabel"
+              >
+                First Name
+              </label>
+            </div>
+          )}
+          {isSubmitted ? null : (
+            <div className="formInput">
+              <input
+                id="contactInput"
+                type="text"
+                name="last-name"
+                value={lname}
+                onChange={(e) => setLname(e.target.value)}
+                className={lname ? "active" : ""}
+              />
+              <label
+                htmlFor="fullNameInput"
+                className={lname || lname === "" ? "" : "rest"}
+                id="contactLabel"
+              >
+                Last Name
+              </label>
+            </div>
+          )}
+          {isSubmitted ? null : (
+            <div className="formInput">
+              <input
+                id="contactInput"
+                type="text"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={email ? "active" : ""}
+              />
+              <label
+                htmlFor="fullNameInput"
+                className={email || email === "" ? "" : "rest"}
+                id="contactLabel"
+              >
+                Email
+              </label>
+            </div>
+          )}
+          {isSubmitted ? null : (
+            <div className="popupSubmit_cont">
+              <button type="submit" className="popupSubmit" disabled={isLoading}>
+                {isLoading ? "Submitting..." : "Submit"}
+              </button>
+            </div>
+          )}
+        </form>
       </div>
     </>
   );

@@ -6,6 +6,7 @@ import { Icon } from "@iconify/react";
 import "./page.css";
 import Link from "next/link";
 import Footer from "@/components/footer";
+import Popup from "@/components/popup";
 
 const trustees = [
   {
@@ -174,6 +175,9 @@ const Home = () => {
             Download App
           </Link>
         </div>
+      </div>
+      <div className="popup_glass">
+        <Popup />
       </div>
 
       <section className="header">

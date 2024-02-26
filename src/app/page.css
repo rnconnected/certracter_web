@@ -564,13 +564,6 @@
     margin-bottom: 1em;
 }
 
-/* #contactLabel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: top 0.2s ease;
-} */
-
 #formInput {
     background-color: transparent;
     border-bottom: 2px solid #9239B2;
@@ -582,12 +575,7 @@
 .formInput {
     position: relative;
     margin: 1rem 0;
-    /* border: 2px solid red; */
     width: 65%;
-    /* display: flex;
-    align-items: center; */
-    /* justify-content: center;
-    flex-direction: column; */
 }
 
 #contactInput {
@@ -624,3 +612,17 @@
     background: #591A8F;
     border-radius: 1.5rem;
 }
+
+.popup_glass {
+    position: fixed;
+    top: 0;
+    background-color: rgba(107, 31, 172, 0.90);
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+/* this is mobile responsive view */

@@ -30,6 +30,7 @@
     font-size: clamp(.9rem, 2vw, 1.3rem);
     color: #591A8F;
     font-weight: 500;
+    cursor: pointer;
 }
 
 #signin_btn {

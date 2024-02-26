@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "@/styles/popup.css";
 
-const Popup = () => {
+const Popup = ({ closePopup }) => {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
@@ -78,7 +78,9 @@ const Popup = () => {
         {/* Form section */}
         <form onSubmit={handleSubmit} className="popupForm" method="post">
           <div className="closeCont">
-            <div className="closePopUp">Close</div>
+            <div className="closePopUp" onClick={closePopup}>
+              Close
+            </div>
           </div>
           {isSubmitted ? null : (
             <div className="popupForm_h">Register to be a Beta Tester</div>

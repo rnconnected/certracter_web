@@ -705,12 +705,17 @@
         justify-content: center;
     }
 
+    .features_cont {
+        justify-content: space-between;
+    }
+
     .feature_info {
         width: 60%;
+
     }
 
     .feature_img {
-        width: 60%;
+        width: 35%;
     }
 }
 

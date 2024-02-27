@@ -291,7 +291,6 @@ const Home = () => {
               alt="feature_img"
               width={500}
               height={500}
-              className="feature_img"
             />
           </div>
         </div>
@@ -302,7 +301,6 @@ const Home = () => {
               alt="feature_img"
               width={500}
               height={500}
-              className="feature_img"
             />
           </div>
           <div className="feature_info">
@@ -333,7 +331,7 @@ const Home = () => {
               alt="feature_img"
               width={500}
               height={500}
-              className="feature_img"
+              // className="feature_img"
             />
           </div>
         </div>

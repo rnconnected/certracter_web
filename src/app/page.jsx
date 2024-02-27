@@ -204,7 +204,7 @@ const Home = () => {
             Efficiently manage all your Certifications and Credentials in one
             place - Spend less time on Paperwork, more time on what you do best.
           </div>
-          <div className="infoTxt_btn">Get Early Access</div>
+          <div className="infoTxt_btn" onClick={handlePopup}>Get Early Access</div>
         </div>
         <div className="header_img">
           <Image

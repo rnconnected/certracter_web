@@ -7,6 +7,7 @@ import "./page.css";
 import Link from "next/link";
 import Footer from "@/components/footer";
 import Popup from "@/components/popup";
+import Dropdown from "@/components/dropDown";
 
 const trustees = [
   {
@@ -145,6 +146,7 @@ const Home = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [showPopup, setShowpopup] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const handlePopup = () => {
     setShowpopup(true);
@@ -152,6 +154,7 @@ const Home = () => {
 
   const closePopup = () => {
     setShowpopup(false);
+    setShowDropdown(false);
   };
 
   const toggleAnswer = (index) => {
@@ -170,6 +173,20 @@ const Home = () => {
             width={500}
           />
         </Link>
+        <div className="hamburger">
+          {showDropdown ? (
+            <Icon
+              icon="material-symbols-light:cancel-outline"
+              onClick={() => setShowDropdown(false)}
+            />
+          ) : (
+            <Icon
+              icon="solar:hamburger-menu-outline"
+              onClick={() => setShowDropdown(true)}
+            />
+          )}
+        </div>
+        {showDropdown && <Dropdown handlePopup={handlePopup} />}
         <div className="navbar_right">
           <Link href={"/about"} id="about_btn">
             About Us
@@ -180,9 +197,6 @@ const Home = () => {
           <Link href={"/#"} id="signin_btn" onClick={handlePopup}>
             Login
           </Link>
-          {/* <div id="signin_btn" onClick={handlePopup}>
-            Login
-          </div> */}
           <Link href={"/#"} id="download_btn" onClick={handlePopup}>
             Download App
           </Link>
@@ -190,10 +204,11 @@ const Home = () => {
       </div>
       {showPopup ? (
         <div className="popup_glass">
-          <Popup closePopup={closePopup} />
+          <Popup closePopup={closePopup} showPopup={showPopup} />
         </div>
       ) : null}
 
+      {/* this is the header section */}
       <section className="header">
         <div className="infoTxt_section">
           <div className="infoTxt_h">
@@ -204,7 +219,9 @@ const Home = () => {
             Efficiently manage all your Certifications and Credentials in one
             place - Spend less time on Paperwork, more time on what you do best.
           </div>
-          <div className="infoTxt_btn" onClick={handlePopup}>Get Early Access</div>
+          <div className="infoTxt_btn" onClick={handlePopup}>
+            Get Early Access
+          </div>
         </div>
         <div className="header_img">
           <Image
@@ -323,37 +340,29 @@ const Home = () => {
       </section>
 
       <section className="compliant_cont">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1728 640"
-          fill="none"
-          className="compliant_svg"
-        >
-          <path
-            d="M0 0H1728V616.499C1728 616.499 1223 448.863 0 616.499C-1223 784.134 0 0 0 0Z"
-            fill="#540D6E"
-          />
-        </svg>
         <div className="place_over">
-          <div className="compliant_info">
-            <div className="compliant_h">Stay Compliant</div>
-            <div className="compliant_b">
-              We are a team of healthcare professionals and technology experts
-              passionate about simplifying the certification management process
-              for our fellow healthcare professionals. Our user-friendly
-              platform is trusted by healthcare professionals across the
-              industry.
+          <span>
+            <div className="compliant_info">
+              <div className="compliant_h">Stay Compliant</div>
+              <div className="compliant_b">
+                We are a team of healthcare professionals and technology experts
+                passionate about simplifying the certification management
+                process for our fellow healthcare professionals. Our
+                user-friendly platform is trusted by healthcare professionals
+                across the industry.
+              </div>
             </div>
-          </div>
-          <div className="compliant_img_cont">
-            <Image
-              src={"/images/complaint_img.png"}
-              alt="compliant_img"
-              width={1000}
-              height={1000}
-              className="compliant_img"
-            />
-          </div>
+            <div className="compliant_img_cont">
+              <Image
+                src={"/images/complaint_img.png"}
+                alt="compliant_img"
+                width={1000}
+                height={1000}
+                className="compliant_img"
+              />
+            </div>
+          </span>
+          <div className="placeoverAfter"></div>
         </div>
       </section>
 

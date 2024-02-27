@@ -14,7 +14,7 @@
 .socials_h,
 .subscribe_h {
     font-size: clamp(1.1rem, 3vw, 1.5rem);
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: .5rem;
 }
 
@@ -73,7 +73,43 @@ hr {
     align-items: center;
     gap: .3rem;
     color: white;
-    background:#591A8F;
+    background: #591A8F;
     padding: .7rem 0;
-    
+
+}
+
+
+@media only screen and (max-width: 50rem) {
+    .footer {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .footer_contact {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .footer_socials {
+        width: 100%;
+    }
+
+    .footerSocial_items {
+        flex-direction: row;
+        gap: 2rem;
+    }
+
+    .social_item:hover {
+        text-decoration: underline;
+    }
+
+    .subscribe {
+        width: 100%;
+    }
+
+    .footerEmailCont {
+        width: 82%;
+    }
 }

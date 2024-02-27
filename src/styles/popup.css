@@ -8,7 +8,7 @@
 
 .popup_message {
     width: 50%;
-    padding: 2rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -28,8 +28,9 @@
 
 .msg_h,
 .popupForm_h {
-    font-size: clamp(1.1rem, 3vw, 1.7rem);
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
     color: blueviolet;
+    font-weight: 600;
 }
 
 .popupForm_h {
@@ -82,4 +83,47 @@
 
 .closePopUp:active {
     transform: scale(.96);
+}
+
+.success_message {
+    padding: 2rem;
+    text-align: center;
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    background-color: white;
+    border-radius: 1rem;
+    width: 90%;
+}
+
+.cancelBtn_popup {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    color: white;
+}
+
+.cancelBtn_popup span {
+    width: fit-content;
+    padding: .3rem .5rem;
+    background-color: blueviolet;
+    border-radius: 1rem;
+}
+
+/* this is the responsive view section */
+@media only screen and (max-width: 50rem) {
+    .popup_cont {
+        flex-direction: column;
+    }
+
+    .popup_message {
+        display: none;
+        width: 100%;
+    }
+
+    .popupForm {
+        width: 100%;
+    }
+
+
 }

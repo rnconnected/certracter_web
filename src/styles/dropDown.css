@@ -1,5 +1,4 @@
 .dropDown_Cont {
-    display: flex;
     flex-direction: column;
     position: absolute;
     right: .6rem;
@@ -8,6 +7,7 @@
     box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30);
     border-radius: .5rem;
     padding: 1rem 0;
+    display: none;
 }
 
 .dropDown_link {
@@ -18,3 +18,10 @@
 .dropDown_link:hover {
     background-color: rgba(199, 71, 231, 0.1);
 }
+
+@media only screen and (max-width: 50rem) {
+    .dropDown_Cont {
+        display: flex;
+    }
+}
+

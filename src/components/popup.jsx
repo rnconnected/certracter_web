@@ -10,7 +10,7 @@ const Popup = ({ closePopup }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       setIsLoading(true);
 
@@ -32,7 +32,6 @@ const Popup = ({ closePopup }) => {
       if (response.ok) {
         setIsSubmitted(true);
       } else {
-        // Handle error or display error message
         console.error("Form submission failed");
       }
     } catch (error) {
@@ -44,49 +43,38 @@ const Popup = ({ closePopup }) => {
 
   return (
     <>
-      <div className="popup_cont">
-        {isSubmitted ? (
-          // Display success message
-          <div className="success_message">
-            Thank you for submitting the form! We will be in touch soon.
-          </div>
-        ) : (
-          // Display form
+      {!isSubmitted ? (
+        <div className="popup_cont">
           <div className="popup_message">
-          <div className="msg_h">
-            Thank you for expressing interest in CerTracker!
-          </div>
-          <div className="msg_b">
-            At this time, CerTracker is an invite-only platform, offering
-            exclusive early access to a select group of users. To join our
-            waiting list and secure your invitation, please sign up. Invites are
-            sent out as spaces become available, ensuring that each new member
-            receives the attention and support they need to make the most of
-            CerTracker.
-          </div>
-          <div className="msg_closingMsg">
-            We appreciate your understanding and look forward to welcoming you
-            to CerTracker soon!
-          </div>
-          <div className="regardFrom">
-            <span>Warm regards,</span>
-            <span>The CerTracker Team.</span>
-          </div>
-        </div>
-        )}
-
-        {/* Form section */}
-        <form onSubmit={handleSubmit} className="popupForm" method="post">
-          <div className="closeCont">
-            <div className="closePopUp" onClick={closePopup}>
-              Close
+            <div className="msg_h">
+              Thank you for expressing interest in CerTracker!
+            </div>
+            <div className="msg_b">
+              At this time, CerTracker is an invite-only platform, offering
+              exclusive early access to a select group of users. To join our
+              waiting list and secure your invitation, please sign up. Invites
+              are sent out as spaces become available, ensuring that each new
+              member receives the attention and support they need to make the
+              most of CerTracker.
+            </div>
+            <div className="msg_closingMsg">
+              We appreciate your understanding and look forward to welcoming you
+              to CerTracker soon!
+            </div>
+            <div className="regardFrom">
+              <span>Warm regards,</span>
+              <span>The CerTracker Team.</span>
             </div>
           </div>
-          {isSubmitted ? null : (
+
+          {/* Form section */}
+          <form onSubmit={handleSubmit} className="popupForm" method="post">
+            <div className="closeCont">
+              <div className="closePopUp" onClick={closePopup}>
+                Close
+              </div>
+            </div>
             <div className="popupForm_h">Register to be a Beta Tester</div>
-            
-          )}
-          {isSubmitted ? null : (
             <div className="formInput">
               <input
                 id="contactInput"
@@ -104,8 +92,6 @@ const Popup = ({ closePopup }) => {
                 First Name
               </label>
             </div>
-          )}
-          {isSubmitted ? null : (
             <div className="formInput">
               <input
                 id="contactInput"
@@ -123,8 +109,6 @@ const Popup = ({ closePopup }) => {
                 Last Name
               </label>
             </div>
-          )}
-          {isSubmitted ? null : (
             <div className="formInput">
               <input
                 id="contactInput"
@@ -142,16 +126,27 @@ const Popup = ({ closePopup }) => {
                 Email
               </label>
             </div>
-          )}
-          {isSubmitted ? null : (
             <div className="popupSubmit_cont">
-              <button type="submit" className="popupSubmit" disabled={isLoading}>
+              <button
+                type="submit"
+                className="popupSubmit"
+                disabled={isLoading}
+              >
                 {isLoading ? "Submitting..." : "Submit"}
               </button>
             </div>
-          )}
-        </form>
-      </div>
+          </form>
+        </div>
+      ) : (
+        <div className="success_message">
+          <div className="cancelBtn_popup">
+            <span onClick={closePopup}>close</span>
+          </div>
+          <span>
+            Thank you for submitting the form! We will be in touch soon.
+          </span>
+        </div>
+      )}
     </>
   );
 };

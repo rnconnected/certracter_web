@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import "@/styles/footer.css";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -58,18 +59,18 @@ const Footer = () => {
         <div className="footer_socials">
           <div className="socials_h">Follow Us</div>
           <div className="footerSocial_items">
-            <div className="social_item">
+            <Link href={"#"} className="social_item">
               <Icon icon="logos:facebook" id="f_icon" />
               <span>Facebook</span>
-            </div>
-            <div className="social_item">
+            </Link>
+            <Link href={"#"} className="social_item">
               <Icon icon="devicon:twitter" id="f_icon" />
               <span>Twitter</span>
-            </div>
-            <div className="social_item">
+            </Link>
+            <Link href={"#"} className="social_item">
               <Icon icon="skill-icons:instagram" id="f_icon" />
               <span>Instagram</span>
-            </div>
+            </Link>
           </div>
         </div>
 

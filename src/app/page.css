@@ -356,11 +356,14 @@
     align-items: center;
     justify-content: center;
     gap: -1rem;
-    padding: 2rem 0;
+    padding: 2rem 2rem;
+    flex-wrap: wrap;
 }
 
 .starter_card {
-    width: clamp(15rem, 30vw, 27rem);
+    /* width: clamp(15rem, 30vw, 27rem); */
+    min-width: 23rem;
+    max-width: 27rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -431,7 +434,9 @@
 }
 
 .professional_card {
-    width: clamp(15rem, 30vw, 27rem);
+    /* width: clamp(15rem, 30vw, 27rem); */
+    min-width: 25rem;
+    max-width: 27rem;
     min-height: 37rem;
     display: flex;
     flex-direction: column;
@@ -444,7 +449,9 @@
 }
 
 .enterprise_card {
-    width: clamp(15rem, 30vw, 27rem);
+    /* width: clamp(15rem, 30vw, 27rem); */
+    min-width: 25rem;
+    max-width: 27rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -695,9 +702,11 @@
     .starter_card,
     .professional_card,
     .enterprise_card {
-        width: 80%;
+        width: 60%;
         border-radius: 1.5rem;
     }
+
+
 
     .features_card_btn_cont {
         display: flex;
@@ -845,6 +854,20 @@
     .contactForm {
         width: 100%;
     }
+}
 
+@media only screen and (max-width: 83rem) {
+    .subscription_section {
+        gap: 2rem;
+    }
 
+    .professional_card {
+        min-height: 35rem;
+    }
+
+    .professional_card,
+    .starter_card,
+    .enterprise_card {
+        border-radius: 1rem;
+    }
 }

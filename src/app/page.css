@@ -7,6 +7,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 clamp(.5rem, 2vw, 2rem);
+    position: relative;
 }
 
 .h_logo {
@@ -626,4 +627,20 @@
     z-index: 10;
 }
 
-/* this is mobile responsive view */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: 2rem;
+    color: #591A8F;
+}
+
+/* this is mobile responsive view  xxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
+@media only screen and (max-width: 35rem) {
+    .navbar_right {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+}

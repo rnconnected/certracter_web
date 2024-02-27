@@ -7,6 +7,7 @@ import "./page.css";
 import Link from "next/link";
 import Footer from "@/components/footer";
 import Popup from "@/components/popup";
+import Dropdown from "@/components/dropDown";
 
 const trustees = [
   {
@@ -170,6 +171,10 @@ const Home = () => {
             width={500}
           />
         </Link>
+        <div className="hamburger">
+          <Icon icon="solar:hamburger-menu-outline" />
+        </div>
+        <Dropdown handlePopup={handlePopup} />
         <div className="navbar_right">
           <Link href={"/about"} id="about_btn">
             About Us

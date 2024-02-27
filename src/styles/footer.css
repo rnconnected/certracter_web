@@ -34,7 +34,7 @@
     display: flex;
     align-items: center;
     gap: .5rem;
-    font-size: clamp(1rem, 3vw, 1.1rem);
+    font-size: clamp(.9rem, 3vw, 1.1rem);
 }
 
 .footerEmailCont {

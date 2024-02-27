@@ -174,18 +174,18 @@ const Home = () => {
           <Link href={"/about"} id="about_btn">
             About Us
           </Link>
-          <Link href={"/signup"} id="signup_btn">
+          <div id="signup_btn" onClick={handlePopup}>
             Create an account
-          </Link>
+          </div>
           {/* <Link href={"/signin"} id="signin_btn">
             Login
           </Link> */}
           <div id="signin_btn" onClick={handlePopup}>
             Login
           </div>
-          <Link href={"/download"} id="download_btn">
+          <div id="download_btn" onClick={handlePopup}>
             Download App
-          </Link>
+          </div>
         </div>
       </div>
       {showPopup ? (
@@ -204,7 +204,7 @@ const Home = () => {
             Efficiently manage all your Certifications and Credentials in one
             place - Spend less time on Paperwork, more time on what you do best.
           </div>
-          <div className="infoTxt_btn">Get Early Access</div>
+          <div className="infoTxt_btn" onClick={handlePopup}>Get Early Access</div>
         </div>
         <div className="header_img">
           <Image

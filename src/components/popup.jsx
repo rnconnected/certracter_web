@@ -84,6 +84,7 @@ const Popup = ({ closePopup }) => {
           </div>
           {isSubmitted ? null : (
             <div className="popupForm_h">Register to be a Beta Tester</div>
+            
           )}
           {isSubmitted ? null : (
             <div className="formInput">

@@ -7,7 +7,6 @@ import "./page.css";
 import Link from "next/link";
 import Footer from "@/components/footer";
 import Popup from "@/components/popup";
-import Dropdown from "@/components/dropDown";
 
 const trustees = [
   {
@@ -171,26 +170,22 @@ const Home = () => {
             width={500}
           />
         </Link>
-        <div className="hamburger">
-          <Icon icon="solar:hamburger-menu-outline" />
-        </div>
-        <Dropdown handlePopup={handlePopup} />
         <div className="navbar_right">
           <Link href={"/about"} id="about_btn">
             About Us
           </Link>
-          <div id="signup_btn" onClick={handlePopup}>
+          <Link href={"/#"} id="signup_btn" onClick={handlePopup}>
             Create an account
-          </div>
-          {/* <Link href={"/signin"} id="signin_btn">
+          </Link>
+          <Link href={"/#"} id="signin_btn" onClick={handlePopup}>
             Login
-          </Link> */}
-          <div id="signin_btn" onClick={handlePopup}>
+          </Link>
+          {/* <div id="signin_btn" onClick={handlePopup}>
             Login
-          </div>
-          <div id="download_btn" onClick={handlePopup}>
+          </div> */}
+          <Link href={"/#"} id="download_btn" onClick={handlePopup}>
             Download App
-          </div>
+          </Link>
         </div>
       </div>
       {showPopup ? (
@@ -209,7 +204,7 @@ const Home = () => {
             Efficiently manage all your Certifications and Credentials in one
             place - Spend less time on Paperwork, more time on what you do best.
           </div>
-          <div className="infoTxt_btn" onClick={handlePopup}>Get Early Access</div>
+          <div className="infoTxt_btn">Get Early Access</div>
         </div>
         <div className="header_img">
           <Image

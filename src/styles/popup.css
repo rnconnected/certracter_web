@@ -22,7 +22,6 @@
     border-bottom-right-radius: 1rem;
     display: flex;
     align-items: center;
-    /* justify-content: center; */
     flex-direction: column;
 }
 
@@ -110,6 +109,13 @@
     border-radius: 1rem;
 }
 
+#download_btn_pop span {
+    background-color: blueviolet;
+    color: white;
+    padding: .5rem;
+    border-radius: .2rem;
+}
+
 /* this is the responsive view section */
 @media only screen and (max-width: 50rem) {
     .popup_cont {
@@ -123,7 +129,6 @@
 
     .popupForm {
         width: 100%;
+        border-radius: 1rem;
     }
-
-
 }

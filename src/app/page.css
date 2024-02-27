@@ -94,6 +94,7 @@
 .trustees_cont {
     display: flex;
     align-items: center;
+    gap: .5rem;
     justify-content: space-evenly;
 }
 
@@ -135,7 +136,7 @@
 }
 
 .group_img_img {
-    width: clamp(26rem, 60vw, 60rem);
+    width: clamp(22rem, 60vw, 60rem);
     height: calc(100% - 5rem);
 }
 
@@ -786,6 +787,11 @@
     .features_b {
         font-size: 1rem;
         text-align: center;
+    }
+
+    .feature_img {
+        width: 75%;
+        margin-top: 1rem;
     }
 
     .compliant_cont {

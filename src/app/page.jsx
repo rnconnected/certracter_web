@@ -234,7 +234,7 @@ const Home = () => {
       </section>
 
       <section className="trustees">
-        <div className="trustees_h">Trusted by</div>
+        <div className="trustees_h">Trusted by professionals from</div>
         <marquee behavior="scroll" direction="">
           <div className="trustees_cont">
             {trustees.map((trustee, index) => (

@@ -15,8 +15,13 @@ const Dropdown = ({ handlePopup }) => {
         <div onClick={handlePopup} className="dropDown_link">
           Login
         </div>
-        <Link href={"/#"} onClick={handlePopup} className="dropDown_link">
-          Download App
+        <Link
+          href={"/#"}
+          onClick={handlePopup}
+          className="dropDown_link"
+          id="download_btn_pop"
+        >
+          <span>Download App</span>
         </Link>
       </div>
     </>

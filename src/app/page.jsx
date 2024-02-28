@@ -157,7 +157,7 @@ const faq_data = [
       "CerTracker offers different subscription models, including a basic free version with core functionalities, and premium plans that provide additional features for advanced users.",
   },
   {
-    question: "IHow do I get started with CerTracker?",
+    question: "How do I get started with CerTracker?",
     answer:
       "Simply download the app from your respective app store or go to our website, sign up for an account, and follow the intuitive setup process to begin managing your certifications.",
   },

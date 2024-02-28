@@ -9,7 +9,7 @@ const Dropdown = ({ handlePopup }) => {
         <Link href={"/about"} className="dropDown_link">
           About Us
         </Link>
-        <Link href={"/signup"} className="dropDown_link">
+        <Link href={"#"} className="dropDown_link" onClick={handlePopup}>
           Create an account
         </Link>
         <div onClick={handlePopup} className="dropDown_link">

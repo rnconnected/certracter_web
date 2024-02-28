@@ -14,10 +14,13 @@
     gap: 1rem;
 }
 
+.smallScreen_msg {
+    display: none;
+}
+
 .popupForm {
     width: 50%;
     background-color: #E0CBF2;
-    min-height: 30rem;
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
     display: flex;
@@ -27,7 +30,7 @@
 
 .msg_h,
 .popupForm_h {
-    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    font-size: clamp(1.1rem, 3vw, 1.7rem);
     color: blueviolet;
     font-weight: 600;
 }
@@ -120,6 +123,11 @@
 @media only screen and (max-width: 50rem) {
     .popup_cont {
         flex-direction: column;
+        width: 95%;
+    }
+
+    .popupForm_h {
+        margin-bottom: .5rem;
     }
 
     .popup_message {
@@ -129,6 +137,61 @@
 
     .popupForm {
         width: 100%;
-        border-radius: 1rem;
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 1rem;
+        padding: 1rem 0;
     }
+
+    .closeCont {
+        margin: 0;
+    }
+
+    .smallScreen_msg {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        font-size: .9rem;
+        padding-bottom: 1rem;
+    }
+
+    .regardFrom,
+    .msg_closingMsg,
+    .msg_b,
+    .msg_h {
+        padding: 0 .5rem;
+    }
+
+    form .formInput {
+        width: 80%;
+        margin: .5rem;
+    }
+
+    .closeCont_small {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        margin: 0;
+    }
+
+    .closeCont_small .closePopUp {
+        background-color: blueviolet;
+        color: white;
+        font-size: 1rem;
+        padding: .3rem .5rem;
+    }
+
+    .closeCont {
+        display: none;
+    }
+
+    .popupSubmit_cont {
+        width: 80%;
+    }
+
+    .popupSubmit {
+        padding: .3rem .5rem;
+        font-size: 1rem;
+    }
+
 }

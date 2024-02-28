@@ -67,6 +67,32 @@ const Popup = ({ closePopup }) => {
             </div>
           </div>
 
+          <div className="smallScreen_msg">
+            <div className="closeCont_small">
+              <div className="closePopUp" onClick={closePopup}>
+                Close
+              </div>
+            </div>
+            <div className="msg_h">
+              Thank you for expressing interest in CerTracker!
+            </div>
+            <div className="msg_b">
+              CerTracker is presently in an exclusive invite-only phase,
+              allowing a select few the opportunity for early access to our
+              innovative platform. Join the queue to get invited as spots become
+              available.
+            </div>
+            <div className="msg_closingMsg">
+              {
+                "We're stoked you're interested and can't thank you enough for your patience!"
+              }
+            </div>
+            <div className="regardFrom">
+              <span>Catch you on the flip side,,</span>
+              <span>The CerTracker Team.</span>
+            </div>
+          </div>
+
           {/* Form section */}
           <form onSubmit={handleSubmit} className="popupForm" method="post">
             <div className="closeCont">

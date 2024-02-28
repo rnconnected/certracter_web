@@ -669,6 +669,7 @@
     background-color: rgba(107, 31, 172, 0.90);
     width: 100%;
     min-height: 100vh;
+    overflow-y: scroll;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -685,6 +686,11 @@
 
 
 @media only screen and (max-width: 50rem) {
+    .popup_glass {
+        padding: 1rem 0;
+        align-items: flex-start;
+    }
+
     .contactImg_cont {
         width: 30%;
     }

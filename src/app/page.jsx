@@ -286,9 +286,9 @@ const Home = () => {
           Start Simplifying Your Certification Management Today
         </div>
         <div className="group_img-b">
-          CerTtracker provides a secure and user-friendly platform that
-          streamlines the certification management process. Spend less time on
-          Paperwork, more time on what you do best.
+          Ensure your professional credentials never sideline your opportunities
+          again. With CerTracker, securely store, manage, and share all your
+          credentials seamlessly in one convenient location.
         </div>
         <div className="group_img_img">
           <Image

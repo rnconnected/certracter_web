@@ -62,13 +62,13 @@
 
 .infoTxt_h {
     color: #591A8F;
-    font-size: clamp(1.3rem, 3vw, 2.5rem);
-    font-weight: 500;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 600;
 }
 
 .infoTxt_b {
-    color: #EE5F74;
-    font-size: clamp(1.2rem, 3vw, 1.65rem);
+    color: black;
+    font-size: clamp(1.1rem, 3vw, 1.65rem);
     font-weight: 400;
 }
 

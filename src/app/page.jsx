@@ -109,34 +109,63 @@ const enterprise_features = [
 
 const faq_data = [
   {
-    question: "How do I subscribe to CerTracker?",
+    question: "What is CerTracker?",
     answer:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque sapiente minima quidem delectus consequuntur eius fugit ab provident optio quo. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, nemo.",
+      "CerTracker is a dedicated platform designed to assist healthcare professionals in managing and tracking their certifications, licensures, and essential documents. It ensures timely renewals and compliance with healthcare regulations.",
   },
   {
-    question: "What payment methods do you accept?",
+    question: "Who can benefit from using CerTracker? ",
     answer:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Itaque sapiente minima quidem delectus consequuntur eius fugit ab provident optio quo. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, nemo.",
+      "CerTracker is ideal for nurses, doctors, and other healthcare workers who need to maintain various professional certifications and want a hassle-free way to manage them.",
   },
   {
-    question: "What is your refund policy?",
+    question: "How does CerTracker remind me of my certification renewals?",
     answer:
-      "sapiente minima quidem delectus consequuntur eius fugit ab provident optio quo. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, nemo",
+      " CerTracker uses an automated alert system that notifies you well in advance of your certification expiration dates, giving you ample time to prepare and renew.",
   },
   {
-    question: "How can I upgrade or cancel my subscription?",
+    question:
+      "Is my personal and professional information secure with CerTracker? ",
     answer:
-      "sapiente minima quidem delectus consequuntur eius fugit ab provident optio quo. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, nemo",
+      "Yes, CerTracker employs advanced encryption and security measures to ensure that all your data is securely stored and protected against unauthorized access.",
   },
   {
-    question: "Can I change my plan later?",
+    question: " Can I access CerTracker on multiple devices? ",
     answer:
-      "sapiente minima quidem delectus consequuntur eius fugit ab provident optio quo. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, nemo",
+      "Yes, CerTracker is designed to work across multiple devices, allowing you to manage your certifications seamlessly whether you're on a computer, tablet, or smartphone.",
   },
   {
-    question: "Who can I contact if I have more questions?",
+    question: "How does CerTracker help with the actual renewal process?",
     answer:
-      "sapiente minima quidem delectus consequuntur eius fugit ab provident optio quo. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, nemo",
+      "While CerTracker does not renew certifications on your behalf, it provides you with timely reminders and direct links to the necessary resources to complete your renewals.",
+  },
+  {
+    question:
+      "What if I have certifications from different states or countries?",
+    answer:
+      "CerTracker is equipped to handle certifications from various jurisdictions, and you can customize the app settings to align with specific regional requirements.",
+  },
+  {
+    question:
+      "How can I share my certifications with my employer or regulatory bodies? ",
+    answer:
+      "CerTracker offers a secure sharing feature that allows you to send your credentials directly from the app to any requested parties via email or other integrated platforms.",
+  },
+  {
+    question: "Is there a fee to use CerTracker? ",
+    answer:
+      "CerTracker offers different subscription models, including a basic free version with core functionalities, and premium plans that provide additional features for advanced users.",
+  },
+  {
+    question: "IHow do I get started with CerTracker?",
+    answer:
+      "Simply download the app from your respective app store or go to our website, sign up for an account, and follow the intuitive setup process to begin managing your certifications.",
+  },
+  {
+    question:
+      "What kind of support does CerTracker offer if I encounter issues? ",
+    answer:
+      "CerTracker provides comprehensive support through an in-app help center, email support, and an extensive online knowledge base to assist with any questions or issues.",
   },
 ];
 

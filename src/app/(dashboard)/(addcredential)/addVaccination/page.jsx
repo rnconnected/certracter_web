@@ -1,13 +1,105 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@/components/dashboard/header";
 import "@/styles/dashboard/addCert.css";
 import "@/styles/dashboard/addLicense.css";
 import AddImage from "@/components/dashboard/addImage";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
+import { firestore } from "@/app/firebase/config";
+import { collection, serverTimestamp, doc, setDoc } from "firebase/firestore";
+import { useAuth } from "@/app/hooks/useAuth";
+import Loading from "@/components/loading";
+import { useRouter } from "next/navigation";
+import Loading2 from "@/components/loading2";
 
 const AddVaccination = () => {
+  const router = useRouter();
+  const [vaccineType, setVaccineType] = useState("");
+  const [vaccineManufacturer, setVaccineManufacturer] = useState("");
+  const [lotNumber, setLotNumber] = useState("");
+  const [issueDate, setIssueDate] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [timeStamp, setTimeStamp] = useState(serverTimestamp());
+  const [backImage, setBackImage] = useState(null);
+  const [frontImage, setFrontImage] = useState(null);
+  const [privateNote, setPrivateNote] = useState("");
+  const { user, loading } = useAuth();
+  const [loading2, setLoading2] = useState(false);
+
+  const handleFrontImage = (selectedImage) => {
+    setFrontImage(selectedImage);
+  };
+
+  const handleBackImage = (selectedImage) => {
+    setBackImage(selectedImage);
+  };
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/signin");
+    }
+  }, [loading, router, user]);
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <Loading />
+      </div>
+    );
+  }
+
+  const generateUniqueCredentialsId = () => {
+    const timestamp = Date.now().toString();
+    return timestamp;
+  };
+
+  const saveVaccination = async () => {
+    setLoading2(true);
+    if (!user) {
+      alert("User is not authenticated.");
+      return;
+    }
+    if (!vaccineType || !vaccineManufacturer || !lotNumber) {
+      alert("Please fill in all the required fields.");
+      setLoading2(false);
+      return;
+    }
+    const credentialsId = generateUniqueCredentialsId();
+    const docRef = doc(collection(firestore, "Vaccination"), credentialsId);
+    await setDoc(docRef, {
+      Title: vaccineType,
+      backImageUrl: backImage,
+      frontImageUrl: frontImage,
+      vaccineExpiryDate: expiryDate,
+      vaccineIssueDate: issueDate,
+      vaccineLotNumber: lotNumber,
+      vaccinePrivateNote: privateNote,
+      timestamp: timeStamp,
+      userId: user.uid,
+      vaccineType: vaccineType,
+      vaccineManufacturer: vaccineManufacturer,
+    })
+      .then(() => {
+        setCredentialName("");
+        setRecordNumber("");
+        setIssueDate("");
+        setExpiryDate("");
+        setFirstReminder("");
+        setSecondReminder("");
+        setFinalReminder("");
+        setPrivateNote("");
+        setBackImage("");
+        setFrontImage("");
+        alert("Credential added successfully!");
+        router.push("/home");
+      })
+      .finally(() => setLoading2(false))
+      .catch((error) => {
+        console.error("Error adding credential:", error);
+      });
+  };
+
   return (
     <>
       <Header />

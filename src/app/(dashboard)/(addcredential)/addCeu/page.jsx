@@ -6,10 +6,12 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import AddImage from "@/components/dashboard/addImage";
 import { firestore } from "@/app/firebase/config";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, serverTimestamp, setDoc, doc } from "firebase/firestore";
 import { useAuth } from "@/app/hooks/useAuth";
 import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
+import Loading2 from "@/components/loading2";
+
 const AddCeu = () => {
   const router = useRouter();
   const [programTitle, setProgramTitle] = useState("");
@@ -24,6 +26,7 @@ const AddCeu = () => {
   const [frontImage, setFrontImage] = useState(null);
   const [timeStamp, setTimeStamp] = useState(serverTimestamp());
   const { user, loading } = useAuth();
+  const [loading2, setLoading2] = useState(false);
 
   const handleFrontImage = (selectedImage) => {
     setFrontImage(selectedImage);
@@ -47,13 +50,27 @@ const AddCeu = () => {
     );
   }
 
+  const generateUniqueCredentialsId = () => {
+    const timestamp = Date.now().toString();
+    return timestamp;
+  };
+
   // this is the save credential function
   const handleSaveCeu = async () => {
+    setLoading2(true);
     if (!user) {
       alert("User is not authenticated.");
       return;
     }
-    await addDoc(collection(firestore, "CEU"), {
+
+    if (!programTitle || !providerName || !contactHours) {
+      alert("Please fill in all the required fields.");
+      setLoading2(false);
+      return;
+    }
+    const credentialsId = generateUniqueCredentialsId();
+    const docRef = doc(collection(firestore, "CEU"), credentialsId);
+    await setDoc(docRef, {
       Title: programTitle,
       ceuProviderName: providerName,
       ceuCompletionDate: endDate,
@@ -67,8 +84,7 @@ const AddCeu = () => {
       timestamp: timeStamp,
       userId: user.uid,
     })
-      .then((docRef) => {
-        console.log("Credential added successfully with ID: ", docRef.id);
+      .then(() => {
         setProgramTitle("");
         setProviderName("");
         setEndDate("");
@@ -81,6 +97,7 @@ const AddCeu = () => {
         alert("Credential added successfully!");
         router.push("/home");
       })
+      .finally(() => setLoading2(false))
       .catch((error) => {
         console.error("Error adding credential:", error);
       });
@@ -205,7 +222,7 @@ const AddCeu = () => {
             ></textarea>
           </section>
           <div className="saveBtn" onClick={handleSaveCeu}>
-            Save Credential
+            {loading2 ? <Loading2 /> : "Save Credential"}
           </div>
         </div>
       </div>

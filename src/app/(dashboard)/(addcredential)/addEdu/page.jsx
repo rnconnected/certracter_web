@@ -7,7 +7,7 @@ import AddImage from "@/components/dashboard/addImage";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import { firestore } from "@/app/firebase/config";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, serverTimestamp, setDoc, doc } from "firebase/firestore";
 import { useAuth } from "@/app/hooks/useAuth";
 import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
@@ -48,19 +48,25 @@ const AddEdu = () => {
     );
   }
 
+  const generateUniqueCredentialsId = () => {
+    const timestamp = Date.now().toString();
+    return timestamp;
+  };
   const handleSaveEdu = async () => {
     setLoading2(true);
     if (!user) {
       alert("User is not authenticated.");
       return;
     }
-    if (!institutionName || !field || !degree || !graduationDate) {
+    if (!institutionName || !field || !degree) {
       alert("Please fill in all the required fields.");
       setLoading2(false);
       return;
     }
-    await addDoc(collection(firestore, "Education"), {
-      title: institutionName,
+    const credentialsId = generateUniqueCredentialsId();
+    const docRef = doc(collection(firestore, "Education"), credentialsId);
+    await setDoc(docRef, {
+      Title: institutionName,
       educationField: field,
       educationDegree: degree,
       graduationDate: graduationDate,
@@ -71,8 +77,7 @@ const AddEdu = () => {
       timestamp: timeStamp,
       userId: user.uid,
     })
-      .then((docRef) => {
-        console.log("Credential added successfully with ID: ", docRef.id);
+      .then(() => {
         setInstitutionName("");
         setField("");
         setDegree("");

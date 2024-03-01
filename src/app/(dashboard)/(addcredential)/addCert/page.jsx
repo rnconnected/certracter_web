@@ -6,13 +6,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import AddImage from "@/components/dashboard/addImage";
 import { firestore } from "@/app/firebase/config";
-import {
-  collection,
-  addDoc,
-  serverTimestamp,
-  doc,
-  setDoc,
-} from "firebase/firestore";
+import { collection, serverTimestamp, doc, setDoc } from "firebase/firestore";
 import { useAuth } from "@/app/hooks/useAuth";
 import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
@@ -24,9 +18,9 @@ const AddCert = () => {
   const [recordNumber, setRecordNumber] = useState("");
   const [issueDate, setIssueDate] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
-  const [firstReminder, setFirstReminder] = useState("");
-  const [secondReminder, setSecondReminder] = useState("");
-  const [finalReminder, setFinalReminder] = useState("");
+  // const [firstReminder, setFirstReminder] = useState("");
+  // const [secondReminder, setSecondReminder] = useState("");
+  // const [finalReminder, setFinalReminder] = useState("");
   const [privateNote, setPrivateNote] = useState("");
   const [backImage, setBackImage] = useState("");
   const [frontImage, setFrontImage] = useState("");
@@ -67,7 +61,7 @@ const AddCert = () => {
       alert("User is not authenticated.");
       return;
     }
-    if (!credentialName || !recordNumber || !issueDate) {
+    if (!credentialName) {
       alert("Please fill in all the required fields.");
       setLoading2(false);
       return;
@@ -89,7 +83,6 @@ const AddCert = () => {
       userId: user.uid,
     })
       .then(() => {
-        console.log("Credential added successfully with ID: ", credentialsId);
         setCredentialName("");
         setRecordNumber("");
         setIssueDate("");

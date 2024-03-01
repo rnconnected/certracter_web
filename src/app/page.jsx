@@ -8,6 +8,7 @@ import Link from "next/link";
 import Footer from "@/components/footer";
 import Popup from "@/components/popup";
 import Dropdown from "@/components/dropDown";
+import Navbar from "@/components/navbar";
 
 const trustees = [
   {
@@ -191,9 +192,10 @@ const Home = () => {
     newData[index].showAnswer = !newData[index].showAnswer;
     setFaqData(newData);
   };
-  return (
+  return ( 
     <>
-      <div className="navbar">
+      <Navbar handlePopup={handlePopup} showDropdown={showDropdown} />
+      {/* <div className="navbar">
         <Link href={"/home"} className="h_logo">
           <Image
             src={"/images/h_logo.png"}
@@ -230,7 +232,7 @@ const Home = () => {
             Download App
           </Link>
         </div>
-      </div>
+      </div> */}
       {showPopup ? (
         <div className="popup_glass">
           <Popup closePopup={closePopup} showPopup={showPopup} />

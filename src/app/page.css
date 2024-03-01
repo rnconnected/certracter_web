@@ -625,6 +625,8 @@
     position: relative;
     margin: 1rem 0;
     width: 65%;
+    background-color: transparent;
+    z-index: 0;
 }
 
 #contactInput {
@@ -642,7 +644,7 @@
     bottom: 5px;
     transition: transform 0.2s ease, font-size 0.2s ease, bottom 0.2s ease;
     color: #9239B2;
-    z-index: 0;
+    z-index: -1;
 }
 
 .active+#contactLabel,

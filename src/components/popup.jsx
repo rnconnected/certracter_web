@@ -102,7 +102,7 @@ const Popup = ({ closePopup }) => {
                 Close
               </div>
             </div>
-            <div className="popupForm_h">Register to be a Beta Tester</div>
+            <div className="popupForm_h">Register to Join the Queue</div>
             <div className="formInput">
               <input
                 id="contactInput"

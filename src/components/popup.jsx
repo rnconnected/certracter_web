@@ -4,6 +4,7 @@ import "@/styles/popup.css";
 const Popup = ({ closePopup }) => {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -135,6 +136,25 @@ const Popup = ({ closePopup }) => {
                 Last Name
               </label>
             </div>
+
+            <div className="formInput">
+              <input
+                id="contactInput"
+                type="tel"
+                name="phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className={phone ? "active" : ""}
+              />
+              <label
+                htmlFor="fullNameInput"
+                className={phone || phone === "" ? "" : "rest"}
+                id="contactLabel"
+              >
+                Phone Number
+              </label>
+            </div>
+
             <div className="formInput">
               <input
                 id="contactInput"

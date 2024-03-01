@@ -189,8 +189,13 @@ const Popup = ({ closePopup }) => {
           <div className="cancelBtn_popup">
             <span onClick={closePopup}>close</span>
           </div>
+          <span className="headsUp">Heads Up: </span>
+          <br />
           <span>
-            Thank you for submitting the form! We will be in touch soon.
+            Watch your inbox for a special invitation to join CerTracker, coming
+            your way soon. To ensure you do not miss it, add us to your trusted
+            contacts and provide your phone number to monitor your
+            place in the queue.
           </span>
         </div>
       )}

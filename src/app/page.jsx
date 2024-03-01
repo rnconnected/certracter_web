@@ -251,8 +251,8 @@ const Home = () => {
             ease.
           </div>
           <div className="infoTxt_b">
-            Efficiently manage all your Certifications and Credentials in one
-            place - Spend less time on Paperwork, more time on what you do best.
+            Efficiently manage all your certifications and credentials in one
+            place - Spend less time on paperwork, more time on what you do best.
           </div>
           <div className="infoTxt_btn" onClick={handlePopup}>
             Get Early Access
@@ -313,7 +313,7 @@ const Home = () => {
           <div className="feature_info">
             <div className="features_h">Centralized Document Management</div>
             <div className="features_b">
-              CerTracker offers a Centralized platform where healthcare
+              CerTracker offers a centralized platform where healthcare
               professionals can easily manage their certifications, track
               renewal deadlines, and store important documents securely in the
               cloud. This significantly reduces the time and effort spent on
@@ -456,7 +456,9 @@ const Home = () => {
             </div>
           </div>
           <div className="features_card_btn_cont">
-            <div className="features_card_btn">Sign up, it's free</div>
+            <div className="features_card_btn" onClick={handlePopup}>
+              Sign up, it's free
+            </div>
           </div>
         </div>
 
@@ -480,7 +482,9 @@ const Home = () => {
             </div>
           </div>
           <div className="features_card_btn_cont">
-            <div className="features_card_btn">Sign up</div>
+            <div className="features_card_btn" onClick={handlePopup}>
+              Sign up
+            </div>
           </div>
         </div>
 
@@ -504,7 +508,9 @@ const Home = () => {
             </div>
           </div>
           <div className="features_card_btn_cont">
-            <div className="features_card_btn">Contact Us</div>
+            <div className="features_card_btn" onClick={handlePopup}>
+              Contact Us
+            </div>
           </div>
         </div>
       </section>

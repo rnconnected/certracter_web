@@ -106,6 +106,13 @@
     color: white;
 }
 
+.headsUp{
+    font-size: larger;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: blueviolet;
+}
+
 .cancelBtn_popup span {
     width: fit-content;
     padding: .3rem .5rem;

@@ -192,9 +192,13 @@ const Home = () => {
     newData[index].showAnswer = !newData[index].showAnswer;
     setFaqData(newData);
   };
-  return ( 
+  return (
     <>
-      <Navbar handlePopup={handlePopup} showDropdown={showDropdown} />
+      <Navbar
+        handlePopup={handlePopup}
+        showDropdown={showDropdown}
+        setShowDropdown={setShowDropdown}
+      />
       {/* <div className="navbar">
         <Link href={"/home"} className="h_logo">
           <Image

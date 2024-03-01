@@ -29,7 +29,9 @@ const navbar = ({ showDropdown, setShowDropdown, handlePopup }) => {
           ) : (
             <Icon
               icon="solar:hamburger-menu-outline"
-              onClick={() => setShowDropdown(true)}
+              onClick={() => {
+                setShowDropdown(true);
+              }}
             />
           )}
         </div>

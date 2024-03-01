@@ -25,6 +25,7 @@ const Popup = ({ closePopup }) => {
           body: new URLSearchParams({
             "first-name": fname,
             "last-name": lname,
+            "phone-number": phone,
             email: email,
           }).toString(),
         }

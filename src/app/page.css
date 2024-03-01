@@ -611,6 +611,7 @@
 .formInput {
     position: relative;
     margin-bottom: 1em;
+    background-color: transparent;
 }
 
 #formInput {
@@ -636,6 +637,7 @@
     outline: none;
     background-color: transparent;
     margin: .4rem 0;
+    z-index: 1;
 }
 
 #contactLabel {

@@ -44,6 +44,10 @@
     font-weight: 700;
 }
 
+.aboutWelcome_h span {
+    white-space: nowrap;
+}
+
 .aboutCerTracker {
     font-family: Arial, Helvetica, sans-serif;
     background: linear-gradient(#85223170, #6B1FACE5);
@@ -121,6 +125,106 @@
 }
 
 
+.ourStory_Section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: clamp(2rem, 5vw, 4rem);
+}
+
+.story_SH {
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    width: 60%;
+    text-align: center;
+}
+
+.story_SH span {
+    color: #591A8F;
+}
+
+
+.mainStory {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1.5rem;
+    margin: 1rem 0;
+}
+
+.story_txt {
+    width: 60%;
+    font-size: clamp(1rem, 3vw, 1.2rem);
+
+}
+
+.storyVid_cont {
+    width: 30%;
+}
+
+.storyVid {
+    width: 100%;
+    height: auto;
+}
+
+.closingRemark {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: clamp(1rem, 3vw, 3rem);
+}
+
+.closingRemark_h {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    width: 60%;
+    text-align: center;
+    color: #591A8F;
+}
+
+.freeTrial {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.enterEmail {
+    border-radius: .3rem;
+    display: flex;
+    align-items: center;
+    max-width: 35rem;
+    /* width: clamp(21rem, 35vw, 35rem); */
+    border: 1px solid #591A8F;
+}
+
+.enterEmail input {
+    padding: .5rem;
+    outline: none;
+    flex-grow: 1;
+}
+
+.enterEmail button {
+    background-color: #591A8F;
+    color: white;
+    padding: .5rem;
+    height: 100%;
+    text-wrap: none;
+    white-space: nowrap;
+}
+
+.ratingSection {
+    display: flex;
+    gap: .5rem;
+    margin-top: .5rem;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+}
 
 
 
@@ -147,6 +251,31 @@
     .meetTeam_b {
         text-align: center;
     }
+
+    .story_SH {
+        width: 93%;
+    }
+
+    .mainStory {
+        flex-direction: column;
+    }
+
+    .story_txt {
+        width: 93%;
+        text-align: center;
+    }
+
+    .storyVid_cont {
+        width: 90%;
+    }
+
+    .closingRemark_h {
+        width: 93%;
+    }
+
+    .freeTrial {
+        padding: 0 1rem;
+    }
 }
 
 @media only screen and (max-width: 32rem) {
@@ -157,5 +286,10 @@
     .belief_info {
         width: 90%;
         text-align: center;
+    }
+
+    .aboutWelcome_h {
+        flex-direction: column;
+        align-items: center;
     }
 }

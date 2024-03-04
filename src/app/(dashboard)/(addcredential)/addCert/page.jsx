@@ -76,9 +76,7 @@ const AddCert = () => {
       certificationNumber: recordNumber,
       certificationPrivateNote: privateNote,
       frontImageUrl: frontImage,
-      // certificationFirstReminder: firstReminder,
-      // certificationSecondReminder: secondReminder,
-      // certificationFinalReminder: finalReminder,
+
       timestamp: timeStamp,
       userId: user.uid,
     })
@@ -167,40 +165,6 @@ const AddCert = () => {
                   </div>
                 </section>
                 {/* end of the date section */}
-
-                {/* the reminder date section */}
-                <section className="reminderdate_section">
-                  <div className="addCert_Inputs3">
-                    <label htmlFor="name">First reminder</label>
-                    <input
-                      type="date"
-                      className="inputs reminderDates"
-                      onChange={(event) => setFirstReminder(event.target.value)}
-                      value={firstReminder}
-                    />
-                  </div>
-                  <div className="addCert_Inputs3">
-                    <label htmlFor="name">Second reminder</label>
-                    <input
-                      type="date"
-                      className="inputs reminderDates"
-                      onChange={(event) =>
-                        setSecondReminder(event.target.value)
-                      }
-                      value={secondReminder}
-                    />
-                  </div>
-                  <div className="addCert_Inputs3">
-                    <label htmlFor="name">Final reminder</label>
-                    <input
-                      type="date"
-                      className="inputs reminderDates"
-                      onChange={(event) => setFinalReminder(event.target.value)}
-                      value={finalReminder}
-                    />
-                  </div>
-                </section>
-                {/* end of the reminder date section */}
               </div>
 
               {/* this is the upload photo section */}

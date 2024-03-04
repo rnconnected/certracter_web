@@ -105,6 +105,59 @@ const About = () => {
         </div>
       </section>
 
+      <section className="ourStory_Section">
+        <div className="meetTeam_h">Our Story</div>
+        <div className="story_SH">
+          We recognise the difficulties
+          <span id="licSpan"> licenced professionals</span> face in juggling
+          their important jobs with managing several certificates.
+        </div>
+
+        <div className="mainStory">
+          <div className="story_txt">
+            We understand the challenges that licensed professionals encounter
+            when balancing their essential duties with the complex task of
+            overseeing numerous certifications. The struggle to stay on top of
+            renewal deadlines, maintain compliance, and manage ongoing
+            paperwork, all while upholding excellence in your crucial roles, can
+            be an overwhelming experience. At CerTracker, we have revolutionized
+            certification management for licensed professionals. With our
+            expertise in healthcare regulations and a dedicated team of experts,
+            we have streamlined certification processes, ensuring compliance and
+            up-to-date credentials. Our platform is designed based on feedback
+            from nurses, doctors, and healthcare staff, making us a trusted ally
+            in professional development. Let us help you focus on what you do
+            best
+          </div>
+          <div className="storyVid_cont">
+            <video controls className="storyVid">
+              <source src="/images/story_vid.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </section>
+
+      <section className="closingRemark">
+        <div className="closingRemark_h">
+          Join CerTracker today and experience the ease of streamlined
+          credential management
+        </div>
+        <div className="freeTrial">
+          <div className="enterEmail">
+            <input type="email" placeholder="Enter your email" />
+            <button>Start free trial</button>
+          </div>
+
+          <div className="ratingSection">
+            <Icon icon="noto:star" />
+            <Icon icon="noto:star" />
+            <Icon icon="noto:star" />
+            <Icon icon="noto:star" />
+            <Icon icon="noto:star" />| Streamline tracking | Automated Renewal
+            Alert
+          </div>
+        </div>
+      </section>
       <Footer />
     </>
   );

@@ -199,7 +199,7 @@
 }
 
 .enterEmail input {
-    padding: .5rem;
+    padding: clamp(.2rem, 1vw, .5rem);
     outline: none;
     flex-grow: 1;
 }
@@ -207,10 +207,11 @@
 .enterEmail button {
     background-color: #591A8F;
     color: white;
-    padding: .5rem;
+    padding: clamp(.2rem, 1vw, .5rem);
     height: 100%;
     text-wrap: none;
     white-space: nowrap;
+    height: 100%;
 }
 
 .ratingSection {

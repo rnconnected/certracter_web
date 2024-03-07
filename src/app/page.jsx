@@ -199,44 +199,7 @@ const Home = () => {
         showDropdown={showDropdown}
         setShowDropdown={setShowDropdown}
       />
-      {/* <div className="navbar">
-        <Link href={"/home"} className="h_logo">
-          <Image
-            src={"/images/h_logo.png"}
-            alt="logo"
-            height={500}
-            width={500}
-          />
-        </Link>
-        <div className="hamburger">
-          {showDropdown ? (
-            <Icon
-              icon="material-symbols-light:cancel-outline"
-              onClick={() => setShowDropdown(false)}
-            />
-          ) : (
-            <Icon
-              icon="solar:hamburger-menu-outline"
-              onClick={() => setShowDropdown(true)}
-            />
-          )}
-        </div>
-        {showDropdown && <Dropdown handlePopup={handlePopup} />}
-        <div className="navbar_right">
-          <Link href={"/about"} id="about_btn">
-            About Us
-          </Link>
-          <Link href={"/#"} id="signup_btn" onClick={handlePopup}>
-            Create an account
-          </Link>
-          <Link href={"/#"} id="signin_btn" onClick={handlePopup}>
-            Login
-          </Link>
-          <Link href={"/#"} id="download_btn" onClick={handlePopup}>
-            Download App
-          </Link>
-        </div>
-      </div> */}
+
       {showPopup ? (
         <div className="popup_glass">
           <Popup closePopup={closePopup} showPopup={showPopup} />

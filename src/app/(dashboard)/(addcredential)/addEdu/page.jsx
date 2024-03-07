@@ -142,7 +142,7 @@ const AddEdu = () => {
                 />
               </div>
               <div className="addEdu_Inputs1">
-                <label htmlFor="name">Expiry date (optional)</label>
+                <label htmlFor="name">Graduation date (optional)</label>
                 <input
                   type="date"
                   className="edu_inputs"

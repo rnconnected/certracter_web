@@ -18,9 +18,6 @@ const AddCert = () => {
   const [recordNumber, setRecordNumber] = useState("");
   const [issueDate, setIssueDate] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
-  // const [firstReminder, setFirstReminder] = useState("");
-  // const [secondReminder, setSecondReminder] = useState("");
-  // const [finalReminder, setFinalReminder] = useState("");
   const [privateNote, setPrivateNote] = useState("");
   const [backImage, setBackImage] = useState("");
   const [frontImage, setFrontImage] = useState("");
@@ -76,7 +73,6 @@ const AddCert = () => {
       certificationNumber: recordNumber,
       certificationPrivateNote: privateNote,
       frontImageUrl: frontImage,
-
       timestamp: timeStamp,
       userId: user.uid,
     })

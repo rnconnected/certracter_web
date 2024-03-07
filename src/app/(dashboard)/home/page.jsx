@@ -1,37 +1,27 @@
 "use client";
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@/components/dashboard/header";
 import CertTray from "@/components/dashboard/cert_tray";
 import "@/styles/dashboard/home.css";
 import { Icon } from "@iconify/react";
-import data from "@/app/db";
 import CardComponent from "@/components/dashboard/certCards";
 import SelectCard from "@/components/dashboard/selectCard";
 import { parseCookies } from "nookies";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/loading";
-import Link from "next/link";
-import getUserData from "@/app/(dashboard)/profile/profileData";
+import { firestore } from "@/app/firebase/config";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const Home = () => {
-  const [selectCardActive, setSelectCardAdctive] = useState(false);
+  const [selectCardActive, setSelectCardActive] = useState(false);
   const router = useRouter();
   const { user, loading } = useAuth();
   const [userName, setUserName] = useState("");
-
-  const allNamesAndCategories = data.flatMap((category) =>
-    category.map((credential) => ({
-      name: credential.name,
-      category: credential.category,
-      expiryDate: credential.expiryDate,
-    }))
-  );
+  const [userDocs, setUserDocs] = useState(null);
 
   const handleSelectCard = () => {
-    !selectCardActive
-      ? setSelectCardAdctive(true)
-      : setSelectCardAdctive(false);
+    setSelectCardActive(!selectCardActive);
   };
 
   useEffect(() => {
@@ -42,30 +32,48 @@ const Home = () => {
     }
   }, [user, loading, router]);
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        if (!user) return;
+        const userId = user.uid;
+        const collections = [
+          "Certification",
+          "CEU",
+          "License",
+          "Education",
+          "Others",
+          "Travel",
+          "Vaccination",
+        ];
+        const promises = collections.map(async (collectionName) => {
+          const q = query(
+            collection(firestore, collectionName),
+            where("userId", "==", userId)
+          );
+          const querySnapshot = await getDocs(q);
+          return querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            collection: collectionName,
+            ...doc.data(),
+          }));
+        });
+        const userData = await Promise.all(promises);
+        setUserDocs(userData.flat());
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [user]);
+
   if (loading) {
     return (
       <div className="loading">
         <Loading />
       </div>
     );
-  }
-
-  const fetchUserData = async () => {
-    try {
-      const userData = await getUserData(user?.uid);
-      if (userData) {
-        const userName = userData.firstName;
-        setUserName(userName);
-      } else {
-        console.error("User data not found.");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  if (user) {
-    fetchUserData();
   }
 
   if (!user) {
@@ -77,7 +85,7 @@ const Home = () => {
       <Header />
       <CertTray />
       <div className="welcomeMsg">
-        Welcome {userName}👋
+        Welcome {user.displayName.split(" ")[0]} 👋
       </div>
       <div className="searchCont">
         <div className="searchBar">
@@ -90,28 +98,24 @@ const Home = () => {
         </div>
       </div>
 
-      {/* this is the data displayed section */}
       <div className="licenseArray_Cont">
-        {data == null ? (
+        {userDocs === null ? (
           <span className="certEmptyMsg">
-            you have not added any credential
+            You have not added any credentials.
           </span>
         ) : (
-          allNamesAndCategories.map((item, index) => {
-            return (
-              <CardComponent
-                key={index}
-                name={item.name}
-                category={item.category}
-                expiryDate={item.expiryDate}
-              />
-            );
-          })
+          userDocs.map((data) => (
+            <CardComponent
+              key={data.id}
+              {...data}
+              collectionName={data.collection}
+            />
+          ))
         )}
       </div>
-      {selectCardActive ? (
-        <SelectCard handleSelectCard={handleSelectCard} />
-      ) : null}
+
+      {selectCardActive && <SelectCard handleSelectCard={handleSelectCard} />}
+
       <div className="floatbtn" onClick={handleSelectCard}>
         <Icon icon="ic:round-plus" />
       </div>

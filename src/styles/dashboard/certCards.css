@@ -15,6 +15,7 @@
     justify-content: space-evenly;
     gap: .5rem;
     padding: .5rem;
+    cursor: pointer;
 }
 
 #card_checkbox {
@@ -36,93 +37,97 @@
     color: white;
 }
 
-.viewCard_info h1 {
+.viewCard_info .h1 {
     font-size: clamp(1.1rem, 2vw, 1.6rem);
     font-weight: 600;
 }
 
-.viewCard_card.certificate .viewCard_left .viewCard_info div {
+.viewCard_info .h1:hover {
+    text-decoration: underline;
+}
+
+.viewCard_card.Certification .viewCard_left .viewCard_info div {
     color: var(--certificate-color);
 }
 
-.viewCard_card.certificate:hover .viewCard_left .viewCard_info div {
+.viewCard_card.Certification:hover .viewCard_left .viewCard_info div {
     color: white;
 }
 
-.viewCard_card.licences .viewCard_left .viewCard_info div {
+.viewCard_card.license .viewCard_left .viewCard_info div {
     color: var(--licences-color);
 }
 
-.viewCard_card.licences:hover .viewCard_left .viewCard_info div {
+.viewCard_card.license:hover .viewCard_left .viewCard_info div {
     color: white;
 }
 
-.viewCard_card.education .viewCard_left .viewCard_info div {
+.viewCard_card.Education .viewCard_left .viewCard_info div {
     color: var(--education-color);
 }
 
-.viewCard_card.education:hover .viewCard_left .viewCard_info div {
+.viewCard_card.Education:hover .viewCard_left .viewCard_info div {
     color: white;
 }
 
-.viewCard_card.travel .viewCard_left .viewCard_info div {
+.viewCard_card.Travel .viewCard_left .viewCard_info div {
     color: var(--travel-color);
 }
 
-.viewCard_card.travel:hover .viewCard_left .viewCard_info div {
+.viewCard_card.Travel:hover .viewCard_left .viewCard_info div {
     color: white;
 }
 
-.viewCard_card.ceu .viewCard_left .viewCard_info div {
+.viewCard_card.CEU .viewCard_left .viewCard_info div {
     color: var(--ceu-color);
 }
 
-.viewCard_card.ceu:hover .viewCard_left .viewCard_info div {
+.viewCard_card.CEU:hover .viewCard_left .viewCard_info div {
     color: white;
 }
 
-.viewCard_card.vaccination .viewCard_left .viewCard_info div {
+.viewCard_card.Vaccination .viewCard_left .viewCard_info div {
     color: var(--vaccination-color);
 }
 
-.viewCard_card.vaccination:hover .viewCard_left .viewCard_info div {
+.viewCard_card.Vaccination:hover .viewCard_left .viewCard_info div {
     color: white;
 }
 
-.viewCard_card.others .viewCard_left .viewCard_info div {
+.viewCard_card.Others .viewCard_left .viewCard_info div {
     color: var(--others-color);
 }
 
-.viewCard_card.others:hover .viewCard_left .viewCard_info div {
+.viewCard_card.Others:hover .viewCard_left .viewCard_info div {
     color: white;
 }
 
 /* special unit styling */
-.viewCard_card.certificate:hover {
+.viewCard_card.Certification:hover {
     background-color: var(--certificate-color);
 }
 
-.viewCard_card.travel:hover {
+.viewCard_card.Travel:hover {
     background-color: var(--travel-color);
 }
 
-.viewCard_card.licences:hover {
+.viewCard_card.License:hover {
     background-color: var(--licences-color);
 }
 
-.viewCard_card.education:hover {
+.viewCard_card.Education:hover {
     background-color: var(--education-color);
 }
 
-.viewCard_card.ceu:hover {
+.viewCard_card.CEU:hover {
     background-color: var(--ceu-color);
 }
 
-.viewCard_card.others:hover {
+.viewCard_card.Others:hover {
     background-color: var(--others-color);
 }
 
-.viewCard_card.vaccination:hover {
+.viewCard_card.Vaccination:hover {
     background-color: var(--vaccination-color);
 }
 
@@ -132,31 +137,31 @@
 
 /* another speical styling */
 
-.viewCard_imgCont.certificate {
+.viewCard_imgCont.Certification {
     background-color: var(--certificate-color);
 }
 
-.viewCard_imgCont.licences {
+.viewCard_imgCont.License {
     background-color: var(--licences-color);
 }
 
-.viewCard_imgCont.education {
+.viewCard_imgCont.Education {
     background-color: var(--education-color);
 }
 
-.viewCard_imgCont.vaccination {
+.viewCard_imgCont.Vaccination {
     background-color: var(--vaccination-color);
 }
 
-.viewCard_imgCont.travel {
+.viewCard_imgCont.Travel {
     background-color: var(--travel-color);
 }
 
-.viewCard_imgCont.ceu {
+.viewCard_imgCont.CEU {
     background-color: var(--ceu-color);
 }
 
-.viewCard_imgCont.others {
+.viewCard_imgCont.Others {
     background-color: var(--others-color);
 }
 

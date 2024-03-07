@@ -3,6 +3,7 @@ import "@/styles/dashboard/editProfile.css";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { updateDoc, doc } from "firebase/firestore";
 import { firestore } from "@/app/firebase/config";
+import Loading from "@/components/loading";
 
 const EditProfile = ({
   setEditProfile,
@@ -38,9 +39,10 @@ const EditProfile = ({
         city: editCity,
         state: editState,
         zipCode: editZipCode,
+      }).then(() => {
+        alert("Profile updated successfully");
+        setEditProfile(false);
       });
-
-      console.log("User data updated successfully");
     } catch (error) {
       console.error("Error updating user data:", error);
     }

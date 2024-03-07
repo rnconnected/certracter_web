@@ -81,16 +81,14 @@ const AddVaccination = () => {
       vaccineManufacturer: vaccineManufacturer,
     })
       .then(() => {
-        setCredentialName("");
-        setRecordNumber("");
+        setVaccineType("");
+        setLotNumber("");
         setIssueDate("");
         setExpiryDate("");
-        setFirstReminder("");
-        setSecondReminder("");
-        setFinalReminder("");
         setPrivateNote("");
         setBackImage("");
         setFrontImage("");
+        setVaccineManufacturer("");
         alert("Credential added successfully!");
         router.push("/home");
       })
@@ -118,15 +116,30 @@ const AddVaccination = () => {
             <section className="name_section">
               <div className="addLicense_Inputs1">
                 <label htmlFor="name">Type of Vaccine</label>
-                <input type="text" className="License_inputs" />
+                <input
+                  type="text"
+                  className="License_inputs"
+                  onChange={(e) => setVaccineType(e.target.value)}
+                  value={vaccineType}
+                />
               </div>
               <div className="addLicense_Inputs1">
                 <label htmlFor="name">Vaccine Manufacturer</label>
-                <input type="text" className="License_inputs" />
+                <input
+                  type="text"
+                  className="License_inputs"
+                  onChange={(e) => setVaccineManufacturer(e.target.value)}
+                  value={vaccineManufacturer}
+                />
               </div>
               <div className="addLicense_Inputs1">
                 <label htmlFor="name">Lot Number</label>
-                <input type="text" className="License_inputs" />
+                <input
+                  type="text"
+                  className="License_inputs"
+                  onChange={(e) => setLotNumber(e.target.value)}
+                  value={lotNumber}
+                />
               </div>
             </section>
             {/* end of the name section */}
@@ -135,11 +148,21 @@ const AddVaccination = () => {
             <section className="date_section">
               <div className="addLicense_inputs2">
                 <label htmlFor="name">Issue date (optional)</label>
-                <input type="date" className="License_inputs" />
+                <input
+                  type="date"
+                  className="License_inputs"
+                  onChange={(e) => setIssueDate(e.target.value)}
+                  value={issueDate}
+                />
               </div>
               <div className="addLicense_inputs2">
                 <label htmlFor="name">Expiry date (optional)</label>
-                <input type="date" className="License_inputs" />
+                <input
+                  type="date"
+                  className="License_inputs"
+                  onChange={(e) => setExpiryDate(e.target.value)}
+                  value={expiryDate}
+                />
               </div>
             </section>
             {/* end of the date section */}
@@ -150,11 +173,17 @@ const AddVaccination = () => {
           <section className="uploadPhoto_cont">
             <div className="uploadPhoto_el">
               <div className="upload_front">Front</div>
-              <AddImage id={"front_imgVaccination"} />
+              <AddImage
+                id={"front_imgVaccination"}
+                onImageSelect={handleFrontImage}
+              />
             </div>
             <div className="uploadPhoto_el">
               <div className="upload_back">Back</div>
-              <AddImage id={"back_imgVaccination"} />
+              <AddImage
+                id={"back_imgVaccination"}
+                onImageSelect={handleBackImage}
+              />
             </div>
           </section>
           <h2>Private Note</h2>
@@ -166,9 +195,13 @@ const AddVaccination = () => {
               name="privateNote"
               id="privateNote"
               className="privateNote"
+              onChange={(e) => setPrivateNote(e.target.value)}
+              value={privateNote}
             ></textarea>
           </section>
-          <div className="saveBtn">Save Credential</div>
+          <div className="saveBtn" onClick={saveVaccination}>
+            {loading2 ? <Loading2 /> : "Save Credential"}
+          </div>
         </div>
       </div>
     </>

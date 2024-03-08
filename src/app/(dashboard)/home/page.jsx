@@ -1,41 +1,32 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Header from "@/components/dashboard/header";
 import CertTray from "@/components/dashboard/cert_tray";
 import "@/styles/dashboard/home.css";
 import { Icon } from "@iconify/react";
 import CardComponent from "@/components/dashboard/certCards";
 import SelectCard from "@/components/dashboard/selectCard";
-import { parseCookies } from "nookies";
-import { useAuth } from "@/app/hooks/useAuth";
-import { useRouter } from "next/navigation";
-import Loading from "@/components/loading";
+import { useQuery, QueryClient, QueryClientProvider } from "react-query";
 import { firestore } from "@/app/firebase/config";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import Loading from "@/components/loading";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/hooks/useAuth";
 
 const Home = () => {
   const [selectCardActive, setSelectCardActive] = useState(false);
   const router = useRouter();
   const { user, loading } = useAuth();
-  const [userName, setUserName] = useState("");
-  const [userDocs, setUserDocs] = useState(null);
+  const {
+    data: userDocs,
+    isLoading,
+    isError,
+  } = useQuery(
+    "userDocs",
+    async () => {
+      if (!user) return [];
 
-  const handleSelectCard = () => {
-    setSelectCardActive(!selectCardActive);
-  };
-
-  useEffect(() => {
-    const { token } = parseCookies();
-
-    if (!user && !loading) {
-      router.push("/signin");
-    }
-  }, [user, loading, router]);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
       try {
-        if (!user) return;
         const userId = user.uid;
         const collections = [
           "Certification",
@@ -59,14 +50,18 @@ const Home = () => {
           }));
         });
         const userData = await Promise.all(promises);
-        setUserDocs(userData.flat());
+        return userData.flat();
       } catch (error) {
         console.error("Error fetching user data:", error);
+        throw new Error("Error fetching user data");
       }
-    };
+    },
+    { enabled: !!user }
+  );
 
-    fetchUserData();
-  }, [user]);
+  const handleSelectCard = () => {
+    setSelectCardActive(!selectCardActive);
+  };
 
   if (loading) {
     return (
@@ -76,8 +71,8 @@ const Home = () => {
     );
   }
 
-  if (!user) {
-    return null;
+  if (isError) {
+    return <div>Error fetching user data</div>;
   }
 
   return (
@@ -103,6 +98,8 @@ const Home = () => {
           <span className="certEmptyMsg">
             You have not added any credentials.
           </span>
+        ) : userDocs == undefined ? (
+          <Loading />
         ) : (
           userDocs.map((data) => (
             <CardComponent
@@ -123,4 +120,12 @@ const Home = () => {
   );
 };
 
-export default Home;
+const queryClient = new QueryClient();
+
+const HomeWithQueryClientProvider = () => (
+  <QueryClientProvider client={queryClient}>
+    <Home />
+  </QueryClientProvider>
+);
+
+export default HomeWithQueryClientProvider;

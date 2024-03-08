@@ -5,6 +5,7 @@ import Image from "next/image";
 import "@/styles/dashboard/certCards.css";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import CertData from "@/app/(dashboard)/certData";
 
 const CardComponent = ({
   Title,
@@ -13,6 +14,7 @@ const CardComponent = ({
   certificationExpiryDate,
   licenseExpiryDate,
   collectionName,
+  userId,
 }) => {
   const dateData = new Date(expiryDate);
   const dateData2 = new Date(certificationExpiryDate);
@@ -26,9 +28,7 @@ const CardComponent = ({
   const daysLeft2 = Math.ceil(timeDiff2 / (1000 * 60 * 60 * 24));
   const daysLeft3 = Math.ceil(timeDiff3 / (1000 * 60 * 60 * 24));
 
-  // <Link href={`/details?collection=${collectionName}&id=${id}`}>
-  //   <a>View Details</a>
-  // </Link>;
+  const handleViewCert = () => {};
 
   return (
     <div className="viewCard">
@@ -44,12 +44,7 @@ const CardComponent = ({
             />
           </div>
           <div className="viewCard_info">
-            <Link
-              href={`/viewCert?collection=${collectionName}`}
-              className="h1"
-            >
-              {Title}
-            </Link>
+            <div className="h1">{Title}</div>
             <div>{collectionName}</div>
           </div>
         </div>

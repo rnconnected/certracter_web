@@ -5,42 +5,17 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 import "@/styles/dashboard/viewCert.css";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/hooks/useAuth";
 import { getDoc, doc } from "firebase/firestore";
 import { firestore } from "@/app/firebase/config";
+import { Router } from "next/router";
 
 const ViewCert = () => {
+  const router = useRouter();
   const [documentData, setDocumentData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const { collection, id } = router.query;
 
-  useEffect(() => {
-    const fetchDocumentData = async () => {
-      try {
-        if (!collection || !id) return;
-
-        setLoading(true);
-
-        const docRef = doc(firestore, collection, id);
-        const docSnapshot = await getDoc(docRef);
-
-        if (docSnapshot.exists()) {
-          setDocumentData({ id: docSnapshot.id, ...docSnapshot.data() });
-        } else {
-          console.error("Document not found.");
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching document data:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchDocumentData();
-  }, [collection, id]);
 
   return (
     <>

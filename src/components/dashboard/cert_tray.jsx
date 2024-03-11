@@ -6,11 +6,11 @@ import Image from "next/image";
 const CertTray = () => {
   const certData = [
     { label: "All", imagePath: null, title: "" },
-    { label: null, imagePath: "/images/driver.png", title: "Licences" },
-    { label: null, imagePath: "/images/certificate.png", title: "Certificate" },
-    { label: null, imagePath: "/images/graduation.png", title: "Eduation" },
-    { label: null, imagePath: "/images/injection.png", title: "Vaccination" },
-    { label: null, imagePath: "/images/plane.png", title: "Travel documents" },
+    { label: null, imagePath: "/images/license.png", title: "Licences" },
+    { label: null, imagePath: "/images/certification.png", title: "Certificate" },
+    { label: null, imagePath: "/images/ceu.png", title: "Eduation" },
+    { label: null, imagePath: "/images/vaccination.png", title: "Vaccination" },
+    { label: null, imagePath: "/images/travel.png", title: "Travel documents" },
     {
       label: null,
       imagePath: "/images/education.png",

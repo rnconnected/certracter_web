@@ -429,7 +429,7 @@ const Home = () => {
         <div className="professional_card">
           <div className="starter_h">Professional</div>
           <div className="starter_b">
-            Ideal for profeessional managing multiple certifications
+            Ideal for professionals, managing multiple certifications
           </div>
           <div className="starter_sh">Free (for Beta Tetster )</div>
           <hr />

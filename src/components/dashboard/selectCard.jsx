@@ -4,9 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const credentialArray = [
-  { imgPath: "/images/licences.png", label: "License", url: "/addLicense" },
+  { imgPath: "/images/license.png", label: "License", url: "/addLicense" },
   {
-    imgPath: "/images/certificate.png",
+    imgPath: "/images/certification.png",
     label: "Certification",
     url: "/addCert",
   },

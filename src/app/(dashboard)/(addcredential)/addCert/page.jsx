@@ -81,9 +81,6 @@ const AddCert = () => {
         setRecordNumber("");
         setIssueDate("");
         setExpiryDate("");
-        setFirstReminder("");
-        setSecondReminder("");
-        setFinalReminder("");
         setPrivateNote("");
         setBackImage("");
         setFrontImage("");

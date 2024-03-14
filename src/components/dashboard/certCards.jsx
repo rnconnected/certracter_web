@@ -15,6 +15,8 @@ const CardComponent = ({
   licenseExpiryDate,
   collectionName,
   userId,
+  docId,
+  deleteDocument,
 }) => {
   const dateData = new Date(expiryDate);
   const dateData2 = new Date(certificationExpiryDate);
@@ -28,7 +30,7 @@ const CardComponent = ({
   const daysLeft2 = Math.ceil(timeDiff2 / (1000 * 60 * 60 * 24));
   const daysLeft3 = Math.ceil(timeDiff3 / (1000 * 60 * 60 * 24));
 
-  const handleViewCert = () => {};
+  // const handleViewCert = () => {};
 
   return (
     <div className="viewCard">
@@ -53,7 +55,14 @@ const CardComponent = ({
             <span>
               <Icon icon="solar:share-outline" />
             </span>
-            <span>
+            <span
+              onClick={() => {
+                const isConfirmed = window.confirm(
+                  "Are you sure you want to delete this document?"
+                );
+                if (isConfirmed) deleteDocument(collectionName, docId);
+              }}
+            >
               <Icon icon="material-symbols-light:delete" />
             </span>
           </div>

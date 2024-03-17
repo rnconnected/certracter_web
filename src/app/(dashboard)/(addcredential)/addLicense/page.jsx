@@ -26,9 +26,6 @@ const AddLicense = () => {
   const [issueDate, setIssueDate] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [privateNote, setPrivateNote] = useState("");
-  const [firstReminder, setFirstReminder] = useState("");
-  const [secondReminder, setSecondReminder] = useState("");
-  const [finalReminder, setFinalReminder] = useState("");
 
   const handleFrontImage = (selectedImage) => {
     setFrontImage(selectedImage);
@@ -77,12 +74,9 @@ const AddLicense = () => {
       backImageUrl: backImage,
       frontImageUrl: frontImage,
       licenseExpiryDate: expiryDate,
-      licenseFinalReminder: finalReminder,
-      licenseFirstReminder: firstReminder,
       licenseIssueDate: issueDate,
       licenseNumber: licenseNumber,
       licensePrivateNote: privateNote,
-      licenseSecondReminder: secondReminder,
       licenseState: state,
       timestamp: timeStamp,
       userId: user.uid,
@@ -93,9 +87,6 @@ const AddLicense = () => {
         setLicenseNumber("");
         setIssueDate("");
         setExpiryDate("");
-        setFirstReminder("");
-        setSecondReminder("");
-        setFinalReminder("");
         setPrivateNote("");
         setBackImage("");
         setFrontImage("");
@@ -177,38 +168,6 @@ const AddLicense = () => {
               </div>
             </section>
             {/* end of the date section */}
-
-            {/* the reminder date section */}
-            <section className="reminderdate_section">
-              <div className="addLicense_inputs3">
-                <label htmlFor="name">First reminder</label>
-                <input
-                  type="date"
-                  className="License_inputs "
-                  onChange={(e) => setFirstReminder(e.target.value)}
-                  value={firstReminder}
-                />
-              </div>
-              <div className="addLicense_inputs3">
-                <label htmlFor="name">Second reminder</label>
-                <input
-                  type="date"
-                  className="License_inputs "
-                  onChange={(e) => setSecondReminder(e.target.value)}
-                  value={secondReminder}
-                />
-              </div>
-              <div className="addLicense_inputs3">
-                <label htmlFor="name">Final reminder</label>
-                <input
-                  type="date"
-                  className="License_inputs "
-                  onChange={(e) => setFinalReminder(e.target.value)}
-                  value={finalReminder}
-                />
-              </div>
-            </section>
-            {/* end of the reminder date section */}
           </div>
 
           {/* this is the upload photo section */}

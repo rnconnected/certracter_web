@@ -1,46 +1,61 @@
 .addLicense_Inputs1,
 .addLicense_inputs3 {
-    display: flex;
-    flex-direction: column;
-    width: calc(100% / 3 - .9rem);
+  display: flex;
+  flex-direction: column;
+  width: calc(100% / 3 - 0.9rem);
 }
 
 .addLicense_inputs2 {
-    display: flex;
-    flex-direction: column;
-    width: calc(100% / 2 - .9rem);
+  display: flex;
+  flex-direction: column;
+  width: calc(100% / 2 - 0.9rem);
 }
-
 
 /* the rest of the missing style can be found in the addCert.css */
 
-
 .License_inputs {
-    border: 1px solid black;
-    width: 100%;
-    border-radius: .3rem;
-    padding: .3rem;
+  border: 1px solid black;
+  width: 100%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
 }
 
 .addLicense_inputs1 label,
 .addLicense_inputs2 label,
 .addLicense_inputs3 label {
-    color: grey;
-    font-size: clamp(.8rem, 2vw, 1rem);
+  color: grey;
+  font-size: clamp(0.8rem, 2vw, 1rem);
 }
-
 
 /* this is style is only applicablr to the addTravel document */
 .docType_Cont {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .docType_Cont span {
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: .3rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
 
+/* this is the responsive section */
+@media only screen and (max-width: 50rem) {
+  .name_section {
+    flex-direction: column;
+  }
+
+  .addLicense_Inputs1 {
+    width: calc(100% - 0.9rem);
+  }
+
+  .date_section {
+    flex-direction: column;
+  }
+
+  .addLicense_inputs2 {
+    width: calc(100% - 1rem);
+  }
 }

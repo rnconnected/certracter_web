@@ -169,20 +169,13 @@ const AddVaccination = () => {
           </div>
 
           {/* this is the upload photo section */}
-          <h2>Upload Photo</h2>
+          <h2>Upload File</h2>
           <section className="uploadPhoto_cont">
             <div className="uploadPhoto_el">
-              <div className="upload_front">Front</div>
+              {/* <div className="upload_front">Front</div> */}
               <AddImage
                 id={"front_imgVaccination"}
                 onImageSelect={handleFrontImage}
-              />
-            </div>
-            <div className="uploadPhoto_el">
-              <div className="upload_back">Back</div>
-              <AddImage
-                id={"back_imgVaccination"}
-                onImageSelect={handleBackImage}
               />
             </div>
           </section>

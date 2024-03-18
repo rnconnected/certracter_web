@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
 import "@/styles/dashboard/addImage.css";
@@ -7,20 +5,53 @@ import Image from "next/image";
 
 const AddImage = ({ id, onImageSelect }) => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [fileType, setFileType] = useState("");
 
-  const handleImageChange = (e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
 
     if (file) {
       const reader = new FileReader();
 
       reader.onload = (e) => {
-        const imageDataURL = e.target.result;
-        setSelectedImage(imageDataURL);
-        onImageSelect(imageDataURL);
+        const fileData = e.target.result;
+        setSelectedImage(fileData);
+        setFileType(file.type);
+        onImageSelect(fileData);
       };
 
       reader.readAsDataURL(file);
+    }
+  };
+
+  const renderContent = () => {
+    if (fileType.startsWith("image")) {
+      return (
+        <Image
+          src={selectedImage}
+          alt="Selected"
+          className="selected-image"
+          height={200}
+          width={200}
+        />
+      );
+    } else if (fileType === "application/pdf") {
+      return (
+        <iframe
+          src={selectedImage}
+          title="Selected PDF"
+          width="100%"
+          height="400"
+        />
+      );
+    } else {
+      return (
+        <div className="inputfile_div">
+          <Icon icon="pepicons-pencil:file" className="camera_icon" />
+          <div className="addfile_txt">Add file</div>
+          <small>Supported formats: JPEG, PNG, JPG, PDF...</small>
+        </div>
+      );
     }
   };
 
@@ -29,26 +60,13 @@ const AddImage = ({ id, onImageSelect }) => {
       <input
         type="file"
         id={id}
-        onChange={handleImageChange}
+        onChange={handleFileChange}
         style={{ display: "none" }}
       />
 
       <label htmlFor={id} className="inputfile_label">
-        {selectedImage ? (
-          <Image
-            src={selectedImage}
-            alt="Selected"
-            className="selected-image"
-            height={200}
-            width={200}
-          />
-        ) : (
-          <div className="inputfile_div">
-            <Icon icon="ph:camera-light" className="camera_icon" />
-            <div className="addfile_txt">Add image</div>
-            <small>Supported formats: JPEG, PNG, JPG</small>
-          </div>
-        )}
+        <span>Change file</span>
+        {selectedImage ? renderContent() : renderContent()}
       </label>
     </div>
   );

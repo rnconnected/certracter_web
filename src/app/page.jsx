@@ -431,7 +431,7 @@ const Home = () => {
           <div className="starter_b">
             Ideal for professionals, managing multiple certifications
           </div>
-          <div className="starter_sh">Free (for Beta Tetster )</div>
+          <div className="starter_sh">Free (for Beta Tester )</div>
           <hr />
           <div className="keyFeatures_section">
             <div className="keyFeatures_title">Key Features</div>

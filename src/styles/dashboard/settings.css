@@ -1,0 +1,105 @@
+.settings_header {
+  background: linear-gradient(
+    128deg,
+    rgba(133, 34, 49, 0.44) 23.27%,
+    rgba(107, 31, 172, 0.9) 93.4%
+  );
+  color: white;
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.goBack_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-bottom: 2rem;
+}
+
+.settings-h {
+  flex: 1;
+  text-align: center;
+  font-size: clamp(1.2rem, 3vw, 1.7rem);
+  margin-bottom: 2rem;
+}
+
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.seetingsCard {
+  box-shadow: 2px 2px 5px grey;
+  border-radius: 0.3rem;
+  display: flex;
+}
+
+.settings_left {
+  flex: 0.35;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  border-right: 1px solid lightgray;
+  padding: 1.5rem;
+}
+
+.leftItem {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+}
+
+.leftItem.active {
+  color: #591a8f;
+  font-weight: 600;
+}
+
+.settings_right {
+  flex: 0.65;
+  padding: 1.5rem 1rem 1.5rem 1.5rem;
+}
+
+.settingRight_h {
+  font-weight: 600;
+}
+
+.settingRight_h2 {
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+.settingsTXT {
+  font-size: 0.9rem;
+}
+
+.settingInputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.settingInputs span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.saveBtn {
+  background-color: #591a8f;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.2rem;
+  width: max-content;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.saveBtn:active {
+  transform: scale(0.95);
+}

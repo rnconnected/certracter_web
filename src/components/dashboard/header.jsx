@@ -79,7 +79,9 @@ const Header = () => {
             <Icon icon="mingcute:notification-fill" />
           </span>
           <span className="h-icon">
-            <Icon icon="material-symbols-light:settings" />
+            <Link href={"/settings"}>
+              <Icon icon="material-symbols-light:settings" />
+            </Link>
           </span>
           <span className="h-icon">
             <Icon icon="material-symbols-light:delete" />

@@ -155,15 +155,11 @@ const AddEdu = () => {
           </div>
 
           {/* this is the upload photo section */}
-          <h2>Upload Photo</h2>
+          <h2>Upload File</h2>
           <section className="uploadPhoto_cont">
             <div className="uploadPhoto_el">
-              <div className="upload_front">Front</div>
+              {/* <div className="upload_front">Front</div> */}
               <AddImage id={"front_imgEdu"} onImageSelect={handleFrontImage} />
-            </div>
-            <div className="uploadPhoto_el">
-              <div className="upload_back">Back</div>
-              <AddImage id={"back_imgEdu"} onImageSelect={handleBackImage} />
             </div>
           </section>
           <h2>Private Note</h2>

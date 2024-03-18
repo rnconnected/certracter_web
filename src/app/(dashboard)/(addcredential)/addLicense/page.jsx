@@ -71,7 +71,7 @@ const AddLicense = () => {
 
     await setDoc(docRef, {
       Title: licenseType,
-      backImageUrl: backImage,
+      // backImageUrl: backImage,
       frontImageUrl: frontImage,
       licenseExpiryDate: expiryDate,
       licenseIssueDate: issueDate,
@@ -88,7 +88,7 @@ const AddLicense = () => {
         setIssueDate("");
         setExpiryDate("");
         setPrivateNote("");
-        setBackImage("");
+        // setBackImage("");
         setFrontImage("");
         setState("");
         alert("Credential added successfully!");
@@ -171,22 +171,22 @@ const AddLicense = () => {
           </div>
 
           {/* this is the upload photo section */}
-          <h2>Upload Photo</h2>
+          <h1>Upload File</h1>
           <section className="uploadPhoto_cont">
             <div className="uploadPhoto_el">
-              <div className="upload_front">Front</div>
+              {/* <div className="upload_front">Front</div> */}
               <AddImage
                 id={"front_imgLicense"}
                 onImageSelect={handleFrontImage}
               />
             </div>
-            <div className="uploadPhoto_el">
+            {/* <div className="uploadPhoto_el">
               <div className="upload_back">Back</div>
               <AddImage
                 id={"back_imgLicense"}
                 onImageSelect={handleBackImage}
               />
-            </div>
+            </div> */}
           </section>
           <h2>Private Note</h2>
           <section className="privateNote_cont">

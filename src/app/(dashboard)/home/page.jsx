@@ -124,7 +124,7 @@ const Home = () => {
         selectedCollection={selectedCollection}
       />
       <div className="welcomeMsg">
-        {/* Welcome {user.displayName.split(" ")[0]} 👋 */}
+        Welcome {user.displayName.split(" ")[0]} 👋
       </div>
       <div className="searchCont">
         <div className="searchBar">

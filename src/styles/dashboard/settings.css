@@ -37,6 +37,7 @@ main {
   box-shadow: 2px 2px 5px grey;
   border-radius: 0.3rem;
   display: flex;
+  max-width: 75%;
 }
 
 .settings_left {
@@ -63,6 +64,9 @@ main {
 .settings_right {
   flex: 0.65;
   padding: 1.5rem 1rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .settingRight_h {
@@ -102,4 +106,29 @@ main {
 
 .saveBtn:active {
   transform: scale(0.95);
+}
+
+.tandC_h {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.tandc-introH {
+  font-weight: 600;
+  color: #591a8f;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.viewAll {
+  background-color: #591a8f;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
 }

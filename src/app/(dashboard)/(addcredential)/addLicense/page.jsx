@@ -8,10 +8,13 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import { firestore } from "@/app/firebase/config";
 import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import { useAuth } from "@/app/hooks/useAuth";
 import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
 import Loading2 from "@/components/loading2";
+import convertImageToPDF from "@/components/dashboard/pdfConverter";
 
 const AddLicense = () => {
   const router = useRouter();
@@ -22,17 +25,13 @@ const AddLicense = () => {
   const [licenseNumber, setLicenseNumber] = useState("");
   const [state, setState] = useState("");
   const [frontImage, setFrontImage] = useState(null);
-  const [backImage, setBackImage] = useState(null);
   const [issueDate, setIssueDate] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [privateNote, setPrivateNote] = useState("");
+  // const [pdf, setPdf] = useState(null);
 
   const handleFrontImage = (selectedImage) => {
     setFrontImage(selectedImage);
-  };
-
-  const handleBackImage = (selectedImage) => {
-    setBackImage(selectedImage);
   };
 
   useEffect(() => {
@@ -66,13 +65,23 @@ const AddLicense = () => {
       return;
     }
 
+    let frontImageForUpload = frontImage;
+
+    if (!frontImage.startsWith("data:application/pdf")) {
+      const pdfDataUri = await convertImageToPDF(frontImage);
+      // if (!pdfDataUri) {
+      //   setLoading2(false);
+      //   return;
+      // }
+      frontImageForUpload = pdfDataUri;
+    }
+
     const credentialsId = generateUniqueCredentialsId();
     const docRef = doc(collection(firestore, "License"), credentialsId);
 
     await setDoc(docRef, {
       Title: licenseType,
-      // backImageUrl: backImage,
-      frontImageUrl: frontImage,
+      frontImageUrl: frontImageForUpload,
       licenseExpiryDate: expiryDate,
       licenseIssueDate: issueDate,
       licenseNumber: licenseNumber,
@@ -88,7 +97,6 @@ const AddLicense = () => {
         setIssueDate("");
         setExpiryDate("");
         setPrivateNote("");
-        // setBackImage("");
         setFrontImage("");
         setState("");
         alert("Credential added successfully!");
@@ -97,6 +105,8 @@ const AddLicense = () => {
       .finally(() => setLoading2(false))
       .catch((error) => {
         console.error("Error adding credential:", error);
+        console.log(frontImageForUpload);
+        alert(error);
       });
   };
 
@@ -174,19 +184,11 @@ const AddLicense = () => {
           <h1>Upload File</h1>
           <section className="uploadPhoto_cont">
             <div className="uploadPhoto_el">
-              {/* <div className="upload_front">Front</div> */}
               <AddImage
                 id={"front_imgLicense"}
                 onImageSelect={handleFrontImage}
               />
             </div>
-            {/* <div className="uploadPhoto_el">
-              <div className="upload_back">Back</div>
-              <AddImage
-                id={"back_imgLicense"}
-                onImageSelect={handleBackImage}
-              />
-            </div> */}
           </section>
           <h2>Private Note</h2>
           <section className="privateNote_cont">

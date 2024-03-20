@@ -65,7 +65,11 @@ const AddImage = ({ id, onImageSelect }) => {
       />
 
       <label htmlFor={id} className="inputfile_label">
-        <span>Change file</span>
+        {selectedImage == null || selectedImage == undefined ? (
+          ""
+        ) : (
+          <span>Change file</span>
+        )}
         {selectedImage ? renderContent() : renderContent()}
       </label>
     </div>

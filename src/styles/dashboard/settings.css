@@ -38,6 +38,7 @@ main {
   border-radius: 0.3rem;
   display: flex;
   max-width: 75%;
+  min-width: 21rem;
 }
 
 .settings_left {
@@ -49,11 +50,19 @@ main {
   padding: 1.5rem;
 }
 
+.leftItem_text {
+  text-wrap: nowrap;
+}
+
 .leftItem {
   display: flex;
   align-items: center;
   gap: 0.3rem;
   cursor: pointer;
+}
+
+.leftItem:hover {
+  color: rgba(107, 31, 172, 0.9);
 }
 
 .leftItem.active {

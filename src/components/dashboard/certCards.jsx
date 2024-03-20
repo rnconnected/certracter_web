@@ -58,7 +58,7 @@ const CardComponent = ({
             <span
               onClick={() => {
                 const isConfirmed = window.confirm(
-                  "Are you sure you want to delete this document?"
+                  "Are you sure you want to delete this document permanently?"
                 );
                 if (isConfirmed) deleteDocument(collectionName, docId);
               }}

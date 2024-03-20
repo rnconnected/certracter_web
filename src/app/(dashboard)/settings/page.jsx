@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import "@/styles/dashboard/settings.css";
@@ -86,7 +86,69 @@ const ForTandC = () => {
   );
 };
 
+// this is for Change of Password display
+const ChangePassword = () => {
+  return (
+    <>
+      <div className="settings_right">
+        <h1>this is the change password section</h1>
+      </div>
+    </>
+  );
+};
+
+// this is for the FAQ section
+const FAQ = () => {
+  return (
+    <>
+      <div className="settings_right">
+        <h1>this is for the FAQ</h1>
+      </div>
+    </>
+  );
+};
+
+// This is for the contact section
+const Contact = () => {
+  return (
+    <>
+      <div className="settings_right">
+        <h1>this is the contact section</h1>
+      </div>
+    </>
+  );
+};
+
 const Settings = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const LeftItem_array = [
+    {
+      icon: <Icon icon="mingcute:notification-fill" />,
+      text: "Notification",
+    },
+    {
+      icon: <Icon icon="ph:lock" />,
+      text: "Change Password",
+    },
+    {
+      icon: <Icon icon="typcn:messages" />,
+      text: "FAQ",
+    },
+    {
+      icon: <Icon icon="pepicons-pencil:file" />,
+      text: "Term and condition",
+    },
+    {
+      icon: <Icon icon="mingcute:phone-line" />,
+      text: "Contact",
+    },
+  ];
+
+  const handleActiveSetting = (index) => {
+    setActiveIndex(index);
+  };
+
   return (
     <>
       <header className="settings_header">
@@ -99,29 +161,31 @@ const Settings = () => {
       <main>
         <div className="seetingsCard">
           <div className="settings_left">
-            <div className="leftItem active">
-              <Icon icon="mingcute:notification-fill" />
-              <span>Notification</span>
-            </div>
-            <div className="leftItem">
-              <Icon icon="ph:lock" />
-              <span>Change Password</span>
-            </div>
-            <div className="leftItem">
-              <Icon icon="typcn:messages" />
-              <span>FAQ</span>
-            </div>
-            <div className="leftItem">
-              <Icon icon="pepicons-pencil:file" />{" "}
-              <span>Term and condition</span>
-            </div>
-            <div className="leftItem">
-              <Icon icon="mingcute:phone-line" /> <span>Contact</span>
-            </div>
+            {LeftItem_array.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className={`leftItem ${
+                    activeIndex === index ? "active" : ""
+                  }`}
+                  onClick={() => handleActiveSetting(index)}
+                >
+                  {item.icon}
+                  <span className="leftItem_text">{item.text}</span>
+                </div>
+              );
+            })}
           </div>
 
-          {/* this section is for the credential notification */}
-          <ForTandC />
+          {activeIndex !== null && (
+            <>
+              {activeIndex === 0 && <ForNotification />}
+              {activeIndex === 1 && <ChangePassword />}
+              {activeIndex === 2 && <FAQ />}
+              {activeIndex === 3 && <ForTandC />}
+              {activeIndex === 4 && <Contact />}
+            </>
+          )}
         </div>
       </main>
     </>

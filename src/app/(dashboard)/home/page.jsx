@@ -49,7 +49,6 @@ const Home = () => {
           "Vaccination",
         ];
 
-        // Filter the collections based on the selected collection
         if (selectedCollection) {
           collections = [selectedCollection];
         }
@@ -81,7 +80,6 @@ const Home = () => {
     try {
       const documentRef = doc(firestore, collectionName, documentId);
       await deleteDoc(documentRef);
-      alert("Document deleted successfully!");
       await refetch();
     } catch (error) {
       console.error("Error deleting document:", error);

@@ -11,6 +11,14 @@ import { useAuth } from "@/app/hooks/useAuth";
 import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
 import Loading2 from "@/components/loading2";
+import convertImageToPDF from "@/components/dashboard/pdfConverter";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  uploadString,
+} from "firebase/storage";
+import { storage } from "@/app/firebase/config";
 
 const AddCeu = () => {
   const router = useRouter();
@@ -18,22 +26,14 @@ const AddCeu = () => {
   const [providerName, setProviderName] = useState("");
   const [contactHours, setcontactHours] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [firstReminder, setFirstReminder] = useState("");
-  const [secondReminder, setSecondReminder] = useState("");
-  const [finalReminder, setFinalReminder] = useState("");
   const [privateNote, setPrivateNote] = useState("");
-  const [backImage, setBackImage] = useState(null);
-  const [frontImage, setFrontImage] = useState(null);
+  const [fileUrl, setFileUrl] = useState(null);
   const [timeStamp, setTimeStamp] = useState(serverTimestamp());
   const { user, loading } = useAuth();
   const [loading2, setLoading2] = useState(false);
 
-  const handleFrontImage = (selectedImage) => {
-    setFrontImage(selectedImage);
-  };
-
-  const handleBackImage = (selectedImage) => {
-    setBackImage(selectedImage);
+  const handleUploadFile = (selectedImage) => {
+    setFileUrl(selectedImage);
   };
 
   useEffect(() => {
@@ -55,7 +55,6 @@ const AddCeu = () => {
     return timestamp;
   };
 
-  // this is the save credential function
   const handleSaveCeu = async () => {
     setLoading2(true);
     if (!user) {
@@ -68,39 +67,55 @@ const AddCeu = () => {
       setLoading2(false);
       return;
     }
+
+    let fileForUpload;
+
+    if (fileUrl.startsWith("data:application/pdf")) {
+      fileForUpload = fileUrl;
+    } else {
+      const pdfData = await convertImageToPDF(fileUrl);
+      fileForUpload = pdfData;
+    }
+
     const credentialsId = generateUniqueCredentialsId();
-    const docRef = doc(collection(firestore, "CEU"), credentialsId);
-    await setDoc(docRef, {
-      Title: programTitle,
-      ceuProviderName: providerName,
-      ceuCompletionDate: endDate,
-      ceuNumberOfContactHour: contactHours,
-      // certificationFirstReminder: firstReminder,
-      // certificationSecondReminder: secondReminder,
-      // certificationFinalReminder: finalReminder,
-      ceuPrivateNote: privateNote,
-      backImageUrl: backImage,
-      frontImageUrl: frontImage,
-      timestamp: timeStamp,
-      userId: user.uid,
-    })
-      .then(() => {
-        setProgramTitle("");
-        setProviderName("");
-        setEndDate("");
-        setFirstReminder("");
-        setSecondReminder("");
-        setFinalReminder("");
-        setPrivateNote("");
-        setBackImage("");
-        setFrontImage("");
-        alert("Credential added successfully!");
-        router.push("/home");
-      })
-      .finally(() => setLoading2(false))
-      .catch((error) => {
-        console.error("Error adding credential:", error);
+    const storageRef = ref(
+      storage,
+      `credentials_files/${user.uid}/${credentialsId}.pdf`
+    );
+
+    try {
+      if (typeof fileForUpload === "string") {
+        await uploadString(storageRef, fileForUpload, "data_url");
+      } else {
+        await uploadBytes(storageRef, fileForUpload);
+      }
+
+      const pdfFileUrl = await getDownloadURL(storageRef);
+
+      const docRef = doc(collection(firestore, "CEU"), credentialsId);
+      await setDoc(docRef, {
+        Completion_Date: endDate,
+        FileDownloadUrl: pdfFileUrl,
+        Name: providerName,
+        Number_Of_Contact_Hour: contactHours,
+        PrivateNote: privateNote,
+        Title: programTitle,
+        timestamp: timeStamp,
+        userId: user.uid,
       });
+      setProgramTitle("");
+      setProviderName("");
+      setEndDate("");
+      setPrivateNote("");
+      setFileUrl("");
+      alert("Credential added successfully!");
+      router.push("/home");
+    } catch (error) {
+      console.error("Error adding credential:", error);
+      alert(error.message);
+    } finally {
+      setLoading2(false);
+    }
   };
 
   return (
@@ -162,50 +177,14 @@ const AddCeu = () => {
               </div>
             </section>
             {/* end of the date section */}
-
-            {/* the reminder date section */}
-            <section className="reminderdate_section">
-              <div className="addCert_Inputs3">
-                <label htmlFor="name">First reminder</label>
-                <input
-                  type="date"
-                  className="inputs reminderDates"
-                  onChange={(event) => setFirstReminder(event.target.value)}
-                  value={firstReminder}
-                />
-              </div>
-              <div className="addCert_Inputs3">
-                <label htmlFor="name">Second reminder</label>
-                <input
-                  type="date"
-                  className="inputs reminderDates"
-                  onChange={(event) => setSecondReminder(event.target.value)}
-                  value={secondReminder}
-                />
-              </div>
-              <div className="addCert_Inputs3">
-                <label htmlFor="name">Final reminder</label>
-                <input
-                  type="date"
-                  className="inputs reminderDates"
-                  onChange={(event) => setFinalReminder(event.target.value)}
-                  value={finalReminder}
-                />
-              </div>
-            </section>
-            {/* end of the reminder date section */}
           </div>
 
           {/* this is the upload photo section */}
           <h2>Upload Photo</h2>
           <section className="uploadPhoto_cont">
             <div className="uploadPhoto_el">
-              <div className="upload_front">Front</div>
-              <AddImage id={"front_imgCeu"} onImageSelect={handleFrontImage} />
-            </div>
-            <div className="uploadPhoto_el">
-              <div className="upload_back">Back</div>
-              <AddImage id={"back_imgCeu"} onImageSelect={handleBackImage} />
+              <div className="upload_front">File</div>
+              <AddImage id={"front_imgCeu"} onImageSelect={handleUploadFile} />
             </div>
           </section>
           <h2>Private Note</h2>

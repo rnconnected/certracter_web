@@ -8,13 +8,18 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import { firestore } from "@/app/firebase/config";
 import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 import { useAuth } from "@/app/hooks/useAuth";
 import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
 import Loading2 from "@/components/loading2";
 import convertImageToPDF from "@/components/dashboard/pdfConverter";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  uploadString,
+} from "firebase/storage";
+import { storage } from "@/app/firebase/config";
 
 const AddLicense = () => {
   const router = useRouter();
@@ -24,14 +29,13 @@ const AddLicense = () => {
   const [licenseType, setLicenseType] = useState("");
   const [licenseNumber, setLicenseNumber] = useState("");
   const [state, setState] = useState("");
-  const [frontImage, setFrontImage] = useState(null);
+  const [fileUrl, setFileUrl] = useState(null);
   const [issueDate, setIssueDate] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [privateNote, setPrivateNote] = useState("");
-  // const [pdf, setPdf] = useState(null);
 
-  const handleFrontImage = (selectedImage) => {
-    setFrontImage(selectedImage);
+  const handleUploadFile = (selectedImage) => {
+    setFileUrl(selectedImage);
   };
 
   useEffect(() => {
@@ -59,56 +63,95 @@ const AddLicense = () => {
       alert("User is not authenticated.");
       return;
     }
-    if (!licenseType || !licenseNumber || !issueDate) {
-      alert("Please fill .");
+    if (!licenseType || !licenseNumber) {
+      alert("Please fill all required fields.");
       setLoading2(false);
       return;
     }
 
-    let frontImageForUpload = frontImage;
+    let fileForUpload;
 
-    if (!frontImage.startsWith("data:application/pdf")) {
-      const pdfDataUri = await convertImageToPDF(frontImage);
-      // if (!pdfDataUri) {
-      //   setLoading2(false);
-      //   return;
-      // }
-      frontImageForUpload = pdfDataUri;
+    if (fileUrl.startsWith("data:application/pdf")) {
+      fileForUpload = fileUrl;
+    } else {
+      const pdfData = await convertImageToPDF(fileUrl);
+      fileForUpload = pdfData;
     }
 
     const credentialsId = generateUniqueCredentialsId();
-    const docRef = doc(collection(firestore, "License"), credentialsId);
 
-    await setDoc(docRef, {
-      Title: licenseType,
-      frontImageUrl: frontImageForUpload,
-      licenseExpiryDate: expiryDate,
-      licenseIssueDate: issueDate,
-      licenseNumber: licenseNumber,
-      licensePrivateNote: privateNote,
-      licenseState: state,
-      timestamp: timeStamp,
-      userId: user.uid,
-    })
-      .then(() => {
-        console.log("License added successfully", credentialsId);
-        setLicenseType("");
-        setLicenseNumber("");
-        setIssueDate("");
-        setExpiryDate("");
-        setPrivateNote("");
-        setFrontImage("");
-        setState("");
-        alert("Credential added successfully!");
-        router.push("/home");
-      })
-      .finally(() => setLoading2(false))
-      .catch((error) => {
-        console.error("Error adding credential:", error);
-        console.log(frontImageForUpload);
-        alert(error);
+    const storageRef = ref(
+      storage,
+      `credentials_files/${user.uid}/${credentialsId}.pdf`
+    );
+
+    try {
+      if (typeof fileForUpload === "string") {
+        await uploadString(storageRef, fileForUpload, "data_url");
+      } else {
+        await uploadBytes(storageRef, fileForUpload);
+      }
+
+      const pdfFileUrl = await getDownloadURL(storageRef);
+
+      const docRef = doc(collection(firestore, "License"), credentialsId);
+      await setDoc(docRef, {
+        ExpiryDate: expiryDate,
+        FileDownloadUrl: pdfFileUrl,
+        IssueDate: issueDate,
+        Number: licenseNumber,
+        PrivateNote: privateNote,
+        State: state,
+        Title: licenseType,
+        timestamp: timeStamp,
+        userId: user.uid,
       });
+      setLicenseType("");
+      setLicenseNumber("");
+      setIssueDate("");
+      setExpiryDate("");
+      setPrivateNote("");
+      setFileUrl("");
+      setState("");
+      alert("Credential added successfully!");
+      router.push("/home");
+    } catch (error) {
+      console.error("Error adding credential:", error);
+      alert(error.message);
+    } finally {
+      setLoading2(false);
+    }
   };
+
+  // const docRef = doc(collection(firestore, "Travel"), credentialsId);
+  // await setDoc(docRef, {
+  //   Title: travelType,
+  //   documentNumber: travelNumber,
+  //   expiryDate: expiryDate,
+  //   frontImageUrl: frontImage,
+  //   issueDate: issueDate,
+  //   placeOfIssue: PlaceOfIssue,
+  //   timestamp: timeStamp,
+  //   travelCountry: country,
+  //   travelPrivateNote: privateNote,
+  //   userId: user.uid,
+  // })
+  //   .then(() => {
+  //     setTravelNumber("");
+  //     setCountry("");
+  //     setIssueDate("");
+  //     setExpiryDate("");
+  //     setBackImage("");
+  //     setFrontImage("");
+  //     setPlaceOfIssue("");
+  //     alert("Credential added successfully!");
+  //     router.push("/home");
+  //   })
+  //   .finally(() => setLoading2(false))
+  //   .catch((error) => {
+  //     console.error("Error adding credential:", error);
+  //     alert(error, "use a smaller image file size to prevent the error");
+  //   });
 
   return (
     <>
@@ -186,7 +229,7 @@ const AddLicense = () => {
             <div className="uploadPhoto_el">
               <AddImage
                 id={"front_imgLicense"}
-                onImageSelect={handleFrontImage}
+                onImageSelect={handleUploadFile}
               />
             </div>
           </section>

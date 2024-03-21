@@ -11,6 +11,14 @@ import { useAuth } from "@/app/hooks/useAuth";
 import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
 import Loading2 from "@/components/loading2";
+import convertImageToPDF from "@/components/dashboard/pdfConverter";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  uploadString,
+} from "firebase/storage";
+import { storage } from "@/app/firebase/config";
 
 const AddOther = () => {
   const router = useRouter();
@@ -19,22 +27,15 @@ const AddOther = () => {
   const [issueDate, setIssueDate] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [privateNote, setPrivateNote] = useState("");
-  const [backImage, setBackImage] = useState("");
-  const [frontImage, setFrontImage] = useState("");
+  const [fileUrl, setFileUrl] = useState(null);
   const [timeStamp, setTimeStamp] = useState(serverTimestamp());
   const { user, loading } = useAuth();
   const [loading2, setLoading2] = useState(false);
-  const [firstReminder, setFirstReminder] = useState("");
-  const [secondReminder, setSecondReminder] = useState("");
-  const [finalReminder, setFinalReminder] = useState("");
 
-  const handleFrontImage = (selectedImage) => {
-    setFrontImage(selectedImage);
+  const handleUploadFile = (selectedImage) => {
+    setFileUrl(selectedImage);
   };
 
-  const handleBackImage = (selectedImage) => {
-    setBackImage(selectedImage);
-  };
   useEffect(() => {
     if (!loading && !user) {
       router.push("/signin");
@@ -65,40 +66,56 @@ const AddOther = () => {
       setLoading2(false);
       return;
     }
+
+    let fileForUpload;
+
+    if (fileUrl.startsWith("data:application/pdf")) {
+      fileForUpload = fileUrl;
+    } else {
+      const pdfData = await convertImageToPDF(fileUrl);
+      fileForUpload = pdfData;
+    }
+
     const credentialsId = generateUniqueCredentialsId();
-    const docRef = doc(collection(firestore, "Others"), credentialsId);
-    await setDoc(docRef, {
-      Title: credentialName,
-      backImageUrl: backImage,
-      otherExpiryDate: expiryDate,
-      otherIssueDate: issueDate,
-      otherNumber: credentialNumber,
-      otherPrivateNote: privateNote,
-      frontImageUrl: frontImage,
-      otherFirstReminder: firstReminder,
-      otherSecondReminder: secondReminder,
-      otherFinalReminder: finalReminder,
-      timestamp: timeStamp,
-      userId: user.uid,
-    })
-      .then(() => {
-        setCredentialName("");
-        setCredentialNumber("");
-        setIssueDate("");
-        setExpiryDate("");
-        setFirstReminder("");
-        setSecondReminder("");
-        setFinalReminder("");
-        setPrivateNote("");
-        setBackImage("");
-        setFrontImage("");
-        alert("Credential added successfully!");
-        router.push("/home");
-      })
-      .finally(() => setLoading2(false))
-      .catch((error) => {
-        console.error("Error adding credential:", error);
+    const storageRef = ref(
+      storage,
+      `credentials_files/${user.uid}/${credentialsId}.pdf`
+    );
+
+    try {
+      if (typeof fileForUpload === "string") {
+        await uploadString(storageRef, fileForUpload, "data_url");
+      } else {
+        await uploadBytes(storageRef, fileForUpload);
+      }
+
+      const pdfFileUrl = await getDownloadURL(storageRef);
+
+      const docRef = doc(collection(firestore, "Others"), credentialsId);
+      await setDoc(docRef, {
+        ExpiryDate: expiryDate,
+        FileDownloadUrl: pdfFileUrl,
+        IssueDate: issueDate,
+        Number: credentialNumber,
+        PrivateNote: privateNote,
+        Title: credentialName,
+        timestamp: timeStamp,
+        userId: user.uid,
       });
+      setCredentialName("");
+      setCredentialNumber("");
+      setIssueDate("");
+      setExpiryDate("");
+      setPrivateNote("");
+      setFileUrl("");
+      alert("Credential added successfully!");
+      router.push("/home");
+    } catch (error) {
+      console.error("Error adding credential:", error);
+      alert(error.message);
+    } finally {
+      setLoading2(false);
+    }
   };
 
   return (
@@ -162,38 +179,6 @@ const AddOther = () => {
               </div>
             </section>
             {/* end of the date section */}
-
-            {/* the reminder date section */}
-            <section className="reminderdate_section">
-              <div className="addCert_Inputs3">
-                <label htmlFor="name">First reminder</label>
-                <input
-                  type="date"
-                  className="inputs reminderDates"
-                  onChange={(event) => setFirstReminder(event.target.value)}
-                  value={firstReminder}
-                />
-              </div>
-              <div className="addCert_Inputs3">
-                <label htmlFor="name">Second reminder</label>
-                <input
-                  type="date"
-                  className="inputs reminderDates"
-                  onChange={(event) => setSecondReminder(event.target.value)}
-                  value={secondReminder}
-                />
-              </div>
-              <div className="addCert_Inputs3">
-                <label htmlFor="name">Final reminder</label>
-                <input
-                  type="date"
-                  className="inputs reminderDates"
-                  onChange={(event) => setFinalReminder(event.target.value)}
-                  value={finalReminder}
-                />
-              </div>
-            </section>
-            {/* end of the reminder date section */}
           </div>
 
           {/* this is the upload photo section */}
@@ -203,12 +188,8 @@ const AddOther = () => {
               <div className="upload_front">Front</div>
               <AddImage
                 id={"front_imgOther"}
-                onImageSelect={handleFrontImage}
+                onImageSelect={handleUploadFile}
               />
-            </div>
-            <div className="uploadPhoto_el">
-              <div className="upload_back">Back</div>
-              <AddImage id={"back_imgOther"} onImageSelect={handleBackImage} />
             </div>
           </section>
           <h2>Private Note</h2>

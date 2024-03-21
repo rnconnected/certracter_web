@@ -1,5 +1,5 @@
 async function compressFile(file) {
-  const maxSize = 1 * 1024 * 1024; // 1MB
+  const maxSize = 1 * 1024 * 1024; 
   if (file.size > maxSize) {
     const compressedFile = await new Promise((resolve) => {
       const reader = new FileReader();

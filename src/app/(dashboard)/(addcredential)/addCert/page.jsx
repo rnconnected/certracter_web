@@ -11,6 +11,14 @@ import { useAuth } from "@/app/hooks/useAuth";
 import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
 import Loading2 from "@/components/loading2";
+import convertImageToPDF from "@/components/dashboard/pdfConverter";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  uploadString,
+} from "firebase/storage";
+import { storage } from "@/app/firebase/config";
 
 const AddCert = () => {
   const router = useRouter();
@@ -19,18 +27,13 @@ const AddCert = () => {
   const [issueDate, setIssueDate] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [privateNote, setPrivateNote] = useState("");
-  const [backImage, setBackImage] = useState("");
-  const [frontImage, setFrontImage] = useState("");
+  const [fileUrl, setFileUrl] = useState(null);
   const [timeStamp, setTimeStamp] = useState(serverTimestamp());
   const { user, loading } = useAuth();
   const [loading2, setLoading2] = useState(false);
 
-  const handleFrontImage = (selectedImage) => {
-    setFrontImage(selectedImage);
-  };
-
-  const handleBackImage = (selectedImage) => {
-    setBackImage(selectedImage);
+  const handleUploadFile = (selectedImage) => {
+    setFileUrl(selectedImage);
   };
 
   useEffect(() => {
@@ -63,34 +66,56 @@ const AddCert = () => {
       setLoading2(false);
       return;
     }
+
+    let fileForUpload;
+
+    if (fileUrl.startsWith("data:application/pdf")) {
+      fileForUpload = fileUrl;
+    } else {
+      const pdfData = await convertImageToPDF(fileUrl);
+      fileForUpload = pdfData;
+    }
+
     const credentialsId = generateUniqueCredentialsId();
-    const docRef = doc(collection(firestore, "Certification"), credentialsId);
-    await setDoc(docRef, {
-      Title: credentialName,
-      backImageUrl: backImage,
-      certificationExpiryDate: expiryDate,
-      certificationIssueDate: issueDate,
-      certificationNumber: recordNumber,
-      certificationPrivateNote: privateNote,
-      frontImageUrl: frontImage,
-      timestamp: timeStamp,
-      userId: user.uid,
-    })
-      .then(() => {
-        setCredentialName("");
-        setRecordNumber("");
-        setIssueDate("");
-        setExpiryDate("");
-        setPrivateNote("");
-        setBackImage("");
-        setFrontImage("");
-        alert("Credential added successfully!");
-        router.push("/home");
-      })
-      .finally(() => setLoading2(false))
-      .catch((error) => {
-        console.error("Error adding credential:", error);
+    const storageRef = ref(
+      storage,
+      `credentials_files/${user.uid}/${credentialsId}.pdf`
+    );
+
+    try {
+      if (typeof fileForUpload === "string") {
+        await uploadString(storageRef, fileForUpload, "data_url");
+      } else {
+        await uploadBytes(storageRef, fileForUpload);
+      }
+
+      const pdfFileUrl = await getDownloadURL(storageRef);
+
+      const docRef = doc(collection(firestore, "Certification"), credentialsId);
+      await setDoc(docRef, {
+        ExpiryDate: expiryDate,
+        FileDownloadUrl: pdfFileUrl,
+        IssueDate: issueDate,
+        Number: recordNumber,
+        PrivateNote: privateNote,
+        Title: credentialName,
+        timestamp: timeStamp,
+        userId: user.uid,
       });
+      setCredentialName("");
+      setRecordNumber("");
+      setIssueDate("");
+      setExpiryDate("");
+      setPrivateNote("");
+      setFileUrl("");
+      alert("Credential added successfully!");
+      router.push("/home");
+    } catch (error) {
+      console.error("Error adding credential:", error);
+      alert(error.message);
+    } finally {
+      setLoading2(false);
+    }
   };
 
   return (
@@ -167,7 +192,7 @@ const AddCert = () => {
                   {/* <div className="upload_front">Front</div> */}
                   <AddImage
                     id={"front_imgCert"}
-                    onImageSelect={handleFrontImage}
+                    onImageSelect={handleUploadFile}
                   />
                 </div>
               </section>

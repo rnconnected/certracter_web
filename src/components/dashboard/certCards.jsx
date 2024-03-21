@@ -11,26 +11,36 @@ const CardComponent = ({
   Title,
   category,
   expiryDate,
-  certificationExpiryDate,
-  licenseExpiryDate,
+  ExpiryDate,
   collectionName,
   userId,
   docId,
   deleteDocument,
 }) => {
   const dateData = new Date(expiryDate);
-  const dateData2 = new Date(certificationExpiryDate);
-  const dateData3 = new Date(licenseExpiryDate);
+  const dateData2 = new Date(ExpiryDate);
   const today = new Date();
   const timeDiff1 = dateData - today;
   const timeDiff2 = dateData2 - today;
-  const timeDiff3 = dateData3 - today;
-
   const daysLeft1 = Math.ceil(timeDiff1 / (1000 * 60 * 60 * 24));
   const daysLeft2 = Math.ceil(timeDiff2 / (1000 * 60 * 60 * 24));
-  const daysLeft3 = Math.ceil(timeDiff3 / (1000 * 60 * 60 * 24));
 
-  // const handleViewCert = () => {};
+  function calculateExpiryText(daysLeft) {
+    if (daysLeft >= 365) {
+      const years = Math.floor(daysLeft / 365);
+      return `Expires in ${years} year${years !== 1 ? "s" : ""}`;
+    } else if (daysLeft >= 30) {
+      const months = Math.floor(daysLeft / 30);
+      return `Expires in ${months} month${months !== 1 ? "s" : ""}`;
+    } else if (daysLeft >= 7) {
+      const weeks = Math.floor(daysLeft / 7);
+      return `Expires in ${weeks} week${weeks !== 1 ? "s" : ""}`;
+    } else if (daysLeft > 0) {
+      return `Expires in ${daysLeft} day${daysLeft !== 1 ? "s" : ""}`;
+    } else {
+      return "Expired";
+    }
+  }
 
   return (
     <div className="viewCard">
@@ -68,17 +78,12 @@ const CardComponent = ({
           </div>
           {expiryDate != null ? (
             <div className="expiryTime">
-              {daysLeft1 <= 0 ? "Expired" : "Expires in " + daysLeft1 + " days"}
+              {daysLeft1 <= 0 ? "Expired" : calculateExpiryText(daysLeft1)}
             </div>
           ) : null}
-          {certificationExpiryDate != null ? (
+          {ExpiryDate != null ? (
             <div className="expiryTime">
-              {daysLeft2 <= 0 ? "Expired" : "Expires in " + daysLeft2 + " days"}
-            </div>
-          ) : null}
-          {licenseExpiryDate != null ? (
-            <div className="expiryTime">
-              {daysLeft3 <= 0 ? "Expired" : "Expires in " + daysLeft3 + " days"}
+              {daysLeft2 <= 0 ? "Expired" : calculateExpiryText(daysLeft2)}
             </div>
           ) : null}
         </div>

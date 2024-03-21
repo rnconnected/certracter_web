@@ -12,6 +12,14 @@ import { useAuth } from "@/app/hooks/useAuth";
 import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
 import Loading2 from "@/components/loading2";
+import convertImageToPDF from "@/components/dashboard/pdfConverter";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  uploadString,
+} from "firebase/storage";
+import { storage } from "@/app/firebase/config";
 
 const AddEdu = () => {
   const router = useRouter();
@@ -20,18 +28,13 @@ const AddEdu = () => {
   const [field, setField] = useState("");
   const [graduationDate, setGraduationDate] = useState("");
   const [timeStamp, setTimeStamp] = useState(serverTimestamp());
-  const [backImage, setBackImage] = useState(null);
-  const [frontImage, setFrontImage] = useState(null);
+  const [fileUrl, setFileUrl] = useState(null);
   const [privateNote, setPrivateNote] = useState("");
   const { user, loading } = useAuth();
   const [loading2, setLoading2] = useState(false);
 
-  const handleFrontImage = (selectedImage) => {
-    setFrontImage(selectedImage);
-  };
-
-  const handleBackImage = (selectedImage) => {
-    setBackImage(selectedImage);
+  const handleUploadFile = (selectedImage) => {
+    setFileUrl(selectedImage);
   };
 
   useEffect(() => {
@@ -52,6 +55,7 @@ const AddEdu = () => {
     const timestamp = Date.now().toString();
     return timestamp;
   };
+
   const handleSaveEdu = async () => {
     setLoading2(true);
     if (!user) {
@@ -63,35 +67,56 @@ const AddEdu = () => {
       setLoading2(false);
       return;
     }
+
+    let fileForUpload;
+
+    if (fileUrl.startsWith("data:application/pdf")) {
+      fileForUpload = fileUrl;
+    } else {
+      const pdfData = await convertImageToPDF(fileUrl);
+      fileForUpload = pdfData;
+    }
+
     const credentialsId = generateUniqueCredentialsId();
-    const docRef = doc(collection(firestore, "Education"), credentialsId);
-    await setDoc(docRef, {
-      Title: institutionName,
-      educationField: field,
-      educationDegree: degree,
-      graduationDate: graduationDate,
-      startDate: "",
-      educationPrivateNote: privateNote,
-      backImageUrl: backImage,
-      frontImageUrl: frontImage,
-      timestamp: timeStamp,
-      userId: user.uid,
-    })
-      .then(() => {
-        setInstitutionName("");
-        setField("");
-        setDegree("");
-        setGraduationDate("");
-        setPrivateNote("");
-        setBackImage("");
-        setFrontImage("");
-        alert("Credential added successfully!");
-        router.push("/home");
-      })
-      .finally(() => setLoading2(false))
-      .catch((error) => {
-        console.error("Error adding credential:", error);
+    const storageRef = ref(
+      storage,
+      `credentials_files/${user.uid}/${credentialsId}.pdf`
+    );
+
+    try {
+      if (typeof fileForUpload === "string") {
+        await uploadString(storageRef, fileForUpload, "data_url");
+      } else {
+        await uploadBytes(storageRef, fileForUpload);
+      }
+
+      const pdfFileUrl = await getDownloadURL(storageRef);
+
+      const docRef = doc(collection(firestore, "Education"), credentialsId);
+      await setDoc(docRef, {
+        Degree: degree,
+        Field: field,
+        FileDownloadUrl: pdfFileUrl,
+        GraduationDate: graduationDate,
+        PrivateNote: privateNote,
+        Title: institutionName,
+        timestamp: timeStamp,
+        userId: user.uid,
       });
+      setInstitutionName("");
+      setField("");
+      setDegree("");
+      setGraduationDate("");
+      setPrivateNote("");
+      setFileUrl("");
+      alert("Credential added successfully!");
+      router.push("/home");
+    } catch (error) {
+      console.error("Error adding credential:", error);
+      alert(error.message);
+    } finally {
+      setLoading2(false);
+    }
   };
   return (
     <>
@@ -159,7 +184,7 @@ const AddEdu = () => {
           <section className="uploadPhoto_cont">
             <div className="uploadPhoto_el">
               {/* <div className="upload_front">Front</div> */}
-              <AddImage id={"front_imgEdu"} onImageSelect={handleFrontImage} />
+              <AddImage id={"front_imgEdu"} onImageSelect={handleUploadFile} />
             </div>
           </section>
           <h2>Private Note</h2>

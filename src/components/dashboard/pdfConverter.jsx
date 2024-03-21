@@ -1,28 +1,30 @@
 import { PDFDocument } from "pdf-lib";
 
-async function convertImageToPDF(imageData, outputFileName) {
-  const image = await fetch(imageData);
-  const imageBlob = await image.blob();
-  const imageBytes = await imageBlob.arrayBuffer();
+async function convertImageToPDF(imageData) {
+  try {
+    const image = await fetch(imageData);
+    const imageBlob = await image.blob();
+    const imageBytes = await imageBlob.arrayBuffer();
 
-  const pdfDoc = await PDFDocument.create();
-  const pageWidth = 500;
-  const pageHeight = 500;
+    const pdfDoc = await PDFDocument.create();
+    const pageWidth = 700;
+    const pageHeight = 700;
 
-  const page = pdfDoc.addPage([pageWidth, pageHeight]);
-  const jpgImage = await pdfDoc.embedJpg(imageBytes);
-  const { width, height } = jpgImage.scale(0.5);
+    const page = pdfDoc.addPage([pageWidth, pageHeight]);
+    const jpgImage = await pdfDoc.embedJpg(imageBytes);
+    const { width, height } = jpgImage.scale(0.5);
 
-  const x = (pageWidth - width) / 2;
-  const y = (pageHeight - height) / 2;
+    const x = (pageWidth - width) / 2;
+    const y = (pageHeight - height) / 2;
 
-  page.drawImage(jpgImage, { x, y, width, height });
+    page.drawImage(jpgImage, { x, y, width, height });
+    const pdfBytes = await pdfDoc.save();
 
-  const pdfBytes = await pdfDoc.save();
-  const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
-  const pdfUrl = URL.createObjectURL(pdfBlob);
-
-  return pdfUrl;
+    return pdfBytes;
+  } catch (error) {
+    console.error("Error converting image to PDF:", error);
+    throw error;
+  }
 }
 
 export default convertImageToPDF;

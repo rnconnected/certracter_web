@@ -3,9 +3,8 @@ import { Icon } from "@iconify/react";
 import "@/styles/dashboard/addImage.css";
 import Image from "next/image";
 
-const AddImage = ({ id, onImageSelect }) => {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [fileType, setFileType] = useState("");
+const EditAddFile = ({ id, onImageSelect, pdfUrl }) => {
+  const [selectedImage, setSelectedImage] = useState(pdfUrl || null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -16,7 +15,6 @@ const AddImage = ({ id, onImageSelect }) => {
       reader.onload = (e) => {
         const fileData = e.target.result;
         setSelectedImage(fileData);
-        setFileType(file.type);
         onImageSelect(fileData);
       };
 
@@ -25,24 +23,16 @@ const AddImage = ({ id, onImageSelect }) => {
   };
 
   const renderContent = () => {
-    if (fileType.startsWith("image")) {
+    if (selectedImage && typeof selectedImage === "string") {
       return (
-        <Image
-          src={selectedImage}
-          alt="Selected"
-          className="selected-image"
-          height={200}
-          width={200}
-        />
-      );
-    } else if (fileType === "application/pdf") {
-      return (
-        <embed
-          src={selectedImage}
-          type="application/pdf"
-          width="100%"
-          height="300px"
-        />
+        <div className="pdfFile_cont">
+          <embed
+            src={selectedImage}
+            type="application/pdf"
+            width="100%"
+            height="300px"
+          />
+        </div>
       );
     } else {
       return (
@@ -65,15 +55,10 @@ const AddImage = ({ id, onImageSelect }) => {
       />
 
       <label htmlFor={id} className="inputfile_label">
-        {selectedImage == null || selectedImage == undefined ? (
-          ""
-        ) : (
-          <span>Change file</span>
-        )}
-        {selectedImage ? renderContent() : renderContent()}
+        {renderContent()}
       </label>
     </div>
   );
 };
 
-export default AddImage;
+export default EditAddFile;

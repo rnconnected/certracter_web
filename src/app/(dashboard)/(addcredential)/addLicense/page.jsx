@@ -123,36 +123,6 @@ const AddLicense = () => {
     }
   };
 
-  // const docRef = doc(collection(firestore, "Travel"), credentialsId);
-  // await setDoc(docRef, {
-  //   Title: travelType,
-  //   documentNumber: travelNumber,
-  //   expiryDate: expiryDate,
-  //   frontImageUrl: frontImage,
-  //   issueDate: issueDate,
-  //   placeOfIssue: PlaceOfIssue,
-  //   timestamp: timeStamp,
-  //   travelCountry: country,
-  //   travelPrivateNote: privateNote,
-  //   userId: user.uid,
-  // })
-  //   .then(() => {
-  //     setTravelNumber("");
-  //     setCountry("");
-  //     setIssueDate("");
-  //     setExpiryDate("");
-  //     setBackImage("");
-  //     setFrontImage("");
-  //     setPlaceOfIssue("");
-  //     alert("Credential added successfully!");
-  //     router.push("/home");
-  //   })
-  //   .finally(() => setLoading2(false))
-  //   .catch((error) => {
-  //     console.error("Error adding credential:", error);
-  //     alert(error, "use a smaller image file size to prevent the error");
-  //   });
-
   return (
     <>
       <Header />

@@ -7,8 +7,8 @@ async function convertImageToPDF(imageData) {
     const imageBytes = await imageBlob.arrayBuffer();
 
     const pdfDoc = await PDFDocument.create();
-    const pageWidth = 700;
-    const pageHeight = 700;
+    const pageWidth = 600;
+    const pageHeight = 600;
 
     const page = pdfDoc.addPage([pageWidth, pageHeight]);
     const jpgImage = await pdfDoc.embedJpg(imageBytes);

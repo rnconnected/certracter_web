@@ -1,93 +1,96 @@
 .header-home {
-    background-color: #591A8F;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: clamp(.5rem, 2vw, 1rem) clamp(.5rem, 2vw, 1.5rem);
-    position: sticky;
-    top: 0;
-    height: max-content;
+  background-color: #591a8f;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(0.5rem, 2vw, 1.5rem);
+  position: sticky;
+  top: 0;
+  height: max-content;
 }
 
 .logoCont-home {
-    width: clamp(10rem, 15vw, 15rem);
+  width: clamp(10rem, 15vw, 15rem);
 }
 
 .homeLogo {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
 }
 
 .headerIcons {
-    color: white;
-    display: flex;
-    gap: clamp(.8rem, 2vw, 1.5rem);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(0.8rem, 2vw, 1.5rem);
 }
 
-
 .headerIcons span {
-    font-size: clamp(1.3rem, 2vw, 1.7rem);
-    cursor: pointer;
-    padding: .3rem;
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  cursor: pointer;
+  padding: 0.3rem;
+}
+
+.headerIcons .h-icon {
+  height: fit-content;
 }
 
 .headerIcons .h-icon:hover {
-    background-color: rgb(69, 6, 84);
-    border-radius: .2rem;
-
+  background-color: rgb(69, 6, 84);
+  border-radius: 0.2rem;
 }
 
 .registerIcons:hover {
-    background-color: rgb(69, 6, 84);
-    border-radius: .2rem;
+  background-color: rgb(69, 6, 84);
+  border-radius: 0.2rem;
 }
 
 .registerIcons {
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-    width: max-content;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  width: max-content;
 }
 
 .logoutAndProfileCont {
-    background-color: #F2E9FA;
-    color: black;
-    display: none;
-    width: max-content;
-    flex-direction: column;
-    gap: .3rem;
-    position: absolute;
-    transition: .5s ease-in;
-    border-radius: .2rem;
-
+  background-color: #f2e9fa;
+  color: black;
+  display: none;
+  width: max-content;
+  flex-direction: column;
+  gap: 0.3rem;
+  position: absolute;
+  transition: 0.5s ease-in;
+  border-radius: 0.2rem;
 }
 
 .registerIcons.active {
-    overflow: visible;
+  overflow: visible;
 }
 
 .registerIcons.active .logoutAndProfileCont {
-    right: 0;
-    top: 1.7rem;
-    z-index: -2;
-    display: flex;
+  right: 0;
+  top: 1.7rem;
+  z-index: -2;
+  display: flex;
 }
 
 .signoutBtn,
 .profileLink {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    padding: .5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
 }
 
 .signoutBtn:hover,
 .profileLink:hover {
-    background-color: #ecddfa;
+  background-color: #ecddfa;
 }
 
 .signoutBtn span,
 .profileLink span {
-    font-size: clamp(1rem, 2vw, 1.3rem);
+  font-size: clamp(1rem, 2vw, 1.3rem);
 }

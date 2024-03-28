@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@/components/dashboard/header";
 import CertTray from "@/components/dashboard/cert_tray";
 import "@/styles/dashboard/home.css";
@@ -19,6 +19,7 @@ import {
 import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/hooks/useAuth";
+import Link from "next/link";
 
 const Home = () => {
   const [selectCardActive, setSelectCardActive] = useState(false);
@@ -26,6 +27,13 @@ const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
   const { user, loading } = useAuth();
+  const [isLoading2, setIsLoading2] = useState(false);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/signin");
+    }
+  }, [user, loading, router]);
 
   const {
     data: userDocs,
@@ -107,7 +115,6 @@ const Home = () => {
     return <div>Error fetching user data</div>;
   }
 
-  // Filter userDocs based on search term
   const filteredUserDocs =
     userDocs &&
     userDocs.filter((doc) =>
@@ -115,54 +122,76 @@ const Home = () => {
     );
 
   return (
-    <>
-      <Header />
-      <CertTray
-        setSelectedCollection={setSelectedCollection}
-        selectedCollection={selectedCollection}
-      />
-      <div className="welcomeMsg">
-        Welcome {user.displayName.split(" ")[0]} 👋
-      </div>
-      <div className="searchCont">
-        <div className="searchBar">
-          <Icon icon="ic:baseline-search" width="22" />
-          <input
-            type="search"
-            className="searchInput"
-            placeholder="Search for credential"
-            value={searchTerm}
-            onChange={handleSearchChange} // Call handleSearchChange on input change
-          />
-        </div>
-      </div>
-
-      <div className="licenseArray_Cont">
-        {filteredUserDocs === undefined ? (
-          <Loading />
-        ) : filteredUserDocs.length === 0 ? (
-          <span className="certEmptyMsg">
-            No credentials found matching the search.
-          </span>
-        ) : (
-          filteredUserDocs.map((data) => (
-            <CardComponent
-              key={data.id}
-              {...data}
-              collectionName={data.collection}
-              docId={data.id}
-              deleteDocument={deleteDocument}
-            />
-          ))
+    user && (
+      <>
+        <Header />
+        <CertTray
+          setSelectedCollection={setSelectedCollection}
+          selectedCollection={selectedCollection}
+        />
+        {user && (
+          <div className="welcomeMsg">
+            Welcome {user.displayName.split(" ")[0]} 👋
+          </div>
         )}
-      </div>
 
-      {selectCardActive && <SelectCard handleSelectCard={handleSelectCard} />}
+        <div className="searchCont">
+          <div className="searchBar">
+            <Icon icon="ic:baseline-search" width="22" />
+            <input
+              type="search"
+              className="searchInput"
+              placeholder="Search for credential"
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+          </div>
+        </div>
 
-      <div className="floatbtn" onClick={handleSelectCard}>
-        <Icon icon="ic:round-plus" />
-      </div>
-    </>
+        <div className="licenseArray_Cont">
+          {filteredUserDocs === undefined ? (
+            <Loading />
+          ) : filteredUserDocs.length === 0 ? (
+            <span className="certEmptyMsg">
+              No credentials found matching the search.
+            </span>
+          ) : (
+            filteredUserDocs.map((data, index) => {
+              return (
+                <Link
+                  key={index}
+                  href={`/view_details/:${data.collection}:${data.id}`}
+                  className="viewCard"
+                  onClick={(e) => {
+                    if (
+                      e.target.tagName === "SPAN" ||
+                      e.target.tagName === "svg" ||
+                      e.target.tagName === "path"
+                    ) {
+                      e.preventDefault();
+                    }
+                  }}
+                >
+                  <CardComponent
+                    key={data.id}
+                    {...data}
+                    collectionName={data.collection}
+                    docId={data.id}
+                    deleteDocument={deleteDocument}
+                  />
+                </Link>
+              );
+            })
+          )}
+        </div>
+
+        {selectCardActive && <SelectCard handleSelectCard={handleSelectCard} />}
+
+        <div className="floatbtn" onClick={handleSelectCard}>
+          <Icon icon="ic:round-plus" />
+        </div>
+      </>
+    )
   );
 };
 

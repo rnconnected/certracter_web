@@ -96,7 +96,7 @@ const Profile = () => {
         setUploadedImageURL(userDataObject.profilePicture);
         setUserData(formattedUserData);
         setFirstName(firstName);
-        setLastName(lastName);  
+        setLastName(lastName);
         setEmail(email);
         setPhone(phone);
         setDob(dob);
@@ -176,9 +176,6 @@ const Profile = () => {
     }
   };
 
-
-  
-
   // Function to handle cancel button click
   const handleCancel = () => {
     setSelectedImage(null);
@@ -199,7 +196,6 @@ const Profile = () => {
           )}
           {editProfile && (
             <EditProfile
-              userDataObject={userDataObject}
               setEditProfile={setEditProfile}
               firstName={firstName}
               lastName={lastName}

@@ -5,7 +5,6 @@ import Image from "next/image";
 import "@/styles/dashboard/certCards.css";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import CertData from "@/app/(dashboard)/certData";
 
 const CardComponent = ({
   Title,
@@ -43,7 +42,8 @@ const CardComponent = ({
   }
 
   return (
-    <div className="viewCard">
+    <>
+      {/* <input type="checkbox" id="" /> */}
       <div className={`viewCard_card ${collectionName}`}>
         <div className="viewCard_left">
           <div className={`viewCard_imgCont ${collectionName}`}>
@@ -62,8 +62,8 @@ const CardComponent = ({
         </div>
         <div className="viewCard_right">
           <div className="VR_Icons">
-            <span>
-              <Icon icon="solar:share-outline" />
+            <span title="Share document" className="spanBtn">
+              <Icon icon="solar:share-outline" className="spanBtn" />
             </span>
             <span
               onClick={() => {
@@ -72,6 +72,7 @@ const CardComponent = ({
                 );
                 if (isConfirmed) deleteDocument(collectionName, docId);
               }}
+              title="delete document"
             >
               <Icon icon="material-symbols-light:delete" />
             </span>
@@ -88,7 +89,7 @@ const CardComponent = ({
           ) : null}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

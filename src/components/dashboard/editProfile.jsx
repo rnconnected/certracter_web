@@ -3,7 +3,6 @@ import "@/styles/dashboard/editProfile.css";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { updateDoc, doc } from "firebase/firestore";
 import { firestore } from "@/app/firebase/config";
-import Loading from "@/components/loading";
 
 const EditProfile = ({
   setEditProfile,
